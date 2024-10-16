@@ -35,7 +35,7 @@ public class Trygonometria {
     }
 
     public static void main(String[] args) {
-        double x = 3.141/6;
+        double x = 3.141592/6;
         int k = 12;
         System.out.println("Sin(x): " + sinX(x, k));
         System.out.println("Cos(x): " + cosX(x, k));
