@@ -1,43 +1,46 @@
 public class Trygonometria {
 
-    static double power(double x, int k) {
-        double result = 1;
-        for (int i = 1; i <= k; i++) {
-            result *= x;
-        }
-        return result;
-    }
-
-    static int factorial(int n) {
-        int result = 1;
-        for (int i = 2; i <= n; i++){
-            result *= i;
-        }
-        return result;
-    }
 
     static double cosX(double x, int k){
-        double result = 0;
+        double result = 1;
+        double licznik = 1;
+        double mianownik = 1;
 
-        for (int i = 0; i <= k; i++) {
-            result += power(-1, i)*(power(x, 2*i)/factorial(2*i));
+        for (int i = 1; i <= k; i++) {
+            licznik *= x*x;
+            mianownik *= (2*i - 1)*(2*i);
+            if(i%2 == 0) {
+                result += licznik/mianownik;
+            } else {
+                result -= licznik/mianownik;
+            }
         }
         return result;
     }
 
     static double sinX(double x, int k){
-        double result = 0;
+        double result = x;
+        double licznik = x;
+        double mianownik = 1;
 
-        for (int i = 0; i <= k; i++) {
-            result += power(-1, i)*(power(x, 2*i + 1)/factorial(2*i + 1));
+        for (int i = 1; i <= k; i++) {
+            licznik *= x*x;
+            mianownik *= (2*i)*(2*i+1);
+            if(i%2 == 0) {
+                result += licznik/mianownik;
+            } else {
+                result -= licznik/mianownik;
+            }
         }
         return result;
     }
 
     public static void main(String[] args) {
-        double x = 3.141592/4;
-        int k = 6;
+        double x = 3.141592/6;
+        int k = 100;
         System.out.println("Sin(x): " + sinX(x, k));
+        System.out.println("Sin(x) z Math: " + Math.sin(x));
         System.out.println("Cos(x): " + cosX(x, k));
+        System.out.println("Cos(x) z Math: " + Math.cos(x));
     }
 }
