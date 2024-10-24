@@ -39,7 +39,7 @@ public class biblioteka {
         return result;
     }
 
-    public static double exp(int x) {
+    public static double exp(double x) {
         int k = 30;
         double result = 1;
         double licznik = 1;

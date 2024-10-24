@@ -3,7 +3,7 @@ package Program_glowny;
 
 import Biblioteka.biblioteka;
 
-public class main {
+public class program_glowny {
     public static void main(String[] args) {
         double x = 3.141/6;
         System.out.println(biblioteka.sin(x));
@@ -11,7 +11,7 @@ public class main {
         System.out.println(biblioteka.cos(x));
         System.out.println(Math.cos(x));
 
-        int y = 1;
+        double y = Math.PI;
         System.out.println(biblioteka.exp(y));
         System.out.println(Math.exp(y));
     }
