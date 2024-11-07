@@ -90,15 +90,21 @@ class Rectangle {
 public class Main {
     public static void main(String[] args) {
         Rectangle r1 = new Rectangle();
-        System.out.println(r1.circumference());
-        System.out.println(r1.area());
-        System.out.println(r1.diagonal());
+        //System.out.println(r1.circumference());
+        //System.out.println(r1.area());
+        //System.out.println(r1.diagonal());
 
         Rectangle r2 = new Rectangle(-1, -1, 1, 3);
-        System.out.println(r2.circumference());
-        System.out.println(r2.area());
-        System.out.println(r2.diagonal());
+        //System.out.println(r2.circumference());
+        //System.out.println(r2.area());
+        //System.out.println(r2.diagonal());
 
-        Rectangle r3 = new Rectangle(0, 0, 0, 1);
+        Rectangle r3 = new Rectangle(0, 0, 1, 1);
+        System.out.println(r3.getA().getX());
+        System.out.println(r3.getA().getY());
+        System.out.println(r3.getB().getX());
+        System.out.println(r3.getB().getY());
+        System.out.println(r3.circumference());
+        System.out.println(r3.area());
     }
 }
