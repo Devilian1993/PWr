@@ -35,7 +35,7 @@ class Util {
     public static void printArray(int[] array) {
         System.out.println("Tablica:");
         for (int i = 0; i < array.length; i++) {
-            System.out.print(array[i] + " ");
+            System.out.printf("%3d ", array[i]);
         }
         System.out.println();
     }
@@ -44,7 +44,7 @@ class Util {
         System.out.println("Tablica:");
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-                System.out.print(array[i][j] + " ");
+                System.out.printf("%3d ", array[i][j]);
             }
             System.out.println();
         }
@@ -59,7 +59,7 @@ class Util {
         }
 
         for (int i = 0; i < array.length; i++) {
-            System.out.print(array[i] + " ");
+            System.out.printf("%3d" , array[i]);
         }
         System.out.println();
     }
@@ -73,7 +73,7 @@ class Util {
 
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-                System.out.print(array[i][j] + " ");
+                System.out.printf("%3d ", array[i][j]);
             }
             System.out.println();
         }
