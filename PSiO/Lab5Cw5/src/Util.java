@@ -80,9 +80,27 @@ class Util {
         System.out.println();
     }
 
+    static int[][] getTransposedMatrix(int[][] array) {
+        int[][] transposed = new int[array[0].length][array.length];
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                transposed[j][i] = array[i][j];
+            }
+        }
+
+        return transposed;
+    }
+
     static void bubbleSortRows(int[][] a) {
         for (int i = 0; i < a.length; i++) {
             Util.bubbleSort(a[i]);
         }
+    }
+
+    static int[][] arraySortedByColumns(int[][] a) {
+        int[][] sorted_array = getTransposedMatrix(a);
+        bubbleSortRows(sorted_array);
+        return getTransposedMatrix(sorted_array);
     }
 }
