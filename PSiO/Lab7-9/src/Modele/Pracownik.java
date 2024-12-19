@@ -1,3 +1,5 @@
+package Modele;
+
 public abstract class Pracownik extends Osoba {
 
     private int pensja;

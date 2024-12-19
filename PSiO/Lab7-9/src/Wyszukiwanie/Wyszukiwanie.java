@@ -1,3 +1,10 @@
+package Wyszukiwanie;
+
+import Modele.Osoba;
+import Modele.PracownikNaukowoDydaktyczny;
+import Modele.PracownikUczelni;
+import Modele.Student;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 

@@ -1,4 +1,8 @@
-import java.lang.reflect.Array;
+package Wprowadzanie;
+
+import Modele.*;
+import Wyszukiwanie.Wyszukiwanie;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -140,7 +144,7 @@ public class Wprowadzanie {
             if (student.getNr_indeksu() == nr_indeksu) {
                 studentZnaleziony = true;
 
-                ArrayList<Kurs> kursy = new ArrayList<>();
+                ArrayList<Kurs> kursy = student.getKursy();
 
                 boolean zapisywanieNaKursy = true;
 

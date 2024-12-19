@@ -1,3 +1,5 @@
+package Modele;
+
 public class PracownikNaukowoDydaktyczny extends Pracownik {
 
     private String stopien_naukowy;

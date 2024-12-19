@@ -1,3 +1,5 @@
+import Modele.Osoba;
+
 import java.io.*;
 import java.util.ArrayList;
 

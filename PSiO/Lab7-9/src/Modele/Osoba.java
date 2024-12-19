@@ -1,3 +1,5 @@
+package Modele;
+
 import java.io.Serializable;
 
 public abstract class Osoba implements Serializable {

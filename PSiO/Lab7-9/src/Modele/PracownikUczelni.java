@@ -1,3 +1,5 @@
+package Modele;
+
 public class PracownikUczelni extends Pracownik {
 
     private String stanowisko;

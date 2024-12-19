@@ -1,14 +1,16 @@
-import java.lang.reflect.Array;
+import Modele.*;
+import ObliczanieSredniej.ObliczanieSredniejArytmetycznej;
+import ObliczanieSredniej.ObliczanieSredniejWazonej;
+import Wprowadzanie.Wprowadzanie;
+import Wprowadzanie.WprowadzanieOcenPojedyncze;
+import Wprowadzanie.WprowadzanieOcenSeryjne;
+import Wyszukiwanie.Wyszukiwanie;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-
-        ArrayList<Osoba> osoby = new ArrayList<Osoba>();
-        Serializacja.wczytaj(osoby);
-
-        /*
+    public static void manualSetup(ArrayList<Osoba> osoby) {
 
         Student student1 = new Student("Tomek", "Informatyk", "052611239853", 284312,
                 "Informatyka stosowana", "Wydział Informatyki i Telekomunikacji");
@@ -34,7 +36,7 @@ public class Main {
 
         student2.setKursy(kursy2);
 
-        // Student 3
+        // Modele.Student 3
         Student student3 = new Student("Piotr", "Architekt", "052611987654", 654321,
                 "Architektura", "Wydział Architektury");
 
@@ -68,39 +70,90 @@ public class Main {
 
         osoby.add(pracowniknd1);
         osoby.add(pracowniknd2);
+    }
 
-        */
-        //Wyszukiwanie.znajdzPoNazwisku(osoby, "Matematyk");
-        //Wyszukiwanie.znajdzPoNrIndeksu(osoby, 654321);
-        //Wyszukiwanie.znajdzPoStanowisku(osoby, "Dziekanat");
-        //Wyszukiwanie.wypiszPracownikowPowyzejDorobku(osoby, 4000);
+    public static void main(String[] args) {
+
+        ArrayList<Osoba> osoby = new ArrayList<Osoba>();
+        Serializacja.wczytaj(osoby);
+        //manualSetup(osoby);
 
         boolean dziala = true;
 
         while (dziala) {
-            System.out.println("Wybierz opcje\n1. Wypisywanie wszystkich osob\n2. Wyszukiwanie osoby\n3. Dodanie nowej osoby\n4. Zapisz studenta na kursy\n5. Wylacz program");
+            System.out.println("Wybierz opcje\n1. Wypisywanie wszystkich osob\n2. Wyszukiwanie osoby\n3. Dodanie nowej osoby\n4. Zapisz studenta na kursy\n5. Wpisz studentowi ocene\n6. Oblicz srednia\n7. Wylacz program");
             Scanner scanner = new Scanner(System.in);
             int opcja = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcja) {
+
                 case 1:
+
                     Wyszukiwanie.wypiszWszystkieOsoby(osoby);
                     Serializacja.zapisz(osoby);
                     break;
+
                 case 2:
+
                     Wyszukiwanie.menuWyszukiwania(osoby);
                     Serializacja.zapisz(osoby);
                     break;
+
                 case 3:
+
                     Wprowadzanie.menuWprowadzania(osoby);
                     Serializacja.zapisz(osoby);
                     break;
+
                 case 4:
                     Wprowadzanie.zapiszNaKursy(osoby);
                     Serializacja.zapisz(osoby);
                     break;
+
                 case 5:
+                    System.out.println("Wybierz tryb wprowadzania ocen\n1. Wprowadzanie.Wprowadzanie pojedyncze\n2. Wprowadzanie.Wprowadzanie seryjne");
+                    int opcjaOceny = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (opcjaOceny) {
+                        case 1:
+                            WprowadzanieOcenPojedyncze wprowadzaniePoj = new WprowadzanieOcenPojedyncze();
+                            wprowadzaniePoj.MenuWprowadzanieOcen(osoby);
+                            Serializacja.zapisz(osoby);
+                            break;
+                        case 2:
+                            WprowadzanieOcenSeryjne wprowadzanieSer = new WprowadzanieOcenSeryjne();
+                            wprowadzanieSer.MenuWprowadzanieOcen(osoby);
+                            Serializacja.zapisz(osoby);
+                            break;
+                        default:
+                            System.out.println("Wybierz poprawna opcje!");
+                            break;
+                    }
+                    break;
+
+                case 6:
+                    System.out.println("Wybierz tryb obliczania sredniej\n1. Srednia arytmetyczna\n2. Srednia wazona");
+                    int opcjaSrednia = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (opcjaSrednia) {
+                        case 1:
+                            ObliczanieSredniejArytmetycznej obliczanieSrArytm = new ObliczanieSredniejArytmetycznej();
+                            obliczanieSrArytm.menuObliczanieSredniej(osoby);
+                            break;
+                        case 2:
+                            ObliczanieSredniejWazonej obliczanieSrWaz = new ObliczanieSredniejWazonej();
+                            obliczanieSrWaz.menuObliczanieSredniej(osoby);
+                            break;
+                        default:
+                            System.out.println("Wybierz poprawna opcje!");
+                            break;
+                    }
+                    break;
+
+                case 7:
                     dziala = false;
                     Serializacja.zapisz(osoby);
                     break;

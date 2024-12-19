@@ -1,3 +1,5 @@
+package Modele;
+
 import java.io.Serializable;
 
 public class Kurs implements Serializable {
@@ -7,6 +9,8 @@ public class Kurs implements Serializable {
     private int ECTS;
     private int liczba_godzin_w_semestrze;
     private boolean czy_grupa_kursow;
+    private int ocena;
+
 
     public Kurs(String nazwa, String rodzaj, int ECTS, int liczba_godzin_w_semestrze, boolean czy_grupa_kursow) {
         this.nazwa = nazwa;
@@ -14,6 +18,7 @@ public class Kurs implements Serializable {
         this.ECTS = ECTS;
         this.liczba_godzin_w_semestrze = liczba_godzin_w_semestrze;
         this.czy_grupa_kursow = czy_grupa_kursow;
+        this.ocena = 0;
     }
 
     public String getNazwa() {
@@ -56,6 +61,14 @@ public class Kurs implements Serializable {
         this.czy_grupa_kursow = czy_grupa_kursow;
     }
 
+    public int getOcena() {
+        return ocena;
+    }
+
+    public void setOcena(int ocena) {
+        this.ocena = ocena;
+    }
+
     public void wypiszDaneKursu(int nr_kursu) {
         System.out.printf(" - Kurs nr %d", nr_kursu);
         System.out.printf("  Nazwa: %s\n", nazwa);
@@ -63,6 +76,11 @@ public class Kurs implements Serializable {
         System.out.printf("  ECTS: %d\n", ECTS);
         System.out.printf("  Liczba godzin w semestrze: %d\n", liczba_godzin_w_semestrze);
         System.out.printf("  Czy grupa kursow?: %b\n", czy_grupa_kursow);
+        if (ocena == 0) {
+            System.out.println("Ocena: brak");
+        } else {
+            System.out.printf("Ocena: %d\n", ocena);
+        }
         System.out.println();
     }
 
@@ -73,6 +91,11 @@ public class Kurs implements Serializable {
         System.out.printf("ECTS: %d\n", ECTS);
         System.out.printf("Liczba godzin w semestrze: %d\n", liczba_godzin_w_semestrze);
         System.out.printf("Czy grupa kursow?: %b\n", czy_grupa_kursow);
+        if (ocena == 0) {
+            System.out.println("  Ocena: brak");
+        } else {
+            System.out.printf("  Ocena: %d\n", ocena);
+        }
         System.out.println();
     }
 }

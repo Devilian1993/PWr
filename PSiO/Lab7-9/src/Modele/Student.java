@@ -1,3 +1,5 @@
+package Modele;
+
 import java.util.ArrayList;
 
 public class Student extends Osoba {
@@ -93,7 +95,7 @@ public class Student extends Osoba {
         System.out.printf("Wydzial: %s\n", getWydzial());
         System.out.printf("Rok: %d\n", getRok());
         System.out.printf("Semestr: %d\n", getSemestr());
-        if (getKursy() != null) {
+        if (!getKursy().isEmpty()) {
             wypiszKursy();
         } else {
             System.out.println("Student nie jest zapisany na zadne kursy");
