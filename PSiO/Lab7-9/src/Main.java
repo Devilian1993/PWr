@@ -78,6 +78,13 @@ public class Main {
         Serializacja.wczytaj(osoby);
         //manualSetup(osoby);
 
+        ArrayList<Osoba> studenci = new ArrayList<>();
+        ObslugaTxt.wczytajStudentow(studenci);
+
+        for (Osoba student : studenci) {
+            student.wypiszDane();
+        }
+
         boolean dziala = true;
 
         while (dziala) {

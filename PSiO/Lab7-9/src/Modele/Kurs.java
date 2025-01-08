@@ -21,6 +21,15 @@ public class Kurs implements Serializable {
         this.ocena = 0;
     }
 
+    public Kurs(String nazwa, String rodzaj, int ECTS, int liczba_godzin_w_semestrze, boolean czy_grupa_kursow, int ocena) {
+        this.nazwa = nazwa;
+        this.rodzaj = rodzaj;
+        this.ECTS = ECTS;
+        this.liczba_godzin_w_semestrze = liczba_godzin_w_semestrze;
+        this.czy_grupa_kursow = czy_grupa_kursow;
+        this.ocena = ocena;
+    }
+
     public String getNazwa() {
         return nazwa;
     }
