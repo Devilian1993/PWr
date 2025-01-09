@@ -78,6 +78,13 @@ public class Main {
         Serializacja.wczytaj(osoby);
         //manualSetup(osoby);
 
+        ArrayList<Student> studenci = new ArrayList<>();
+        ObslugaTxt.wczytajStudentow(studenci);
+
+        for (Student student : studenci) {
+            student.wypiszDane();
+        }
+
         boolean dziala = true;
 
         while (dziala) {
@@ -156,6 +163,7 @@ public class Main {
                 case 7:
                     dziala = false;
                     Serializacja.zapisz(osoby);
+                    ObslugaTxt.zapiszStudentow(osoby);
                     break;
                 default:
                     System.out.println("Wybierz poprawna opcje!");

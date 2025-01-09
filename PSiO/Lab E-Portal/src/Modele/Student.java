@@ -20,6 +20,7 @@ public class Student extends Osoba {
         this.wydzial = wydzial;
         this.kursy = new ArrayList<Kurs>();
     }
+
     public Student(String imie, String nazwisko, String PESEL, int nr_indeksu, int rok, int semestr, String kierunek, String wydzial) {
         super(imie, nazwisko, PESEL);
         this.nr_indeksu = nr_indeksu;
@@ -28,6 +29,16 @@ public class Student extends Osoba {
         this.kierunek = kierunek;
         this.wydzial = wydzial;
         this.kursy = new ArrayList<Kurs>();
+    }
+
+    public Student(String imie, String nazwisko, String PESEL, int nr_indeksu, int rok, int semestr, String kierunek, String wydzial, ArrayList<Kurs> kursy) {
+        super(imie, nazwisko, PESEL);
+        this.nr_indeksu = nr_indeksu;
+        this.rok = rok;
+        this.semestr = semestr;
+        this.kierunek = kierunek;
+        this.wydzial = wydzial;
+        this.kursy = kursy;
     }
 
     public int getNr_indeksu() {
