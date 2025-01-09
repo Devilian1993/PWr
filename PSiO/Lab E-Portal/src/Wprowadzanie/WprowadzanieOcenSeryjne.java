@@ -36,7 +36,7 @@ public class WprowadzanieOcenSeryjne implements WprowadzanieOcenStrategia {
                     }
 
                 for (Kurs kurs : kursy) {
-                    System.out.printf("Modele.Kurs: %s\nPodaj ocenę: ", kurs.getNazwa());
+                    System.out.printf("Kurs: %s\nPodaj ocenę: ", kurs.getNazwa());
                     int ocena = scanner.nextInt();
                     scanner.nextLine();
 
