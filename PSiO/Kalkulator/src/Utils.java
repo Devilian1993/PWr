@@ -1,0 +1,82 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Pattern;
+
+public class Utils {
+    static String reformatForConstants(String str) {
+        final double precision = 0.01;
+        if (Math.abs(stringToDouble(str) - Math.PI) < precision) {
+            return "pi";
+        } else if (Math.abs(stringToDouble(str) - Math.E) < precision) {
+            return "e";
+        } else {
+            return str;
+        }
+    }
+
+    static public double stringToDouble(String str) {
+        str = str.replace(",", ".");
+        if (str.equals("pi")) {
+            return Math.PI;
+        } else if (str.equals("e")) {
+            return Math.E;
+        } else {
+            return Double.parseDouble(str);
+        }
+    }
+
+    static public boolean isNumeric(String str) {
+        str = str.replace(",", ".");
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        if (str.equals(null)) {
+            return false;
+        } else {
+            return pattern.matcher(str).matches() || str.equals("pi") || str.equals("e");
+        }
+    }
+
+    static public HashMap<String, Integer> getPrecedenceMap() {
+        HashMap<String, Integer> precedenceMap = new HashMap<>();
+
+        precedenceMap.put("+", 1);
+        precedenceMap.put("-", 1);
+        precedenceMap.put("*", 2);
+        precedenceMap.put("/", 2);
+        precedenceMap.put("^", 3);
+
+        return precedenceMap;
+    }
+
+    static public ArrayList<String> getOperators()
+    {
+        ArrayList<String> operators = new ArrayList<>();
+        operators.add("+");
+        operators.add("-");
+        operators.add("*");
+        operators.add("/");
+        operators.add("^");
+
+        return operators;
+    }
+
+    static public ArrayList<String> getFunctions()
+    {
+
+        ArrayList<String> functions = new ArrayList<>();
+        functions.add("sin");
+        functions.add("cos");
+        functions.add("tan");
+        functions.add("arcsin");
+        functions.add("arccos");
+        functions.add("arctan");
+        functions.add("exp");
+        functions.add("ln");
+        functions.add("log");
+        functions.add("sqrt");
+        functions.add("cbrt");
+        functions.add("floor");
+        functions.add("ceil");
+
+        return functions;
+    }
+}
