@@ -3,6 +3,13 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class Utils {
+    static String reformatForErrors(String str) {
+        if (str.equals("Infinity") || str.equals("-Infinity") || str.equals("NaN")) {
+            return "ERROR";
+        } else {
+            return str;
+        }
+    }
     static String reformatForConstants(String str) {
         final double precision = 0.01;
         if (Math.abs(stringToDouble(str) - Math.PI) < precision) {

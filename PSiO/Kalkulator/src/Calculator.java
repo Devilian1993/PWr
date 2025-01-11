@@ -58,24 +58,26 @@ public class Calculator {
             if (Utils.isNumeric(item)) {
                 stack.push(item);
             } else if (OPERATORS_LIST.contains(item)) {
-                stack.push(Operations.operation(item, stack.pop(), stack.pop()));
+                try {
+                    stack.push(Operations.operation(item, stack.pop(), stack.pop()));
+                } catch (IllegalArgumentException e) {
+                    return "ERROR";
+                }
             } else {
-                stack.push(Functions.function(item, stack.pop()));
+                try {
+                    stack.push(Functions.function(item, stack.pop()));
+                } catch (IllegalArgumentException e) {
+                    return "ERROR";
+                }
             }
         }
 
-        return Utils.reformatForConstants(stack.pop());
+        return Utils.reformatForErrors(Utils.reformatForConstants(stack.pop()));
     }
 
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
 
-        double result = 0;
-
-        for (int i = 1; i <= 200; i++) {
-            result += Utils.stringToDouble(calculator.calculate(String.format("1 / %d ^ 2", i)));
-        }
-
-        System.out.println(calculator.calculate(String.format("sqrt  ( %f * 6 )", result)));
+        System.out.println(calculator.calculate("arcsin ( 10 )"));
     }
 }

@@ -59,7 +59,7 @@ public class Functions {
             return cosine(xNum);
         } else if (function.equals("tan")) {
             return tan(xNum);
-        } else if (function.equals("arcsine")) {
+        } else if (function.equals("arcsin")) {
             return arcsine(xNum);
         } else if (function.equals("arccos")) {
             return arccos(xNum);
