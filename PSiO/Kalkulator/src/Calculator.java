@@ -1,7 +1,6 @@
 import java.util.Stack;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.*;
 
 public class Calculator {
     Stack<String> stack;
@@ -78,6 +77,6 @@ public class Calculator {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
 
-        System.out.println(calculator.calculate("arcsin ( 10 )"));
+        System.out.println(calculator.calculate("cbrt ( ( sin ( pi / 2 ) * 16 + 48 ) / 8 )"));
     }
 }

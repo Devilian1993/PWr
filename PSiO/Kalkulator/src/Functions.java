@@ -51,6 +51,10 @@ public class Functions {
         return Double.toString(Math.ceil(a));
     }
 
+    public static String abs(double a) {
+        return Double.toString(Math.abs(a));
+    }
+
     public static String function(String function, String x) {
         double xNum = Utils.stringToDouble(x);
         if (function.equals("sin")) {
@@ -71,6 +75,8 @@ public class Functions {
             return naturalLog(xNum);
         } else if (function.equals("log")) {
             return decimalLog(xNum);
+        } else if (function.equals("abs")) {
+            return abs(xNum);
         } else if (function.equals("sqrt")) {
             return sqrt(xNum);
         } else if (function.equals("cbrt")) {
