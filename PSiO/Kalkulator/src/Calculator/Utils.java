@@ -27,7 +27,8 @@ public class Utils {
     }
 
     static String reformatForCalculator(String str) {
-        str = str.replaceAll("([+\\-*/%()^])", " $1 ");
+        str = str.replaceAll("(?<![\\d)])-?(?=[+*/%^()])", " $0 "); // Spacje wokół operatorów
+        str = str.replaceAll("(?<![\\w)])(-?\\d+)", " $1 "); // Spacje wokół liczb
 
         str = str.replaceAll("(?<!\\w)(sin|cos|tan|asin|acos|atan|abs|exp|ln|log|sqrt|cbrt|floor|ceil)(?=\\()", " $1 ");
 
@@ -86,9 +87,9 @@ public class Utils {
         functions.add("sin");
         functions.add("cos");
         functions.add("tan");
-        functions.add("arcsin");
-        functions.add("arccos");
-        functions.add("arctan");
+        functions.add("asin");
+        functions.add("acos");
+        functions.add("atan");
         functions.add("exp");
         functions.add("ln");
         functions.add("log");
@@ -96,6 +97,7 @@ public class Utils {
         functions.add("cbrt");
         functions.add("floor");
         functions.add("ceil");
+        functions.add("abs");
 
         return functions;
     }
