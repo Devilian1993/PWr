@@ -25,7 +25,7 @@ public class CalcButtonObserver {
             inputPanel.addToInputText(buttonPressed.getText());
             equationString = inputPanel.getInputText();
         } else {
-            if (buttonPressed.getText().equals("=")) {
+            if (buttonPressed.getText().equals("=") && inputPanel.getInputText().length() > 2) {
                 inputPanel.setInputText(calculator.calculate(equationString));
                 equationString = "";
             } else if (buttonPressed.getText().equals("C/CE")) {

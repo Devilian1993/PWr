@@ -74,7 +74,7 @@ public class CalcButton extends JButton implements ActionListener {
                 this.getText().equals("%") ||
                 this.getText().equals("(") ||
                 this.getText().equals(")") ||
-                this.getText().equals("SQRT") ||
+                this.getText().equals("sqrt") ||
                 this.getText().equals("sin") ||
                 this.getText().equals("cos") ||
                 this.getText().equals("tan") ||
