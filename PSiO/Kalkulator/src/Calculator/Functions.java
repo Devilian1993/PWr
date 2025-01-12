@@ -65,11 +65,11 @@ public class Functions {
             return cosine(xNum);
         } else if (function.equals("tan")) {
             return tan(xNum);
-        } else if (function.equals("arcsin")) {
+        } else if (function.equals("asin")) {
             return arcsine(xNum);
-        } else if (function.equals("arccos")) {
+        } else if (function.equals("acos")) {
             return arccos(xNum);
-        } else if (function.equals("arctan")) {
+        } else if (function.equals("atan")) {
             return arctan(xNum);
         } else if (function.equals("exp")) {
             return exponentiation(xNum);

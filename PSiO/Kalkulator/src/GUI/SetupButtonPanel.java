@@ -19,7 +19,7 @@ public class SetupButtonPanel {
         buttonPanel.setLayout(new GridLayout(6, 4));
         buttonPanel.add(new CalcButton("C/CE", observer, false));
         buttonPanel.add(new CalcButton("OFF", observer, false));
-        buttonPanel.add(new CalcButton("SQRT", observer, false));
+        buttonPanel.add(new CalcButton("sqrt", observer, false));
         buttonPanel.add(new CalcButton("%", observer, false));
         buttonPanel.add(new CalcButton("MRC", observer, false));
         buttonPanel.add(new CalcButton("M-", observer, false));
@@ -84,7 +84,7 @@ public class SetupButtonPanel {
 
         operationsAndNumbersPanel.add(new CalcButton("C/CE", observer, false));
         operationsAndNumbersPanel.add(new CalcButton("OFF", observer, false));
-        operationsAndNumbersPanel.add(new CalcButton("SQRT", observer, false));
+        operationsAndNumbersPanel.add(new CalcButton("sqrt", observer, false));
         operationsAndNumbersPanel.add(new CalcButton("%", observer, false));
         operationsAndNumbersPanel.add(new CalcButton("<---", observer, false));
         operationsAndNumbersPanel.add(new CalcButton("MRC", observer, false));
