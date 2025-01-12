@@ -28,9 +28,8 @@ public class GUI {
         toggleField.setBackground(new Color(163,163,163));
         toggleField.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        JPanel inputField = new JPanel();
-        inputField.setPreferredSize(new Dimension(600, 100));
-        inputField.setBackground(new Color(163,163,163));
+        InputPanel inputPanel = new InputPanel();
+        SetupButtonPanel.setInputPanel(inputPanel);
 
         JPanel gapPanel = new JPanel();
         gapPanel.setPreferredSize(new Dimension(500, 1));
@@ -41,7 +40,7 @@ public class GUI {
 
         frame.add(toggleField, BorderLayout.NORTH);
         frame.add(mainPanel, BorderLayout.CENTER);
-        mainPanel.add(inputField);
+        mainPanel.add(inputPanel);
         mainPanel.add(gapPanel);
         mainPanel.add(buttonsPanel);
 

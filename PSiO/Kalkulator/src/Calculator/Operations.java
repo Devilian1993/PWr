@@ -1,3 +1,5 @@
+package Calculator;
+
 public class Operations {
     public static String operation(String operationString, String a, String b) {
         double aNum = Utils.stringToDouble(a);

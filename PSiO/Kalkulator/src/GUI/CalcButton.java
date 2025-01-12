@@ -1,13 +1,12 @@
 package GUI;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CalcButton extends JButton {
+public class CalcButton extends JButton implements ActionListener {
 
     private final int width = 30;
     private final int height = 30;
@@ -15,9 +14,12 @@ public class CalcButton extends JButton {
     private final Color clickedColor = new Color(221,221,221);
     private final Color hoveredColor = new Color(163,163,163);
     private boolean isClicked = false;
+    private CalcButtonObserver observer;
+    private boolean isNumber;
 
-    public CalcButton(String text) {
+    public CalcButton(String text, CalcButtonObserver observer, boolean isNumber) {
         super();
+        this.observer = observer;
         this.setPreferredSize(new Dimension(width, height));
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
         this.setText(text);
@@ -28,6 +30,8 @@ public class CalcButton extends JButton {
         this.setContentAreaFilled(false);
         this.setOpaque(true);
         this.setBorder(new LineBorder(Color.BLACK));
+        this.actionListener = this;
+        this.isNumber = isNumber;
 
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -56,5 +60,13 @@ public class CalcButton extends JButton {
                 };
             }
         });
+    }
+
+    public boolean isNumber() {
+        return isNumber;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        observer.notifyButtonsPressed(this);
     }
 }

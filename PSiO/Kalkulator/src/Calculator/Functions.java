@@ -1,3 +1,5 @@
+package Calculator;
+
 public class Functions {
     public static String sine(double x) {
         return Double.toString(Math.sin(x));

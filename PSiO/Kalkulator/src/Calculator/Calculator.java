@@ -1,3 +1,5 @@
+package Calculator;
+
 import java.util.Stack;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,6 +79,6 @@ public class Calculator {
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
 
-        System.out.println(calculator.calculate("cbrt ( ( sin ( pi / 2 ) * 16 + 48 ) / 8 )"));
+        System.out.println(calculator.calculate("0.1 + 0.2"));
     }
 }
