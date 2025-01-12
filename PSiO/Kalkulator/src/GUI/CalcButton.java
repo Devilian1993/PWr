@@ -30,7 +30,7 @@ public class CalcButton extends JButton implements ActionListener {
         this.setContentAreaFilled(false);
         this.setOpaque(true);
         this.setBorder(new LineBorder(Color.BLACK));
-        this.actionListener = this;
+        this.addActionListener(this);
         this.isNumber = isNumber;
 
         this.addMouseListener(new MouseAdapter() {
@@ -64,6 +64,33 @@ public class CalcButton extends JButton implements ActionListener {
 
     public boolean isNumber() {
         return isNumber;
+    }
+
+    public boolean isOperator() {
+        return this.getText().equals("+") ||
+                this.getText().equals("-") ||
+                this.getText().equals("*") ||
+                this.getText().equals("/") ||
+                this.getText().equals("%") ||
+                this.getText().equals("(") ||
+                this.getText().equals(")") ||
+                this.getText().equals("SQRT") ||
+                this.getText().equals("sin") ||
+                this.getText().equals("cos") ||
+                this.getText().equals("tan") ||
+                this.getText().equals("asin") ||
+                this.getText().equals("acos") ||
+                this.getText().equals("atan") ||
+                this.getText().equals("abs") ||
+                this.getText().equals("exp") ||
+                this.getText().equals("ln") ||
+                this.getText().equals("log") ||
+                this.getText().equals("a^x") ||
+                this.getText().equals("cbrt") ||
+                this.getText().equals("floor") ||
+                this.getText().equals("ceil") ||
+                this.getText().equals("pi") ||
+                this.getText().equals("e");
     }
 
     public void actionPerformed(ActionEvent e) {

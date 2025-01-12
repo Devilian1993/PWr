@@ -12,15 +12,26 @@ public class Utils {
             return str;
         }
     }
+
     static String reformatForConstants(String str) {
         final double precision = 0.01;
         if (Math.abs(stringToDouble(str) - Math.PI) < precision) {
             return "pi";
         } else if (Math.abs(stringToDouble(str) - Math.E) < precision) {
             return "e";
+        } else if (Utils.stringToDouble(str) == (int) Utils.stringToDouble(str)) {
+            return Integer.toString((int) Utils.stringToDouble(str));
         } else {
             return str;
         }
+    }
+
+    static String reformatForCalculator(String str) {
+        str = str.replaceAll("([+\\-*/%()^])", " $1 ");
+
+        str = str.replaceAll("(?<!\\w)(sin|cos|tan|asin|acos|atan|abs|exp|ln|log|sqrt|cbrt|floor|ceil)(?=\\()", " $1 ");
+
+        return str.trim().replaceAll("\\s+", " ");
     }
 
     static public double stringToDouble(String str) {

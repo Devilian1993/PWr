@@ -16,6 +16,7 @@ public class Calculator {
 
     // Shunting yard algorithm
     static ArrayList<String> infixToPostfix(String infix) {
+        infix = Utils.reformatForCalculator(infix);
         String[] infixArray = infix.split(" ");
 
         ArrayList<String> output = new ArrayList<>();
@@ -53,7 +54,7 @@ public class Calculator {
         return output;
     }
 
-    String calculate(String equationString) {
+    public String calculate(String equationString) {
         ArrayList<String> equation = infixToPostfix(equationString);
         for (String item : equation) {
             if (Utils.isNumeric(item)) {
