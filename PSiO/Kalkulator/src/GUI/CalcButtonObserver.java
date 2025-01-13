@@ -43,7 +43,7 @@ public class CalcButtonObserver {
         } else {
             if ((buttonPressed.isNumber() || buttonPressed.getText().equals(".")) && !inputPanel.getInputText().equals("ERROR")) {
                 inputPanel.addToInputText(buttonPressed.getText());
-                equationString += inputPanel.getInputText();
+                equationString += buttonPressed.getText();
             } else if (buttonPressed.isOperator() && !inputPanel.getInputText().equals("ERROR") && !buttonPressed.getText().equals("=") && !equationString.isEmpty()) {
                 inputPanel.clearText();
                 equationString += buttonPressed.getText();
