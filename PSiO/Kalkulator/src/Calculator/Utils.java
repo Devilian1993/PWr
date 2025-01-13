@@ -54,10 +54,11 @@ public class Utils {
     static public boolean isNumeric(String str) {
         str = str.replace(",", ".");
         Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        Pattern patternHex = Pattern.compile("[A-F]+");
         if (str.equals(null)) {
             return false;
         } else {
-            return pattern.matcher(str).matches() || str.equals("pi") || str.equals("e");
+            return pattern.matcher(str).matches() || str.equals("pi") || str.equals("e") || patternHex.matcher(str).matches();
         }
     }
 

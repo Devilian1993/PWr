@@ -5,10 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ModeSelectionButton extends JRadioButton implements ActionListener {
-    private ModeSelectionButtonObserver observer;
+public class BaseSelectionButton extends JRadioButton implements ActionListener {
+    private BaseSelectionButtonObserver observer;
     private boolean isInput;
-    public ModeSelectionButton(String mode, ModeSelectionButtonObserver observer, boolean isInput) {
+    public BaseSelectionButton(String mode, BaseSelectionButtonObserver observer, boolean isInput) {
         super(mode);
         this.observer = observer;
         this.isInput = isInput;
@@ -22,7 +22,7 @@ public class ModeSelectionButton extends JRadioButton implements ActionListener 
         return isInput;
     }
 
-    public ModeSelectionButton(String mode, boolean isPressedByDefault, ModeSelectionButtonObserver observer, boolean isInput) {
+    public BaseSelectionButton(String mode, boolean isPressedByDefault, BaseSelectionButtonObserver observer, boolean isInput) {
         super(mode, isPressedByDefault);
         this.observer = observer;
         this.isInput = isInput;

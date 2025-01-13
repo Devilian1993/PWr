@@ -1,5 +1,7 @@
 package Calculator;
 
+import Calculator.NumberBaseUtils.*;
+
 import java.util.Stack;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,6 +77,74 @@ public class Calculator {
         }
 
         return Utils.reformatForErrors(Utils.reformatForConstants(stack.pop()));
+    }
+
+    public String calculateBinary(String equationString, int inputBase, int resultBase) {
+        ArrayList<String> equation = infixToPostfix(equationString);
+
+        if (inputBase == 2) {
+            for (int i = 0; i < equation.size(); i++) {
+                if (Utils.isNumeric(equation.get(i))) {
+                    equation.set(i, BinaryToDecimalConverter.convertToDecimal(equation.get(i)));
+                }
+            }
+        }
+
+        for (String item : equation) {
+            if (Utils.isNumeric(item)) {
+                stack.push(item);
+            } else if (OPERATORS_LIST.contains(item)) {
+                try {
+                    stack.push(Operations.operation(item, stack.pop(), stack.pop()));
+                } catch (IllegalArgumentException e) {
+                    return "ERROR";
+                }
+            } else {
+                try {
+                    stack.push(Functions.function(item, stack.pop()));
+                } catch (IllegalArgumentException e) {
+                    return "ERROR";
+                }
+            }
+        }
+
+        String result = Utils.reformatForErrors(Utils.reformatForConstants(stack.pop()));
+
+        return resultBase == 10 ? result : DecimalToBinaryConverter.convertToBinary(result);
+    }
+
+    public String calculateHexadecimal(String equationString, int inputBase, int resultBase) {
+        ArrayList<String> equation = infixToPostfix(equationString);
+
+        if (inputBase == 16) {
+            for (int i = 0; i < equation.size(); i++) {
+                if (Utils.isNumeric(equation.get(i))) {
+                    equation.set(i, HexToDecimalConverter.convertToDecimal(equation.get(i)));
+                }
+            }
+        }
+
+        for (String item : equation) {
+            if (Utils.isNumeric(item)) {
+                stack.push(item);
+            } else if (OPERATORS_LIST.contains(item)) {
+                try {
+                    stack.push(Operations.operation(item, stack.pop(), stack.pop()));
+                } catch (IllegalArgumentException e) {
+                    return "ERROR";
+                }
+            } else {
+                try {
+                    stack.push(Functions.function(item, stack.pop()));
+                } catch (IllegalArgumentException e) {
+                    return "ERROR";
+                }
+            }
+        }
+
+        String result = Utils.reformatForErrors(Utils.reformatForConstants(stack.pop()));
+
+        return resultBase == 10 ? result : DecimalToHexConverter.convertToHex(result);
     }
 
     public static void main(String[] args) {

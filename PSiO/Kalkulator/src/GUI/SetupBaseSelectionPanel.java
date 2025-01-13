@@ -45,10 +45,10 @@ public class SetupBaseSelectionPanel {
         baseSelectionPanelOutput.add(baseSelectionPanelOutputButtons);
         ButtonGroup outputBaseSelectionButtonGroup = new ButtonGroup();
 
-        ModeSelectionButtonObserver observer = new ModeSelectionButtonObserver(buttonPanel);
-        ModeSelectionButton inputDEC = new ModeSelectionButton("DEC", true, observer, true);
-        ModeSelectionButton inputHEX = new ModeSelectionButton("HEX", observer, true);
-        ModeSelectionButton inputBIN = new ModeSelectionButton("BIN", observer, true);
+        BaseSelectionButtonObserver observer = new BaseSelectionButtonObserver(buttonPanel);
+        BaseSelectionButton inputDEC = new BaseSelectionButton("DEC", true, observer, true);
+        BaseSelectionButton inputHEX = new BaseSelectionButton("HEX", observer, true);
+        BaseSelectionButton inputBIN = new BaseSelectionButton("BIN", observer, true);
         inputBaseSelectionButtonGroup.add(inputDEC);
         inputBaseSelectionButtonGroup.add(inputHEX);
         inputBaseSelectionButtonGroup.add(inputBIN);
@@ -58,9 +58,9 @@ public class SetupBaseSelectionPanel {
         baseSelectionPanelInputButtons.add(inputDEC);
         baseSelectionPanelInputButtons.add(inputBIN);
 
-        ModeSelectionButton outputDEC = new ModeSelectionButton("DEC", observer, false);
-        ModeSelectionButton outputHEX = new ModeSelectionButton("HEX", observer, false);
-        ModeSelectionButton outputBIN = new ModeSelectionButton("BIN", true, observer, false);
+        BaseSelectionButton outputDEC = new BaseSelectionButton("DEC", observer, false);
+        BaseSelectionButton outputHEX = new BaseSelectionButton("HEX", observer, false);
+        BaseSelectionButton outputBIN = new BaseSelectionButton("BIN", true, observer, false);
         outputBaseSelectionButtonGroup.add(outputDEC);
         outputBaseSelectionButtonGroup.add(outputHEX);
         outputBaseSelectionButtonGroup.add(outputBIN);
@@ -107,10 +107,10 @@ public class SetupBaseSelectionPanel {
         baseSelectionPanelOutput.add(baseSelectionPanelOutputButtons);
         ButtonGroup outputBaseSelectionButtonGroup = new ButtonGroup();
 
-        ModeSelectionButtonObserver observer = new ModeSelectionButtonObserver(buttonPanel);
-        ModeSelectionButton inputDEC = new ModeSelectionButton("DEC", true, observer, true);
-        ModeSelectionButton inputHEX = new ModeSelectionButton("HEX", observer, true);
-        ModeSelectionButton inputBIN = new ModeSelectionButton("BIN", observer, true);
+        BaseSelectionButtonObserver observer = new BaseSelectionButtonObserver(buttonPanel);
+        BaseSelectionButton inputDEC = new BaseSelectionButton("DEC", true, observer, true);
+        BaseSelectionButton inputHEX = new BaseSelectionButton("HEX", observer, true);
+        BaseSelectionButton inputBIN = new BaseSelectionButton("BIN", observer, true);
         inputBaseSelectionButtonGroup.add(inputDEC);
         inputBaseSelectionButtonGroup.add(inputHEX);
         inputBaseSelectionButtonGroup.add(inputBIN);
@@ -120,9 +120,9 @@ public class SetupBaseSelectionPanel {
         baseSelectionPanelInputButtons.add(inputDEC);
         baseSelectionPanelInputButtons.add(inputHEX);
 
-        ModeSelectionButton outputDEC = new ModeSelectionButton("DEC", observer, false);
-        ModeSelectionButton outputHEX = new ModeSelectionButton("HEX", true, observer, false);
-        ModeSelectionButton outputBIN = new ModeSelectionButton("BIN", observer, false);
+        BaseSelectionButton outputDEC = new BaseSelectionButton("DEC", observer, false);
+        BaseSelectionButton outputHEX = new BaseSelectionButton("HEX", true, observer, false);
+        BaseSelectionButton outputBIN = new BaseSelectionButton("BIN", observer, false);
         outputBaseSelectionButtonGroup.add(outputDEC);
         outputBaseSelectionButtonGroup.add(outputHEX);
         outputBaseSelectionButtonGroup.add(outputBIN);

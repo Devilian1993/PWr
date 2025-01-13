@@ -6,22 +6,34 @@ import java.awt.*;
 
 public class SetupButtonPanel {
     private static InputPanel inputPanel;
-    private static String calculatorMode = "Standard";
+    private static String calculatorInputMode = "Standard";
+    private static String calculatorOutputMode = "DEC";
+    private static CalcButtonObserver observer = new CalcButtonObserver();
 
     public static void setInputPanel(InputPanel inputPanel) {
         SetupButtonPanel.inputPanel = inputPanel;
     }
 
-    public static void setCalculatorMode(String mode) {
-        calculatorMode = mode;
+    public static void setCalculatorInputMode(String mode) {
+        calculatorInputMode = mode;
+    }
+
+    public static void setCalculatorOutputMode(String mode) {
+        calculatorOutputMode = mode;
+    }
+
+    public static String getCalculatorOutputMode() {
+        return calculatorOutputMode;
     }
 
     public static void setupButtonPanelStandardMode(JPanel buttonPanel) {
         buttonPanel.removeAll();
 
-        CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
+        //CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
         inputPanel.registerObserver(observer);
-        observer.setCalculatorMode(calculatorMode);
+        observer.setInputPanel(inputPanel);
+        observer.setCalculatorInputMode(calculatorInputMode);
+        observer.setCalculatorOutputMode(calculatorOutputMode);
 
         buttonPanel.setLayout(new GridLayout(6, 4));
         buttonPanel.add(new CalcButton("C/CE", observer, false));
@@ -66,9 +78,11 @@ public class SetupButtonPanel {
         functionPanel.setPreferredSize(new Dimension(600, 75));
         functionPanel.setBorder(new EmptyBorder(0, 0, 25, 0));
 
-        CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
-        observer.setCalculatorMode(calculatorMode);
+        //CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
+        observer.setCalculatorInputMode(calculatorInputMode);
+        observer.setCalculatorOutputMode(calculatorOutputMode);
         inputPanel.registerObserver(observer);
+        observer.setInputPanel(inputPanel);
         functionPanel.add(new CalcButton("sin", observer, false));
         functionPanel.add(new CalcButton("cos", observer, false));
         functionPanel.add(new CalcButton("tan", observer, false));
@@ -136,6 +150,7 @@ public class SetupButtonPanel {
     public static void setupButtonPanelBinaryDecimalInput(JPanel buttonPanel) {
         buttonPanel.removeAll();
 
+        setCalculatorOutputMode("BIN");
         setupButtonPanelStandardMode(buttonPanel);
 
 
@@ -146,9 +161,12 @@ public class SetupButtonPanel {
     public static void setupButtonPanelBinaryBinaryInput(JPanel buttonPanel) {
         buttonPanel.removeAll();
 
-        CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
+        setCalculatorOutputMode("BIN");
+        //CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
         inputPanel.registerObserver(observer);
-        observer.setCalculatorMode(calculatorMode);
+        observer.setCalculatorInputMode(calculatorInputMode);
+        observer.setCalculatorOutputMode(calculatorOutputMode);
+        observer.setInputPanel(inputPanel);
         buttonPanel.setLayout(new GridLayout(3, 4));
         buttonPanel.add(new CalcButton("C/CE", observer, false));
         buttonPanel.add(new CalcButton("MRC", observer, false));
@@ -174,6 +192,7 @@ public class SetupButtonPanel {
     public static void setupButtonPanelHexadecimalDecimalInput(JPanel buttonPanel) {
         buttonPanel.removeAll();
 
+        setCalculatorOutputMode("HEX");
         setupButtonPanelStandardMode(buttonPanel);
 
         buttonPanel.revalidate();
@@ -183,9 +202,12 @@ public class SetupButtonPanel {
     public static void setupButtonPanelHexadecimalHexadecimalInput(JPanel buttonPanel) {
         buttonPanel.removeAll();
 
-        CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
+        setCalculatorOutputMode("HEX");
+        //CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
         inputPanel.registerObserver(observer);
-        observer.setCalculatorMode(calculatorMode);
+        observer.setCalculatorInputMode(calculatorInputMode);
+        observer.setCalculatorOutputMode(calculatorOutputMode);
+        observer.setInputPanel(inputPanel);
 
         buttonPanel.setLayout(new GridLayout(5, 5));
         buttonPanel.add(new CalcButton("C/CE", observer, false));
