@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class Utils {
-    static String reformatForErrors(String str) {
+    static public String reformatForErrors(String str) {
         if (str.equals("Infinity") || str.equals("-Infinity") || str.equals("NaN") || str.equals("∞") || str.equals("-∞")) {
             return "ERROR";
         } else {
@@ -15,7 +15,7 @@ public class Utils {
         }
     }
 
-    static String reformatForConstants(String str) {
+    static public String reformatForConstants(String str) {
         final double precision = 0.01;
         if (Math.abs(stringToDouble(str) - Math.PI) < precision) {
             return "pi";
@@ -30,7 +30,7 @@ public class Utils {
         }
     }
 
-    static String reformatForCalculator(String str) {
+    static public String reformatForCalculator(String str) {
         str = str.replaceAll("(?<![\\d)])-?(?=[+*/%^()])", " $0 ");
         str = str.replaceAll("(?<![\\w)])(-?\\d*\\.?\\d+)", " $1 ");
         str = str.replaceAll("\\b(pi|e)\\b", " $1 ");

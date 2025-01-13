@@ -28,15 +28,19 @@ public class ToggleButtonObserver {
         }
 
         if (selectedButton.getText().equals("Standard")) {
+            SetupButtonPanel.setCalculatorMode("Standard");
             SetupButtonPanel.setupButtonPanelStandardMode(buttonPanel);
             SetupBaseSelectionPanel.setupBaseSelectionPanelEmpty(baseSelectionPanel);
         } else if (selectedButton.getText().equals("Scientific")) {
+            SetupButtonPanel.setCalculatorMode("Scientific");
             SetupButtonPanel.setupButtonPanelScientific(buttonPanel);
             SetupBaseSelectionPanel.setupBaseSelectionPanelEmpty(baseSelectionPanel);
         } else if (selectedButton.getText().equals("Binary")) {
+            SetupButtonPanel.setCalculatorMode("BinaryDecimalInput");
             SetupButtonPanel.setupButtonPanelBinaryDecimalInput(buttonPanel);
             SetupBaseSelectionPanel.setupBaseSelectionPanelBinary(baseSelectionPanel, buttonPanel);
         } else {
+            SetupButtonPanel.setCalculatorMode("HexadecimalDecimalInput");
             SetupButtonPanel.setupButtonPanelHexadecimalDecimalInput(buttonPanel);
             SetupBaseSelectionPanel.setupBaseSelectionPanelHexadecimal(baseSelectionPanel, buttonPanel);
         }

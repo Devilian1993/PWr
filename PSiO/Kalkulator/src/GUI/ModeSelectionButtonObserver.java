@@ -21,26 +21,18 @@ public class ModeSelectionButtonObserver {
         if (buttonPressed.getText().equals("DEC") && buttonPressed.IsInput()) {
             for (ModeSelectionButton button : buttons) {
                 if (button.getText().equals("HEX") && buttonPressed.IsInput()) {
+                    SetupButtonPanel.setCalculatorMode("HexadecimalDecimalInput");
                     SetupButtonPanel.setupButtonPanelHexadecimalDecimalInput(buttonPanel);
                 } else if (button.getText().equals("BIN") && buttonPressed.IsInput()) {
+                    SetupButtonPanel.setCalculatorMode("BinaryDecimalInput");
                     SetupButtonPanel.setupButtonPanelBinaryDecimalInput(buttonPanel);
                 }
             }
         } else if (buttonPressed.getText().equals("BIN") && buttonPressed.IsInput()){
-            //buttonPressed.setEnabled(true);
-            //for (ModeSelectionButton button : buttons) {
-            //    if (!buttonPressed.getText().equals("DEC") && button.IsInput()) {
-            //        button.setEnabled(false);
-            //    }
-            //}
+            SetupButtonPanel.setCalculatorMode("BinaryBinaryInput");
             SetupButtonPanel.setupButtonPanelBinaryBinaryInput(buttonPanel);
         } else if (buttonPressed.getText().equals("HEX") && buttonPressed.IsInput()){
-            //buttonPressed.setEnabled(true);
-            //for (ModeSelectionButton button : buttons) {
-            //    if (!buttonPressed.getText().equals("DEC") && button.IsInput()) {
-            //        button.setEnabled(false);
-            //    }
-            //}
+            SetupButtonPanel.setCalculatorMode("HexadecimalHexadecimalInput");
             SetupButtonPanel.setupButtonPanelHexadecimalHexadecimalInput(buttonPanel);
         }
     }

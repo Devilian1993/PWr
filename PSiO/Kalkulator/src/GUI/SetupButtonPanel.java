@@ -5,10 +5,15 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class SetupButtonPanel {
-    public static InputPanel inputPanel;
+    private static InputPanel inputPanel;
+    private static String calculatorMode = "Standard";
 
     public static void setInputPanel(InputPanel inputPanel) {
         SetupButtonPanel.inputPanel = inputPanel;
+    }
+
+    public static void setCalculatorMode(String mode) {
+        calculatorMode = mode;
     }
 
     public static void setupButtonPanelStandardMode(JPanel buttonPanel) {
@@ -16,6 +21,8 @@ public class SetupButtonPanel {
 
         CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
         inputPanel.registerObserver(observer);
+        observer.setCalculatorMode(calculatorMode);
+
         buttonPanel.setLayout(new GridLayout(6, 4));
         buttonPanel.add(new CalcButton("C/CE", observer, false));
         buttonPanel.add(new CalcButton("OFF", observer, false));
@@ -60,6 +67,7 @@ public class SetupButtonPanel {
         functionPanel.setBorder(new EmptyBorder(0, 0, 25, 0));
 
         CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
+        observer.setCalculatorMode(calculatorMode);
         inputPanel.registerObserver(observer);
         functionPanel.add(new CalcButton("sin", observer, false));
         functionPanel.add(new CalcButton("cos", observer, false));
@@ -130,6 +138,7 @@ public class SetupButtonPanel {
 
         setupButtonPanelStandardMode(buttonPanel);
 
+
         buttonPanel.revalidate();
         buttonPanel.repaint();
     }
@@ -139,6 +148,7 @@ public class SetupButtonPanel {
 
         CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
         inputPanel.registerObserver(observer);
+        observer.setCalculatorMode(calculatorMode);
         buttonPanel.setLayout(new GridLayout(3, 4));
         buttonPanel.add(new CalcButton("C/CE", observer, false));
         buttonPanel.add(new CalcButton("MRC", observer, false));
@@ -175,6 +185,7 @@ public class SetupButtonPanel {
 
         CalcButtonObserver observer = new CalcButtonObserver(inputPanel);
         inputPanel.registerObserver(observer);
+        observer.setCalculatorMode(calculatorMode);
 
         buttonPanel.setLayout(new GridLayout(5, 5));
         buttonPanel.add(new CalcButton("C/CE", observer, false));
