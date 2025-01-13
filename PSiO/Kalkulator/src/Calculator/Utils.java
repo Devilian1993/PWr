@@ -1,12 +1,14 @@
 package Calculator;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class Utils {
     static String reformatForErrors(String str) {
-        if (str.equals("Infinity") || str.equals("-Infinity") || str.equals("NaN")) {
+        if (str.equals("Infinity") || str.equals("-Infinity") || str.equals("NaN") || str.equals("∞") || str.equals("-∞")) {
             return "ERROR";
         } else {
             return str;
@@ -22,13 +24,16 @@ public class Utils {
         } else if (Utils.stringToDouble(str) == (int) Utils.stringToDouble(str)) {
             return Integer.toString((int) Utils.stringToDouble(str));
         } else {
-            return str;
+            DecimalFormat decimalFormat = new DecimalFormat("#.####");
+            decimalFormat.setRoundingMode(RoundingMode.DOWN);
+            return decimalFormat.format(Utils.stringToDouble(str)).replaceAll(",", ".");
         }
     }
 
     static String reformatForCalculator(String str) {
-        str = str.replaceAll("(?<![\\d)])-?(?=[+*/%^()])", " $0 "); // Spacje wokół operatorów
-        str = str.replaceAll("(?<![\\w)])(-?\\d+)", " $1 "); // Spacje wokół liczb
+        str = str.replaceAll("(?<![\\d)])-?(?=[+*/%^()])", " $0 ");
+        str = str.replaceAll("(?<![\\w)])(-?\\d*\\.?\\d+)", " $1 ");
+        str = str.replaceAll("\\b(pi|e)\\b", " $1 ");
 
         str = str.replaceAll("(?<!\\w)(sin|cos|tan|asin|acos|atan|abs|exp|ln|log|sqrt|cbrt|floor|ceil)(?=\\()", " $1 ");
 

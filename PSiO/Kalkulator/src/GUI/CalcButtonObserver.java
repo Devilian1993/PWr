@@ -21,11 +21,11 @@ public class CalcButtonObserver {
     }
 
     public void notifyButtonsPressed(CalcButton buttonPressed) {
-        if (buttonPressed.isNumber() || buttonPressed.isOperator() || buttonPressed.getText().equals(".")) {
+        if ((buttonPressed.isNumber() || buttonPressed.isOperator() || buttonPressed.getText().equals(".")) && !inputPanel.getInputText().equals("ERROR")) {
             inputPanel.addToInputText(buttonPressed.getText());
             equationString = inputPanel.getInputText();
         } else {
-            if (buttonPressed.getText().equals("=") && inputPanel.getInputText().length() > 2) {
+            if (buttonPressed.getText().equals("=") && inputPanel.getInputText().length() > 2 && !inputPanel.getInputText().equals("ERROR")) {
                 inputPanel.setInputText(calculator.calculate(equationString));
                 equationString = "";
             } else if (buttonPressed.getText().equals("C/CE")) {
