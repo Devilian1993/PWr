@@ -2,6 +2,7 @@ package GUI;
 
 import java.util.ArrayList;
 import Calculator.Calculator;
+import Calculator.Utils;
 
 public class CalcButtonObserver {
     private ArrayList<CalcButton> buttons;
@@ -39,14 +40,20 @@ public class CalcButtonObserver {
                 inputPanel.addToInputText(buttonPressed.getText());
                 equationString += buttonPressed.getText();
             } else if (buttonPressed.isOperator() && !inputPanel.getInputText().equals("ERROR") && !buttonPressed.getText().equals("=") && !equationString.isEmpty()) {
-                inputPanel.clearText();
-                equationString += buttonPressed.getText();
+                if (buttonPressed.getText().equals("sqrt") && Utils.isNumeric(equationString.substring(equationString.length() - 1, equationString.length()))) {
+                    equationString = "sqrt(" + equationString + ")";
+                    inputPanel.clearText();
+                } else {
+                    inputPanel.clearText();
+                    equationString += buttonPressed.getText();
+                }
             } else {
                 if (buttonPressed.getText().equals("=") && equationString.length() > 2 && !inputPanel.getInputText().equals("ERROR")) {
                     inputPanel.setInputText(calculator.calculate(equationString));
                     equationString = inputPanel.getInputText();
                 } else if (buttonPressed.getText().equals("C/CE")) {
                     inputPanel.clearText();
+                    equationString = "";
                 } else if (buttonPressed.getText().equals("<---")) {
                     inputPanel.removePreviousEntry();
                 }
