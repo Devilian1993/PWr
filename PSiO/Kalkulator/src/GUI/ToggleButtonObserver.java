@@ -27,6 +27,7 @@ public class ToggleButtonObserver {
             }
         }
 
+        SetupButtonPanel.clearInputPanel();
         if (selectedButton.getText().equals("Standard")) {
             SetupButtonPanel.setCalculatorInputMode("Standard");
             SetupButtonPanel.setupButtonPanelStandardMode(buttonPanel);

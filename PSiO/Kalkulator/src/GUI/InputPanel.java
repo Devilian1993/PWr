@@ -2,6 +2,9 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.regex.Pattern;
+
+import Calculator.NumberBaseUtils.*;
 
 public class InputPanel extends JPanel {
     private CalcButtonObserver observer;
@@ -28,6 +31,24 @@ public class InputPanel extends JPanel {
         this.inputText = text;
         textLabel.setText(inputText);
 
+    }
+
+    public void changeInputTextBase(int base, int previousBase) {
+        if (!inputText.isEmpty() && Calculator.Utils.isNumeric(inputText)) {
+            if (base == 2 && previousBase == 10) {
+                this.inputText = DecimalToBinaryConverter.convertToBinary(inputText);
+                textLabel.setText(inputText);
+            } else if (base == 16 && previousBase == 10) {
+                this.inputText = DecimalToHexConverter.convertToHex(inputText);
+                textLabel.setText(inputText);
+            } else if (base == 10 && previousBase == 2) {
+                this.inputText = BinaryToDecimalConverter.convertToDecimal(inputText);
+                textLabel.setText(inputText);
+            } else {
+                this.inputText = HexToDecimalConverter.convertToDecimal(inputText);
+                textLabel.setText(inputText);
+            }
+        }
     }
 
     public void addToInputText(String text) {

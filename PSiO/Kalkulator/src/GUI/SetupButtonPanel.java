@@ -9,6 +9,7 @@ public class SetupButtonPanel {
     private static String calculatorInputMode = "Standard";
     private static String calculatorOutputMode = "DEC";
     private static CalcButtonObserver observer = new CalcButtonObserver();
+    private static boolean firstBaseToggle = true;
 
     public static void setInputPanel(InputPanel inputPanel) {
         SetupButtonPanel.inputPanel = inputPanel;
@@ -26,6 +27,20 @@ public class SetupButtonPanel {
         return calculatorOutputMode;
     }
 
+    public static int getPreviousBase() {
+        if (calculatorInputMode.equals("HexadecimalDecimalInput")) {
+            return 16;
+        } else if (calculatorInputMode.equals("BinaryDecimalInput")) {
+            return 2;
+        } else {
+            return 10;
+        }
+    }
+
+    public static void clearInputPanel() {
+        inputPanel.clearText();
+    }
+
     public static void setupButtonPanelStandardMode(JPanel buttonPanel) {
         buttonPanel.removeAll();
 
@@ -34,6 +49,10 @@ public class SetupButtonPanel {
         observer.setInputPanel(inputPanel);
         observer.setCalculatorInputMode(calculatorInputMode);
         observer.setCalculatorOutputMode(calculatorOutputMode);
+
+        if (calculatorInputMode.equals("Standard")) {
+            firstBaseToggle = true;
+        }
 
         buttonPanel.setLayout(new GridLayout(6, 4));
         buttonPanel.add(new CalcButton("C/CE", observer, false));
@@ -70,6 +89,8 @@ public class SetupButtonPanel {
     }
 
     public static void setupButtonPanelScientific(JPanel buttonPanel) {
+        firstBaseToggle = true;
+
         buttonPanel.removeAll();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
@@ -153,6 +174,11 @@ public class SetupButtonPanel {
         setCalculatorOutputMode("BIN");
         setupButtonPanelStandardMode(buttonPanel);
 
+        if (!firstBaseToggle) {
+            inputPanel.changeInputTextBase(10, getPreviousBase());
+        }
+
+        firstBaseToggle = false;
 
         buttonPanel.revalidate();
         buttonPanel.repaint();
@@ -185,6 +211,12 @@ public class SetupButtonPanel {
             observer.addButton((CalcButton) button);
         }
 
+        if (!firstBaseToggle) {
+            inputPanel.changeInputTextBase(2, getPreviousBase());
+        }
+
+        firstBaseToggle = false;
+
         buttonPanel.revalidate();
         buttonPanel.repaint();
     }
@@ -194,6 +226,12 @@ public class SetupButtonPanel {
 
         setCalculatorOutputMode("HEX");
         setupButtonPanelStandardMode(buttonPanel);
+
+        if (!firstBaseToggle) {
+            inputPanel.changeInputTextBase(10, getPreviousBase());
+        }
+
+        firstBaseToggle = false;
 
         buttonPanel.revalidate();
         buttonPanel.repaint();
@@ -239,6 +277,12 @@ public class SetupButtonPanel {
         for (Component button : buttonPanel.getComponents()) {
             observer.addButton((CalcButton) button);
         }
+
+        if (!firstBaseToggle) {
+            inputPanel.changeInputTextBase(16, getPreviousBase());
+        }
+
+        firstBaseToggle = false;
 
         buttonPanel.revalidate();
         buttonPanel.repaint();

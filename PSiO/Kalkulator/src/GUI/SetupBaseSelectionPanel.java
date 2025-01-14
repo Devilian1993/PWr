@@ -53,7 +53,7 @@ public class SetupBaseSelectionPanel {
         inputBaseSelectionButtonGroup.add(inputHEX);
         inputBaseSelectionButtonGroup.add(inputBIN);
         observer.addButton(inputDEC);
-        observer.addButton(inputHEX);
+        observer.addButton(inputBIN);
 
         baseSelectionPanelInputButtons.add(inputDEC);
         baseSelectionPanelInputButtons.add(inputBIN);
@@ -64,6 +64,8 @@ public class SetupBaseSelectionPanel {
         outputBaseSelectionButtonGroup.add(outputDEC);
         outputBaseSelectionButtonGroup.add(outputHEX);
         outputBaseSelectionButtonGroup.add(outputBIN);
+        //observer.addButton(outputDEC);
+        //observer.addButton(outputBIN);
 
         baseSelectionPanelOutputButtons.add(outputDEC);
         baseSelectionPanelOutputButtons.add(outputBIN);
@@ -126,6 +128,8 @@ public class SetupBaseSelectionPanel {
         outputBaseSelectionButtonGroup.add(outputDEC);
         outputBaseSelectionButtonGroup.add(outputHEX);
         outputBaseSelectionButtonGroup.add(outputBIN);
+        //observer.addButton(outputDEC);
+        //observer.addButton(outputHEX);
 
         baseSelectionPanelOutputButtons.add(outputDEC);
         baseSelectionPanelOutputButtons.add(outputHEX);
