@@ -36,17 +36,25 @@ public class InputPanel extends JPanel {
     public void changeInputTextBase(int base, int previousBase) {
         if (!inputText.isEmpty() && Calculator.Utils.isNumeric(inputText)) {
             if (base == 2 && previousBase == 10) {
-                this.inputText = DecimalToBinaryConverter.convertToBinary(inputText);
-                textLabel.setText(inputText);
+                try {
+                    this.inputText = DecimalToBinaryConverter.convertToBinary(inputText);
+                    textLabel.setText(inputText);
+                    observer.clearEquation();
+                } catch (IllegalArgumentException e) {
+                    clearText();
+                }
             } else if (base == 16 && previousBase == 10) {
                 this.inputText = DecimalToHexConverter.convertToHex(inputText);
                 textLabel.setText(inputText);
+                observer.clearEquation();
             } else if (base == 10 && previousBase == 2) {
                 this.inputText = BinaryToDecimalConverter.convertToDecimal(inputText);
                 textLabel.setText(inputText);
+                observer.clearEquation();
             } else {
                 this.inputText = HexToDecimalConverter.convertToDecimal(inputText);
                 textLabel.setText(inputText);
+                observer.clearEquation();
             }
         } else {
             clearText();

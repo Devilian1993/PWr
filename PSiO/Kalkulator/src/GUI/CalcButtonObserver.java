@@ -30,6 +30,8 @@ public class CalcButtonObserver {
         this.buttons.add(button);
     }
 
+    public void clearEquation() { this.equationString = ""; }
+
     public void notifyButtonsPressed(CalcButton buttonPressed) {
         calculatorOutputMode = SetupButtonPanel.getCalculatorOutputMode();
         if (calculatorInputMode.equals("Standard")) {
