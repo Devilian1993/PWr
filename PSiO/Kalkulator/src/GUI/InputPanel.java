@@ -48,6 +48,8 @@ public class InputPanel extends JPanel {
                 this.inputText = HexToDecimalConverter.convertToDecimal(inputText);
                 textLabel.setText(inputText);
             }
+        } else {
+            clearText();
         }
     }
 
