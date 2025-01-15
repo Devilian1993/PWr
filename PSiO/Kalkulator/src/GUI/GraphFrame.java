@@ -48,7 +48,7 @@ public class GraphFrame extends JFrame {
             }
 
             public double calculateFunction(double x) {
-                return !calculator.calculate(function.replace("x", Double.toString(x))).equals("ERROR") ? Utils.stringToDouble(calculator.calculate(function.replace("x", Double.toString(x)))) : 999999999;
+                return !calculator.calculate(function.replace("x", Double.toString(x)), true).equals("ERROR") ? Utils.stringToDouble(calculator.calculate(function.replace("x", Double.toString(x)), true)) : 999999999;
             }
         }
         GraphPanel graphPanel = new GraphPanel();

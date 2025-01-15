@@ -11,8 +11,10 @@ public class CalcButton extends JButton implements ActionListener {
     private final int width = 30;
     private final int height = 30;
     private final Color defaultColor = Color.LIGHT_GRAY;
+    private final Color defaultColorNumber = new Color(170, 170, 170);
     private final Color clickedColor = new Color(221,221,221);
     private final Color hoveredColor = new Color(163,163,163);
+    private final Color hoveredColorNumber = new Color(145, 145, 145);
     private boolean isClicked = false;
     private CalcButtonObserver observer;
     private boolean isNumber;
@@ -33,6 +35,11 @@ public class CalcButton extends JButton implements ActionListener {
         this.addActionListener(this);
         this.isNumber = isNumber;
 
+        if (isNumber || this.getText().equals(".")) {
+            this.setFont(new Font("Arial", Font.PLAIN, 70));
+            this.setBackground(defaultColorNumber);
+        }
+
         this.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 setBackground(clickedColor);
@@ -41,22 +48,38 @@ public class CalcButton extends JButton implements ActionListener {
 
             public void mouseReleased(MouseEvent e) {
                 if (isClicked) {
-                    setBackground(hoveredColor);
+                    if (isNumber) {
+                        setBackground(hoveredColorNumber);
+                    } else {
+                        setBackground(hoveredColor);
+                    }
                     isClicked = false;
                 } else {
-                    setBackground(defaultColor);
+                    if (isNumber) {
+                        setBackground(defaultColorNumber);
+                    } else {
+                        setBackground(defaultColor);
+                    }
                 }
             }
 
             public void mouseEntered(MouseEvent e) {
                 if (!isClicked) {
-                    setBackground(hoveredColor);
+                    if (isNumber) {
+                        setBackground(hoveredColorNumber);
+                    } else {
+                        setBackground(hoveredColor);
+                    }
                 }
             }
 
             public void mouseExited(MouseEvent e) {
                 if (!isClicked) {
-                    setBackground(defaultColor);
+                    if (isNumber) {
+                        setBackground(defaultColorNumber);
+                    } else {
+                        setBackground(defaultColor);
+                    }
                 };
             }
         });

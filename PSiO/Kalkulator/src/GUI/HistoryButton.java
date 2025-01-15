@@ -16,10 +16,9 @@ public class HistoryButton extends JButton implements ActionListener {
 
     public HistoryButton() {
         super("H");
-        this.setPreferredSize(new Dimension(60, 50));
-        this.setBackground(new Color(120,120,120));
-        this.setForeground(Color.BLACK);
-        this.setFont(new Font("Arial", Font.BOLD, 36));
+        this.setPreferredSize(new Dimension(55, 50));
+        this.setBackground(Color.LIGHT_GRAY);
+        this.setFont(new Font("Arial", Font.BOLD, 25));
         this.addActionListener(this);
     }
 

@@ -91,6 +91,35 @@ public class Calculator {
         return result;
     }
 
+    public String calculate(String equationString, boolean asFunction) {
+        ArrayList<String> equation = infixToPostfix(equationString);
+        for (String item : equation) {
+            if (Utils.isNumeric(item)) {
+                stack.push(item);
+            } else if (OPERATORS_LIST.contains(item)) {
+                try {
+                    stack.push(Operations.operation(item, stack.pop(), stack.pop()));
+                } catch (IllegalArgumentException e) {
+                    return "ERROR";
+                }
+            } else {
+                try {
+                    stack.push(Functions.function(item, stack.pop()));
+                } catch (IllegalArgumentException e) {
+                    return "ERROR";
+                }
+            }
+        }
+
+        String result = Utils.reformatForErrors(Utils.reformatForConstants(stack.pop()));
+
+        if (!result.equals("ERROR") && !asFunction) {
+            calculationsHistory.add(new String[]{"DEC", "DEC", equationString + "=" + result});
+        }
+
+        return result;
+    }
+
     public String calculateBinary(String equationString, int inputBase, int resultBase) {
         ArrayList<String> equation = infixToPostfix(equationString);
 

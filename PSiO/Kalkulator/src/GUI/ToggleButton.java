@@ -10,9 +10,9 @@ public class ToggleButton extends JButton implements ActionListener {
     private ToggleButtonObserver observer;
     public ToggleButton(String text, ToggleButtonObserver observer) {
         super(text);
-        this.setForeground(Color.BLACK);
+        //this.setForeground(Color.BLACK);
         this.observer = observer;
-        this.setBackground(new Color(120,120,120));
+        this.setBackground(Color.LIGHT_GRAY);
         this.addActionListener(this);
         if (text.equals("Standard")) {
             this.setEnabled(false);

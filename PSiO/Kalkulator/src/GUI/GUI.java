@@ -28,6 +28,12 @@ public class GUI {
         toggleField.setBackground(new Color(163,163,163));
         toggleField.setLayout(new FlowLayout(FlowLayout.LEFT));
 
+        toggleField.add(new JPanel() {{
+            setBackground(new Color(163,163,163));
+            setPreferredSize(new Dimension(2, 60));
+        }
+        });
+
         InputPanel inputPanel = new InputPanel();
         SetupButtonPanel.setInputPanel(inputPanel);
 
@@ -53,7 +59,7 @@ public class GUI {
         JPanel baseSelectionPanel = new JPanel();
         baseSelectionPanel.setPreferredSize(new Dimension(255, 50));
         baseSelectionPanel.setBackground(new Color(163,163,163));
-        baseSelectionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        baseSelectionPanel.setLayout(new BoxLayout(baseSelectionPanel, BoxLayout.X_AXIS));
         toggleField.add(baseSelectionPanel);
 
         ToggleButtonObserver toggleButtonObserver = new ToggleButtonObserver(buttonsPanel, baseSelectionPanel);
@@ -74,8 +80,10 @@ public class GUI {
         toggleButtonObserver.addButton(hexadecimal);
 
         JPanel historyButtonPanel = new JPanel();
-        historyButtonPanel.setPreferredSize(new Dimension(40, 50));
+        historyButtonPanel.setPreferredSize(new Dimension(50, 50));
         historyButtonPanel.setOpaque(false);
+        historyButtonPanel.setLayout(new BoxLayout(historyButtonPanel, BoxLayout.X_AXIS));
+        historyButtonPanel.setBorder(new EmptyBorder(0, 0, 10, 40));
         historyButtonPanel.add(new HistoryButton());
 
         toggleField.add(historyButtonPanel);
