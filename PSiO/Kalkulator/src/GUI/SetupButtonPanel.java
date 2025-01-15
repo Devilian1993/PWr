@@ -126,7 +126,7 @@ public class SetupButtonPanel {
         operationsAndNumbersPanel.setPreferredSize(new Dimension(600, 400));
 
         operationsAndNumbersPanel.add(new CalcButton("C/CE", observer, false));
-        operationsAndNumbersPanel.add(new CalcButton("OFF", observer, false));
+        operationsAndNumbersPanel.add(new CalcButton("DRAW", observer, false));
         operationsAndNumbersPanel.add(new CalcButton("sqrt", observer, false));
         operationsAndNumbersPanel.add(new CalcButton("%", observer, false));
         operationsAndNumbersPanel.add(new CalcButton("<---", observer, false));
@@ -154,7 +154,7 @@ public class SetupButtonPanel {
         operationsAndNumbersPanel.add(new CalcButton("0", observer, true));
         operationsAndNumbersPanel.add(new CalcButton("00", observer, true));
         operationsAndNumbersPanel.add(new CalcButton("=", observer, false));
-        operationsAndNumbersPanel.add(new CalcButton("", observer, false));
+        operationsAndNumbersPanel.add(new CalcButton("x", observer, false));
 
         for (Component button : functionPanel.getComponents()) {
             observer.addButton((CalcButton) button);

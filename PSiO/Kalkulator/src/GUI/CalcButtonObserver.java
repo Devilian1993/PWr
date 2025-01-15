@@ -59,7 +59,7 @@ public class CalcButtonObserver {
                 }
             }
         } else {
-            if ((buttonPressed.isNumber() || buttonPressed.isOperator() || buttonPressed.getText().equals(".")) && !inputPanel.getInputText().equals("ERROR")) {
+            if ((buttonPressed.isNumber() || buttonPressed.isOperator() || buttonPressed.getText().equals(".") || buttonPressed.getText().equals("x")) && !inputPanel.getInputText().equals("ERROR")) {
                 if (buttonPressed.isNumber() && buttonPressed.getText().startsWith("BIN")) {
                     inputPanel.addToInputText(buttonPressed.getText().substring(3));
                 } else if (buttonPressed.isNumber() && buttonPressed.getText().startsWith("0x")) {
@@ -90,6 +90,11 @@ public class CalcButtonObserver {
                     inputPanel.clearText();
                 } else if (buttonPressed.getText().equals("<---")) {
                     inputPanel.removePreviousEntry();
+                    if (!equationString.isEmpty()) {
+                        equationString = equationString.substring(0, equationString.length() - 1);
+                    }
+                } else if (buttonPressed.getText().equals("DRAW") && equationString.contains("x")) {
+                    GraphFrame graph = new GraphFrame(equationString, calculator);
                 }
             }
         }

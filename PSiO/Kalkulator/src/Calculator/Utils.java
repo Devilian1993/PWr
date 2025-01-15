@@ -31,7 +31,7 @@ public class Utils {
     }
 
     static public String reformatForCalculator(String str) {
-        str = str.replaceAll("(?<![\\d)])-?(?=[+*/%^()])", " $0 ");
+        str = str.replaceAll("([+*/%^()])", " $1 ");
         str = str.replaceAll("(?<![\\w)])(-?\\d*\\.?\\d+)", " $1 ");
         str = str.replaceAll("\\b(pi|e)\\b", " $1 ");
 
