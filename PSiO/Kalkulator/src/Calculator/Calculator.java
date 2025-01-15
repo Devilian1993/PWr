@@ -2,18 +2,24 @@ package Calculator;
 
 import Calculator.NumberBaseUtils.*;
 
+import java.lang.reflect.Array;
 import java.util.Stack;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Calculator {
-    Stack<String> stack;
-    final static ArrayList<String> OPERATORS_LIST = Utils.getOperators();
-    final static ArrayList<String> FUNCTIONS_LIST = Utils.getFunctions();
-    final static HashMap<String, Integer> PRECEDENCE_MAP = Utils.getPrecedenceMap();
+    private Stack<String> stack;
+    private final static ArrayList<String> OPERATORS_LIST = Utils.getOperators();
+    private final static ArrayList<String> FUNCTIONS_LIST = Utils.getFunctions();
+    private final static HashMap<String, Integer> PRECEDENCE_MAP = Utils.getPrecedenceMap();
+    private static ArrayList<String[]> calculationsHistory = new ArrayList<>();
 
     public Calculator() {
         stack = new Stack<>();
+    }
+
+    public static ArrayList<String[]> getCalculationsHistory() {
+        return calculationsHistory;
     }
 
     // Shunting yard algorithm
@@ -76,7 +82,13 @@ public class Calculator {
             }
         }
 
-        return Utils.reformatForErrors(Utils.reformatForConstants(stack.pop()));
+        String result = Utils.reformatForErrors(Utils.reformatForConstants(stack.pop()));
+
+        if (!result.equals("ERROR")) {
+            calculationsHistory.add(new String[]{"DEC", "DEC", equationString + "=" + result});
+        }
+
+        return result;
     }
 
     public String calculateBinary(String equationString, int inputBase, int resultBase) {
@@ -110,7 +122,19 @@ public class Calculator {
 
         String result = Utils.reformatForErrors(Utils.reformatForConstants(stack.pop()));
 
-        return resultBase == 10 ? result : DecimalToBinaryConverter.convertToBinary(result);
+        if (result.equals("ERROR")) {
+            return "ERROR";
+        }
+
+        result = resultBase == 10 ? result : DecimalToBinaryConverter.convertToBinary(result);
+
+        if (!result.equals("ERROR")) {
+            String inputBaseString = inputBase == 2 ? "BIN" : "DEC";
+            String outputBaseString = resultBase == 2 ? "BIN" : "DEC";
+            calculationsHistory.add(new String[]{inputBaseString, outputBaseString, equationString + "=" + result});
+        }
+
+        return result;
     }
 
     public String calculateHexadecimal(String equationString, int inputBase, int resultBase) {
@@ -144,7 +168,19 @@ public class Calculator {
 
         String result = Utils.reformatForErrors(Utils.reformatForConstants(stack.pop()));
 
-        return resultBase == 10 ? result : DecimalToHexConverter.convertToHex(result);
+        if (result.equals("ERROR")) {
+            return "ERROR";
+        }
+
+        result = resultBase == 10 ? result : DecimalToHexConverter.convertToHex(result);
+
+        if (!result.equals("ERROR")) {
+            String inputBaseString = inputBase == 16 ? "HEX" : "DEC";
+            String outputBaseString = resultBase == 16 ? "HEX" : "DEC";
+            calculationsHistory.add(new String[]{inputBaseString, outputBaseString, equationString + "=" + result});
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {

@@ -5,7 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class GUI {
-    public static final int width = 700;
+    public static final int width = 750;
     public static final int height = 900;
 
     public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class GUI {
         mainPanel.setBorder(new EmptyBorder(20, 30, 20, 30));
 
         JPanel toggleField = new JPanel();
-        toggleField.setPreferredSize(new Dimension(700, 60));
+        toggleField.setPreferredSize(new Dimension(750, 60));
         toggleField.setBackground(new Color(163,163,163));
         toggleField.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -72,6 +72,13 @@ public class GUI {
         toggleButtonObserver.addButton(scientific);
         toggleButtonObserver.addButton(binary);
         toggleButtonObserver.addButton(hexadecimal);
+
+        JPanel historyButtonPanel = new JPanel();
+        historyButtonPanel.setPreferredSize(new Dimension(40, 50));
+        historyButtonPanel.setOpaque(false);
+        historyButtonPanel.add(new HistoryButton());
+
+        toggleField.add(historyButtonPanel);
 
         frame.setVisible(true);
     }

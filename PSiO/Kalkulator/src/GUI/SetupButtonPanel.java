@@ -8,7 +8,7 @@ public class SetupButtonPanel {
     private static InputPanel inputPanel;
     private static String calculatorInputMode = "Standard";
     private static String calculatorOutputMode = "DEC";
-    private static CalcButtonObserver observer = new CalcButtonObserver();
+    private static final CalcButtonObserver observer = new CalcButtonObserver();
     private static boolean firstBaseToggle = true;
 
     public static void setInputPanel(InputPanel inputPanel) {
