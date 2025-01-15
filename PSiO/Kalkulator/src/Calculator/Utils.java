@@ -32,7 +32,7 @@ public class Utils {
 
     static public String reformatForCalculator(String str) {
         str = str.replaceAll("([+*/%^()])", " $1 ");
-        str = str.replaceAll("(?<![\\w)])(-?\\d*\\.?\\d+)", " $1 ");
+        str = str.replaceAll("(?<![\\w)])(-?[0-9A-F]+(?:\\.[0-9A-F]*)?)", " $1 ");
         str = str.replaceAll("\\b(pi|e)\\b", " $1 ");
 
         str = str.replaceAll("(?<!\\w)(sin|cos|tan|asin|acos|atan|abs|exp|ln|log|sqrt|cbrt|floor|ceil)(?=\\()", " $1 ");
@@ -54,7 +54,7 @@ public class Utils {
     static public boolean isNumeric(String str) {
         str = str.replace(",", ".");
         Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-        Pattern patternHex = Pattern.compile("[A-F]+");
+        Pattern patternHex = Pattern.compile("^[0-9A-F]+(\\.[0-9A-F]+)?$");
         if (str.equals(null)) {
             return false;
         } else {

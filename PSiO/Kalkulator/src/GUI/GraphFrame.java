@@ -38,7 +38,7 @@ public class GraphFrame extends JFrame {
 
                 g2d.setColor(Color.RED);
 
-                for (double x = -20; x < 20; x += 0.01) {
+                for (double x = -20; x < 20; x += 0.05) {
                     int x1 = (int) (width / 2 + x * 30);
                     int y1 = (int) (height / 2 - calculateFunction(x) * 30);
                     if (y1 != 999999999) {

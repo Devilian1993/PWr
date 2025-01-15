@@ -88,6 +88,7 @@ public class Calculator {
             calculationsHistory.add(new String[]{"DEC", "DEC", equationString + "=" + result});
         }
 
+        stack.clear();
         return result;
     }
 
@@ -117,6 +118,7 @@ public class Calculator {
             calculationsHistory.add(new String[]{"DEC", "DEC", equationString + "=" + result});
         }
 
+        stack.clear();
         return result;
     }
 
@@ -163,6 +165,7 @@ public class Calculator {
             calculationsHistory.add(new String[]{inputBaseString, outputBaseString, equationString + "=" + result});
         }
 
+        stack.clear();
         return result;
     }
 
@@ -209,6 +212,7 @@ public class Calculator {
             calculationsHistory.add(new String[]{inputBaseString, outputBaseString, equationString + "=" + result});
         }
 
+        stack.clear();
         return result;
     }
 
