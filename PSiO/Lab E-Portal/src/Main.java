@@ -1,3 +1,5 @@
+import Dane.ObslugaTxt;
+import Dane.Serializacja;
 import Modele.*;
 import ObliczanieSredniej.ObliczanieSredniejArytmetycznej;
 import ObliczanieSredniej.ObliczanieSredniejWazonej;

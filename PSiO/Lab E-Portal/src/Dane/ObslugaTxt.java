@@ -1,3 +1,5 @@
+package Dane;
+
 import Modele.Osoba;
 
 import java.io.BufferedReader;
