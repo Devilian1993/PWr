@@ -10,6 +10,6 @@ public class ViewSelectionButton extends JButton {
     ViewSelectionButton(String text) {
         super(text);
         this.setPreferredSize(new Dimension(150, 30));
-        this.setBackground(Color.GREEN);
+        //this.setBackground(Color.GREEN);
     }
 }

@@ -96,6 +96,14 @@ public class Student extends Osoba {
         }
     }
 
+    public String getKursyString() {
+        String kursyString = "";
+        for (Kurs kurs : kursy) {
+            kursyString += kurs.toString();
+        }
+        return kursyString;
+    }
+
     public void wypiszDane() {
         System.out.println("Dane studenta:");
         System.out.printf("Imie: %s\n", getImie());
@@ -112,5 +120,15 @@ public class Student extends Osoba {
             System.out.println("Student nie jest zapisany na zadne kursy");
         }
         System.out.println();
+    }
+
+    public String toString() {
+        return String.format("<html>STUDENT %s %s\n<br>" +
+                "PESEL: %s\n<br>" +
+                "Nr indeksu: %d\n<br>" +
+                "Kierunek: %s\n<br>" +
+                "Wydzial: %s\n<br>" +
+                "Rok: %d\n<br>" +
+                "Semestr: %d\n<br>", getImie(), getNazwisko(), getPESEL(), nr_indeksu, kierunek, wydzial, rok, semestr) + "</html>";
     }
 }

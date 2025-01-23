@@ -56,4 +56,14 @@ public class PracownikNaukowoDydaktyczny extends Pracownik {
         System.out.printf("Staz pracy: %d\n", getStaz_pracy());
         System.out.println();
     }
+
+    public String toString() {
+        return String.format("<html> PRACOWNIK %s %s %s<br>" +
+                "PESEL: %s<br>" +
+                "Pensja: %d<br>" +
+                "E-mail: %s<br>" +
+                "Jednostka: %s<br>" +
+                "Staz pracy: %d<br>" +
+                "Dorobek: %d<br></html>", stopien_naukowy, getImie(), getNazwisko(), getPESEL(), getPensja() ,getE_mail(), getJednostka(), getStaz_pracy(), dorobek);
+    }
 }

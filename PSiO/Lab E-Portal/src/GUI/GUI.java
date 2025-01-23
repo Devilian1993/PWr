@@ -9,13 +9,15 @@ import java.util.ArrayList;
 public class GUI {
     public static void main(String[] args) {
 
-        ManagerUczelni managerUczelni = new ManagerUczelni(false);
+        ManagerUczelni managerUczelni = new ManagerUczelni(true);
+        Notificator notificator = new Notificator(managerUczelni);
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("E-Portal");
         frame.setSize(1200, 900);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
 
         JPanel viewSelectionPanel = new JPanel();
         viewSelectionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));

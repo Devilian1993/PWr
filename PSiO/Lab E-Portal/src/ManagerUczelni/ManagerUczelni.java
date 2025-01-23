@@ -5,25 +5,60 @@ import Dane.*;
 
 import java.util.ArrayList;
 
-public class ManagerUczelni {
+public class ManagerUczelni implements Subject{
 
     private static ArrayList<Osoba> osoby = new ArrayList<>();
     private static ArrayList<Student> studenci = new ArrayList<>();
     private static ArrayList<PracownikUczelni> pracownicyUczelni = new ArrayList<>();
     private static ArrayList<PracownikNaukowoDydaktyczny> pracownicyNaukowoDydaktyczni = new ArrayList<>();
+    private static ArrayList<Observer> observers = new ArrayList<>();
+
+    @Override
+    public void registerObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    public static void notifyObservers(Student student) {
+        for (Observer o : observers) {
+            o.update(student);
+        }
+    }
 
     public ManagerUczelni(boolean czyWczytajDaneZpliku) {
+
         if (czyWczytajDaneZpliku) {
             Serializacja.wczytaj(osoby);
-            ObslugaTxt.wczytajStudentow(studenci);
+            //ObslugaTxt.wczytajStudentow(studenci);
 
             for (Osoba osoba : osoby) {
                 if (osoba instanceof PracownikUczelni) {
                     pracownicyUczelni.add((PracownikUczelni) osoba);
                 } else if (osoba instanceof PracownikNaukowoDydaktyczny) {
                     pracownicyNaukowoDydaktyczni.add((PracownikNaukowoDydaktyczny) osoba);
+                } else {
+                    studenci.add(((Student) osoba));
                 }
             }
+
+            for (Student student : studenci) {
+                boolean allGradesSet = true;
+
+                for (Kurs kurs : student.getKursy()) {
+                    if (kurs.getOcena() == 0) {
+                        allGradesSet = false;
+                    }
+                }
+
+                if (allGradesSet) {
+                    notifyObservers(student);
+                }
+            }
+
         } else {
             Student student1 = new Student("Tomek", "Informatyk", "052611239853", 284312,
                     "Informatyka stosowana", "Wydział Informatyki i Telekomunikacji");
@@ -116,5 +151,57 @@ public class ManagerUczelni {
 
     public void setPracownicyNaukowoDydaktyczni(ArrayList<PracownikNaukowoDydaktyczny> pracownicyNaukowoDydaktyczni) {
         this.pracownicyNaukowoDydaktyczni = pracownicyNaukowoDydaktyczni;
+    }
+
+    public static void zapiszStudenta(String[] dane) {
+        osoby.add(new Student(dane[0], dane[1], dane[2], Integer.parseInt(dane[3]), Integer.parseInt(dane[4]), Integer.parseInt(dane[5]), dane[6], dane[7]));
+        Serializacja.zapisz(osoby);
+    }
+
+    public static void zapiszPracND(String[] dane) {
+        osoby.add(new PracownikNaukowoDydaktyczny(dane[0], dane[1], dane[2], Integer.parseInt(dane[3]), dane[4], dane[5], Integer.parseInt(dane[6]), dane[7], Integer.parseInt(dane[8])));
+        Serializacja.zapisz(osoby);
+    }
+
+    public static void zapiszPracU(String[] dane) {
+        osoby.add(new PracownikUczelni(dane[0], dane[1], dane[2], Integer.parseInt(dane[3]), dane[4], dane[5], Integer.parseInt(dane[6]), dane[7]));
+        Serializacja.zapisz(osoby);
+    }
+
+    public static void dodajKursStudenta(String[] dane, boolean czyGrupa, Student student) {
+        student.getKursy().add(new Kurs(dane[0], dane[1], Integer.parseInt(dane[2]), Integer.parseInt(dane[3]), czyGrupa));
+        Serializacja.zapisz(osoby);
+    }
+
+    public static void awansujStudenta(Student student) {
+        student.setSemestr(student.getSemestr() + 1);
+        if (student.getSemestr() % 2 == 1) {
+            student.setRok(student.getRok() + 1);
+        }
+        student.setKursy(new ArrayList<>());
+        Serializacja.zapisz(osoby);
+    }
+
+    public static void wstawOceny(Student student, ArrayList<String> oceny) {
+        for (int i = 0; i < student.getKursy().size(); i++) {
+            int ocena = Integer.parseInt(oceny.get(i));
+            if (ocena != 0) {
+                student.getKursy().get(i).setOcena(ocena);
+            }
+        }
+
+        boolean allGradesSet = true;
+
+        for (Kurs kurs : student.getKursy()) {
+            if (kurs.getOcena() == 0) {
+                allGradesSet = false;
+            }
+        }
+
+        if (allGradesSet) {
+            notifyObservers(student);
+        }
+
+        Serializacja.zapisz(osoby);
     }
 }

@@ -29,4 +29,14 @@ public class PracownikUczelni extends Pracownik {
         System.out.printf("Stanowisko: %s\n", stanowisko);
         System.out.println();
     }
+
+    public String toString() {
+        return String.format("<html>PRAC U %s %s<br>" +
+                "PESEL: %s<br>" +
+                "Pensja: %d<br>" +
+                "E-mail: %s<br>" +
+                "Jednostka: %s<br>" +
+                "Staż pracy: %d<br>" +
+                "Stanowisko: %s<br></html>", getImie(), getNazwisko(), getPESEL(), getPensja(), getE_mail(), getJednostka(), getStaz_pracy(), getStanowisko());
+    }
 }

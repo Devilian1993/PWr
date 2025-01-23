@@ -79,14 +79,14 @@ public class Main {
         ArrayList<Osoba> osoby = new ArrayList<Osoba>();
         Serializacja.wczytaj(osoby);
         //manualSetup(osoby);
-
+        /*
         ArrayList<Student> studenci = new ArrayList<>();
         ObslugaTxt.wczytajStudentow(studenci);
 
         for (Student student : studenci) {
             student.wypiszDane();
         }
-
+        */
         boolean dziala = true;
 
         while (dziala) {

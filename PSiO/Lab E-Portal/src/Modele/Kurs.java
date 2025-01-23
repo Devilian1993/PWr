@@ -107,4 +107,14 @@ public class Kurs implements Serializable {
         }
         System.out.println();
     }
+
+    public String toString() {
+        String dane = String.format("<html>Nazwa: %s\n<br>" +
+                "Rodzaj: %s\n<br>" +
+                "ECTS: %d\n<br>" +
+                "Liczba godzin: %d\n<br>" +
+                "Czy grupa kursów: %b\n<br>", nazwa, rodzaj, ECTS, liczba_godzin_w_semestrze, czy_grupa_kursow);
+
+        return ocena == 0 ? dane + "Ocena: brak\n\n<br></html>" : dane + String.format("Ocena: %d\n\n<br></html>", ocena);
+    }
 }

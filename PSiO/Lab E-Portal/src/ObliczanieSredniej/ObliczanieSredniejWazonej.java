@@ -28,6 +28,20 @@ public class ObliczanieSredniejWazonej implements ObliczanieSredniejStrategia {
         return sumaWazona / (double) sumaECTS;
     }
 
+    public static double obliczanieSredniejStatic(Student student) {
+        double sumaWazona = 0;
+        int sumaECTS = 0;
+
+        for (Kurs kurs: student.getKursy()) {
+            if (kurs.getOcena() != 0) {
+                sumaWazona += kurs.getOcena()*kurs.getECTS();
+                sumaECTS += kurs.getECTS();
+            }
+        }
+
+        return sumaWazona / (double) sumaECTS;
+    }
+
     @Override
     public void menuObliczanieSredniej(ArrayList<Osoba> osoby) {
         System.out.println("Obliczanie sredniej wazonej\n1. Wybierz studenta\n2. Wypisz srednia wszystkich");

@@ -20,6 +20,18 @@ public class ObliczanieSredniejArytmetycznej implements ObliczanieSredniejStrate
         return suma / (double) student.getKursy().size();
     }
 
+    public static double obliczanieSredniejStatic(Student student) {
+        int suma = 0;
+        int rozmiar = 0;
+        for (Kurs kurs: student.getKursy()) {
+            if (kurs.getOcena() != 0) {
+                suma += kurs.getOcena();
+                rozmiar++;
+            }
+        }
+        return suma / (double) rozmiar;
+    }
+
     @Override
     public void menuObliczanieSredniej(ArrayList<Osoba> osoby) {
         System.out.println("Obliczanie sredniej arytmetycznej\n1. Wybierz studenta\n2. Wypisz srednia wszystkich");
