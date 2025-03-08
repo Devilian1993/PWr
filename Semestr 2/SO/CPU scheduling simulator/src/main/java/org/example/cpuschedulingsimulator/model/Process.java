@@ -81,4 +81,16 @@ public class Process {
     public void setCompletionTime(int completionTime) {
         this.completionTime = completionTime;
     }
+
+    public void executeProcess() {
+        timeToComplete--;
+
+        if (timeToComplete == 0) {
+            completed = true;
+        }
+    }
+
+    public void waitingTick() {
+        waitingTime++;
+    }
 }

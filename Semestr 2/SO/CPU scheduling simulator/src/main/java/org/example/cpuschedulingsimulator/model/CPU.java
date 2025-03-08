@@ -1,6 +1,5 @@
 package org.example.cpuschedulingsimulator.model;
 
-import java.util.ArrayList;
 
 public class CPU {
 
@@ -21,5 +20,14 @@ public class CPU {
 
     public void setBusy(boolean busy) {
         isBusy = busy;
+    }
+
+    public void executeProcess() {
+        executedProcess.executeProcess();
+
+        if (executedProcess.isCompleted()) {
+            isBusy = false;
+            executedProcess = null;
+        }
     }
 }

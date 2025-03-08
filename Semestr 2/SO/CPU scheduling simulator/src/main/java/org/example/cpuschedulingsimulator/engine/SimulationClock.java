@@ -58,7 +58,7 @@ public class SimulationClock {
         timeSinceStart += RRContextChangeTime;
     }
 
-    public void ClockTick() {
+    public void clockTick() {
         timeSinceStart++;
     }
 }
