@@ -1,6 +1,7 @@
 package org.example.cpuschedulingsimulator.controller;
 
 import org.example.cpuschedulingsimulator.dto.SimulationStateDTO;
+import org.example.cpuschedulingsimulator.dto.SimulationConfigDTO;
 import org.example.cpuschedulingsimulator.service.SimulationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -17,6 +18,11 @@ public class WebSocketController {
     public WebSocketController(SimulationService simulationService, SimpMessagingTemplate messagingTemplate) {
         this.simulationService = simulationService;
         this.messagingTemplate = messagingTemplate;
+    }
+
+    @MessageMapping("/create")
+    public void createSimulation(SimulationConfigDTO simulationConfigDTO) {
+        simulationService.createSimulation(simulationConfigDTO);
     }
 
     @MessageMapping("/start")
