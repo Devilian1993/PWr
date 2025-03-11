@@ -1,5 +1,6 @@
 package org.example.cpuschedulingsimulator.service;
 
+import org.example.cpuschedulingsimulator.controller.WebSocketController;
 import org.example.cpuschedulingsimulator.algorithm.*;
 import org.example.cpuschedulingsimulator.dto.*;
 import org.example.cpuschedulingsimulator.engine.SimulationState;
@@ -7,6 +8,7 @@ import org.example.cpuschedulingsimulator.model.SimulationConfig;
 import org.example.cpuschedulingsimulator.model.Process;
 import org.example.cpuschedulingsimulator.engine.SimulationEngine;
 import org.example.cpuschedulingsimulator.util.generator.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,13 +16,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class SimulationService {
+    private final WebSocketController webSocketController;
     private SimulationConfig simulationConfig;
     private ArrayList<SimulationEngine> simulationEngines;
     private ArrayList<Process> processes;
     private ProcessGenerator generator;
     private boolean running;
 
-    public SimulationService() {
+    @Autowired
+    public SimulationService(WebSocketController webSocketController) {
+        this.webSocketController = webSocketController;
     }
 
     public void createSimulation(SimulationConfigDTO simulationConfigDTO) {
@@ -69,25 +74,40 @@ public class SimulationService {
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
                 simulationConfig.getRoundRobinContextChangeTime()
-        ));
+        ) {{
+            setStateUpdateCallback(state -> {
+                SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
+                webSocketController.sendUpdate(simulationStateDTO);
+            });
+        }});
 
         engines.add(new SimulationEngine(
                 "SJF",
-                new SJFAlgorithmNonPreemptive(),
+                new SRJFAlgorithm(),
                 timeUnit,
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
                 simulationConfig.getRoundRobinContextChangeTime()
-        ));
+        ) {{
+            setStateUpdateCallback(state -> {
+                SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
+                webSocketController.sendUpdate(simulationStateDTO);
+            });
+        }});
 
         engines.add(new SimulationEngine(
-                "SJF pre-emptive",
-                new SJFAlgorithmPreemptive(),
+                "SRJF",
+                new SJFAlgorithm(),
                 timeUnit,
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
                 simulationConfig.getRoundRobinContextChangeTime()
-        ));
+        ) {{
+            setStateUpdateCallback(state -> {
+                SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
+                webSocketController.sendUpdate(simulationStateDTO);
+            });
+        }});
 
         engines.add(new SimulationEngine(
                 "RR",
@@ -96,7 +116,12 @@ public class SimulationService {
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
                 simulationConfig.getRoundRobinContextChangeTime()
-        ));
+        ) {{
+            setStateUpdateCallback(state -> {
+                SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
+                webSocketController.sendUpdate(simulationStateDTO);
+            });
+        }});
     }
 
     private ArrayList<Process> createProcessesListCopy(ArrayList<Process> processes) {

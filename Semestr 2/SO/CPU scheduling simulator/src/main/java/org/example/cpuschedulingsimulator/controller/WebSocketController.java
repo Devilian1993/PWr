@@ -39,7 +39,7 @@ public class WebSocketController {
         simulationService.setTicksPerNewProcess(ticksPerNewProcess);
     }
 
-    public void sendUpdate(String algorithmType, SimulationStateDTO stateDTO) {
+    public void sendUpdate(SimulationStateDTO stateDTO) {
         messagingTemplate.convertAndSend("/topic/simulation" , stateDTO);
     }
 }

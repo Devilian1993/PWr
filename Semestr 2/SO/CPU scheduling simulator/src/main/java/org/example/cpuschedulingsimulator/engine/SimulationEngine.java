@@ -1,6 +1,7 @@
 package org.example.cpuschedulingsimulator.engine;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import org.example.cpuschedulingsimulator.model.*;
 import org.example.cpuschedulingsimulator.model.Process;
@@ -21,6 +22,7 @@ public class SimulationEngine {
     private int timeUnit;
 
     private SimulationState simulationState;
+    private Consumer<SimulationState> stateUpdateCallback;
 
     public SimulationEngine(String name, SchedulingAlgorithm algorithm, int timeUnit, ArrayList<Process> initialProcesses, int RRTimeQuantum, int RRContextChangeTime) {
         this.name = name;
@@ -69,6 +71,10 @@ public class SimulationEngine {
         this.ticksPerNewProcess = ticksPerNewProcess;
     }
 
+    public void setStateUpdateCallback(Consumer<SimulationState> stateUpdateCallback) {
+        this.stateUpdateCallback = stateUpdateCallback;
+    }
+
     public boolean isCompleted() {
         for (Process process : initialProcesses) {
             if (!process.isCompleted()) {
@@ -103,5 +109,9 @@ public class SimulationEngine {
                 initialProcesses,
                 waitingProcesses
         );
+
+        if (stateUpdateCallback != null) {
+            stateUpdateCallback.accept(simulationState);
+        }
     }
 }
