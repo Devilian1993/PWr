@@ -6,7 +6,7 @@ import org.example.cpuschedulingsimulator.model.Process;
 
 import java.util.ArrayList;
 
-public class SJFAlgorithmNonPreemptive implements SchedulingAlgorithm {
+public class SRJFAlgorithm implements SchedulingAlgorithm {
     @Override
     public void schedule(ArrayList<Process> waitingProcesses, CPU cpu, SimulationClock clock) {
         if (!cpu.isBusy()) {
