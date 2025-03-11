@@ -7,18 +7,23 @@ import org.example.cpuschedulingsimulator.model.SimulationConfig;
 import org.example.cpuschedulingsimulator.model.Process;
 import org.example.cpuschedulingsimulator.engine.SimulationEngine;
 import org.example.cpuschedulingsimulator.util.generator.*;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+@Service
 public class SimulationService {
     private SimulationConfig simulationConfig;
     private ArrayList<SimulationEngine> simulationEngines;
     private ArrayList<Process> processes;
     private ProcessGenerator generator;
+    private boolean running;
 
-    public SimulationService(SimulationConfigDTO simulationConfigDTO) {
+    public SimulationService() {
+    }
 
+    public void createSimulation(SimulationConfigDTO simulationConfigDTO) {
         simulationConfig = new SimulationConfig(
                 simulationConfigDTO.getMinimalProcessCompletionTime(),
                 simulationConfigDTO.getMaximalProcessCompletionTime(),
@@ -52,8 +57,6 @@ public class SimulationService {
         simulationEngines = new ArrayList<>();
 
         setupSimulationEngines(simulationEngines, processes);
-
-        startSimulation();
     }
 
     private void setupSimulationEngines(ArrayList<SimulationEngine> engines, ArrayList<Process> processes) {
@@ -145,8 +148,10 @@ public class SimulationService {
         );
     }
 
-    private void startSimulation() {
-        while (!isCompleted()) {
+    public void startSimulation() {
+        running = true;
+
+        while (!isCompleted() && running) {
             for (SimulationEngine simulationEngine : simulationEngines) {
                 if (!simulationEngine.isCompleted()) {
                     simulationEngine.simulationTick();
@@ -159,6 +164,22 @@ public class SimulationService {
                 Thread.currentThread().interrupt();
                 break;
             }
+        }
+    }
+
+    public void stopSimulation() {
+        running = false;
+    }
+
+    public void setSimulationSpeed(int speed) {
+        for (SimulationEngine simulation : simulationEngines) {
+            simulation.setTimeUnit(speed);
+        }
+    }
+
+    public void setTicksPerNewProcess(int ticksPerNewProcess) {
+        for (SimulationEngine simulation : simulationEngines) {
+            simulation.setTicksPerNewProcess(ticksPerNewProcess);
         }
     }
 

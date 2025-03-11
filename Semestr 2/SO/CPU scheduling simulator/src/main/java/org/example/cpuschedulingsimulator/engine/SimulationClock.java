@@ -1,25 +1,15 @@
 package org.example.cpuschedulingsimulator.engine;
 
 public class SimulationClock {
-    private int timeUnit;
     private int timeSinceStart;
     private int RRTimeQuantum;
     private int RRClock;
     private int RRContextChangeTime;
 
-    public SimulationClock(int timeUnit, int RRTimeQuantum, int RRContextChangeTime) {
-        this.timeUnit = timeUnit;
+    public SimulationClock(int RRTimeQuantum, int RRContextChangeTime) {
         this.timeSinceStart = 0;
         this.RRTimeQuantum = RRTimeQuantum;
         this.RRContextChangeTime = RRContextChangeTime;
-    }
-
-    public int getTimeUnit() {
-        return timeUnit;
-    }
-
-    public void setTimeUnit(int timeUnit) {
-        this.timeUnit = timeUnit;
     }
 
     public int getTimeSinceStart() {

@@ -17,25 +17,26 @@ public class SimulationEngine {
     private boolean running;
 
     private final int FRACTION_OF_PROCESSESS_WAITING_ON_START = 5;
-    private final int NEW_PROCESS_TICK_TIME = 5;
+    private int ticksPerNewProcess = 5;
+    private int timeUnit;
 
     private SimulationState simulationState;
-    private boolean completed;
 
     public SimulationEngine(String name, SchedulingAlgorithm algorithm, int timeUnit, ArrayList<Process> initialProcesses, int RRTimeQuantum, int RRContextChangeTime) {
         this.name = name;
-        clock = new SimulationClock(timeUnit, RRTimeQuantum, RRContextChangeTime);
+        clock = new SimulationClock(RRTimeQuantum, RRContextChangeTime);
         cpu = new CPU();
         this.algorithm = algorithm;
         this.initialProcesses = initialProcesses;
         this.waitingProcesses = new ArrayList<>();
         this.running = true;
+        this.timeUnit = timeUnit;
 
         waitingProcesses.addAll(initialProcesses.subList(0, initialProcesses.size()/ FRACTION_OF_PROCESSESS_WAITING_ON_START));
     }
 
     public void simulationTick() {
-        if (clock.getTimeSinceStart() % NEW_PROCESS_TICK_TIME == 0) {
+        if (clock.getTimeSinceStart() % ticksPerNewProcess == 0) {
             addNewProcess();
         }
 
@@ -50,6 +51,22 @@ public class SimulationEngine {
 
     public SimulationState getSimulationState() {
         return simulationState;
+    }
+
+    public int getTimeUnit() {
+        return timeUnit;
+    }
+
+    public void setTimeUnit(int timeUnit) {
+        this.timeUnit = timeUnit;
+    }
+
+    public int getTicksPerNewProcess() {
+        return ticksPerNewProcess;
+    }
+
+    public void setTicksPerNewProcess(int ticksPerNewProcess) {
+        this.ticksPerNewProcess = ticksPerNewProcess;
     }
 
     public boolean isCompleted() {
