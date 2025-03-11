@@ -82,6 +82,9 @@ public class SimulationConfigDTO {
         return roundRobinContextChangeTime;
     }
 
+    public SimulationConfigDTO(){
+    }
+
     public SimulationConfigDTO(int minimalProcessCompletionTime, int maximalProcessCompletionTime, int numberOfProcesses, int timeUnit, boolean processesRandomGenerated, boolean sendSimulationState, int roundRobinTimeQuantum, int roundRobinContextChangeTime, String processesCompletionTimes) {
         this.minimalProcessCompletionTime = minimalProcessCompletionTime;
         this.maximalProcessCompletionTime = maximalProcessCompletionTime;
