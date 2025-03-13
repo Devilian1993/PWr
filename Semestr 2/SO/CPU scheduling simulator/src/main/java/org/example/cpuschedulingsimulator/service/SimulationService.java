@@ -83,20 +83,6 @@ public class SimulationService {
 
         engines.add(new SimulationEngine(
                 "SJF",
-                new SRJFAlgorithm(),
-                timeUnit,
-                createProcessesListCopy(processes),
-                simulationConfig.getRoundRobinTimeQuantum(),
-                simulationConfig.getRoundRobinContextChangeTime()
-        ) {{
-            setStateUpdateCallback(state -> {
-                SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
-                webSocketController.sendUpdate(simulationStateDTO);
-            });
-        }});
-
-        engines.add(new SimulationEngine(
-                "SRJF",
                 new SJFAlgorithm(),
                 timeUnit,
                 createProcessesListCopy(processes),
@@ -108,6 +94,20 @@ public class SimulationService {
                 webSocketController.sendUpdate(simulationStateDTO);
             });
         }});
+
+       //engines.add(new SimulationEngine(
+       //        "SRJF",
+       //        new SRJFAlgorithm(),
+       //        timeUnit,
+       //        createProcessesListCopy(processes),
+       //        simulationConfig.getRoundRobinTimeQuantum(),
+       //        simulationConfig.getRoundRobinContextChangeTime()
+       //) {{
+       //    setStateUpdateCallback(state -> {
+       //        SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
+       //        webSocketController.sendUpdate(simulationStateDTO);
+       //    });
+       //}});
 
         engines.add(new SimulationEngine(
                 "RR",
@@ -174,8 +174,10 @@ public class SimulationService {
     }
 
     public void startSimulation() {
+        System.out.println("Symulacja rozpoczeta");
         running = true;
 
+        long startTime = System.nanoTime();
         while (!isCompleted() && running) {
             for (SimulationEngine simulationEngine : simulationEngines) {
                 if (!simulationEngine.isCompleted()) {
@@ -183,13 +185,27 @@ public class SimulationService {
                 }
             }
 
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
-            }
+            //try {
+            //    Thread.sleep(200);
+            //} catch (InterruptedException e) {
+            //    Thread.currentThread().interrupt();
+            //    break;
+            //}
         }
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+
+        System.out.println("Symulacja zakończona");
+        System.out.printf("Symulacja trwała %d milisekund\n", elapsedTime / 1_000_000);
+        System.out.println("Statystyki symulacji FJCS");
+        System.out.printf("Średni czas oczekiwania: %f\n", simulationEngines.get(0).getSimulationState().getAvgWaitingTime());
+        System.out.printf("Maksymalny czas oczekiwania: %d\n", simulationEngines.get(0).getSimulationState().getMaximumWaitingTime());
+        System.out.println("Statystyki symulacji SJF");
+        System.out.printf("Średni czas oczekiwania: %f\n", simulationEngines.get(1).getSimulationState().getAvgWaitingTime());
+        System.out.printf("Maksymalny czas oczekiwania: %d\n", simulationEngines.get(1).getSimulationState().getMaximumWaitingTime());
+        System.out.println("Statystyki symulacji RR");
+        System.out.printf("Średni czas oczekiwania: %f\n", simulationEngines.get(2).getSimulationState().getAvgWaitingTime());
+        System.out.printf("Maksymalny czas oczekiwania: %d\n", simulationEngines.get(2).getSimulationState().getMaximumWaitingTime());
     }
 
     public void stopSimulation() {
@@ -210,10 +226,11 @@ public class SimulationService {
 
     private boolean isCompleted() {
         for (SimulationEngine simulationEngine : simulationEngines) {
-            if (!simulationEngine.isCompleted()) {
+            if(!simulationEngine.isCompleted()) {
                 return false;
             }
         }
         return true;
     }
 }
+

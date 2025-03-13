@@ -1,14 +1,20 @@
 package org.example.cpuschedulingsimulator.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 public class SimulationConfigDTO {
+    @JsonProperty("minProcessTime")
     private int minimalProcessCompletionTime;
+    @JsonProperty("maxProcessTime")
     private int maximalProcessCompletionTime;
     private int numberOfProcesses;
     private int timeUnit;
     private boolean processesRandomGenerated;
+    @JsonProperty("update")
     private boolean sendSimulationState;
+    @JsonProperty("rrTimeQuantum")
     private int roundRobinTimeQuantum;
     private int roundRobinContextChangeTime;
 

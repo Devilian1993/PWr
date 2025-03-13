@@ -1,6 +1,7 @@
 package org.example.cpuschedulingsimulator.engine;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.function.Consumer;
 
 import org.example.cpuschedulingsimulator.model.*;
@@ -34,21 +35,49 @@ public class SimulationEngine {
         this.running = true;
         this.timeUnit = timeUnit;
 
-        waitingProcesses.addAll(initialProcesses.subList(0, initialProcesses.size()/ FRACTION_OF_PROCESSESS_WAITING_ON_START));
+        waitingProcesses.addAll(initialProcesses.subList(0, initialProcesses.size() / FRACTION_OF_PROCESSESS_WAITING_ON_START));
     }
 
     public void simulationTick() {
+        //long simulationStartTime = System.nanoTime();
+        //System.out.println("Symulacja " + name);
+
+        //long addNewProcessStartTime = System.nanoTime();
         if (clock.getTimeSinceStart() % ticksPerNewProcess == 0) {
             addNewProcess();
         }
+        //long addNewProcessEndTime = System.nanoTime();
+        //long addNewProcessTime = addNewProcessEndTime - addNewProcessStartTime;
 
-        algorithm.schedule(waitingProcesses, cpu, clock);
+        //long scheduleStartTime = System.nanoTime();
+        if (!waitingProcesses.isEmpty()) {
+            algorithm.schedule(waitingProcesses, cpu, clock);
+        }
+        //long scheduleEndTime = System.nanoTime();
+        //long scheduleTime = scheduleEndTime - scheduleStartTime;
+
+        //long executeStartTime = System.nanoTime();
         cpu.executeProcess();
+        //long executeEndTime = System.nanoTime();
+        //long executeTime = executeEndTime - executeStartTime;
 
+        //long clockTickStartTime = System.nanoTime();
         clock.clockTick();
-        updateWaitingTime();
+        //long clockTickEndTime = System.nanoTime();
+        //long clockTickTime = clockTickEndTime - clockTickStartTime;
 
-        updateSimulationState();
+        //long updateWaitingTimeStartTime = System.nanoTime();
+        //updateWaitingTime();
+        //long updateWaitingTimeEndTime = System.nanoTime();
+        //long updateWaitingTimeTime = updateWaitingTimeEndTime - updateWaitingTimeStartTime;
+
+        //updateSimulationState();
+
+        //long simulationEndTime = System.nanoTime();
+        //long executionTime = simulationEndTime - simulationStartTime;
+        //System.out.printf("Czas dodania procesu: %d ns\nCzas algorytmu planowania: %d ns\nCzas wykonania procesu: %d ns\n" +
+        //                "Czas ticku zegara: %d ns\nCzas aktualizacji czasu oczekiwania: %d ns\nCzas całkowity: %d ns\n",
+        //                addNewProcessTime, scheduleTime, executeTime, clockTickTime, updateWaitingTimeTime, executionTime );
     }
 
     public SimulationState getSimulationState() {
@@ -75,20 +104,38 @@ public class SimulationEngine {
         this.stateUpdateCallback = stateUpdateCallback;
     }
 
-    public boolean isCompleted() {
-        for (Process process : initialProcesses) {
-            if (!process.isCompleted()) {
-                return false;
-            }
-        }
+    public String getName() {
+        return name;
+    }
 
-        return true;
+    public ArrayList<Process> getInitialProcesses() {
+        return initialProcesses;
+    }
+
+    public boolean isCompleted() {
+        if (waitingProcesses.isEmpty()) {
+            for (Process process : initialProcesses) {
+                if (!process.isCompleted()) {
+                    return false;
+                }
+            }
+            for (Process process : initialProcesses) {
+                process.calculateWaitingTime();
+            }
+
+            updateSimulationState();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void addNewProcess() {
         for (Process process : initialProcesses) {
-            if (!waitingProcesses.contains(process)) {
+            if (!process.isWaiting() && !process.isCompleted()) {
                 waitingProcesses.add(process);
+                process.setWaiting(true);
+                process.setInitiationTime(clock.getTimeSinceStart());
                 break;
             }
         }
@@ -110,8 +157,8 @@ public class SimulationEngine {
                 waitingProcesses
         );
 
-        if (stateUpdateCallback != null) {
-            stateUpdateCallback.accept(simulationState);
-        }
+        //if (stateUpdateCallback != null) {
+        //    stateUpdateCallback.accept(simulationState);
+        //}
     }
 }

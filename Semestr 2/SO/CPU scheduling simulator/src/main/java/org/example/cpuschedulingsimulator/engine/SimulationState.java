@@ -35,17 +35,17 @@ public class SimulationState {
     private float calculateAvgWaitingTime() {
         float waitingTimeSum = 0;
 
-        for (Process process : waitingProcesses) {
+        for (Process process : initialProcesses) {
             waitingTimeSum += process.getWaitingTime();
         }
 
-        return waitingTimeSum / waitingProcesses.size();
+        return waitingTimeSum / initialProcesses.size();
     }
 
     private int calculateMaximumWaitingTime() {
         int maximumWaitingTime = 0;
 
-        for (Process process : waitingProcesses) {
+        for (Process process : initialProcesses) {
             if (process.getWaitingTime() > maximumWaitingTime) {
                 maximumWaitingTime = process.getWaitingTime();
             }

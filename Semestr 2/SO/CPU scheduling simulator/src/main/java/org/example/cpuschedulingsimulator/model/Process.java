@@ -4,15 +4,18 @@ public class Process {
     private int id;
     private boolean completed;
     private boolean paused;
+    private boolean waiting;
     private int timeToComplete;
     private int initiationTime;
     private int waitingTime;
     private int completionTime;
+    private int assignmentTime;
 
     public Process(int id, int timeToComplete, int initiationTime) {
         this.id = id;
         completed = false;
         paused = false;
+        waiting = false;
         this.timeToComplete = timeToComplete;
         this.initiationTime = initiationTime;
         this.waitingTime = 0;
@@ -66,6 +69,10 @@ public class Process {
         this.initiationTime = initiationTime;
     }
 
+    public void calculateWaitingTime() {
+        waitingTime = assignmentTime - initiationTime;
+    }
+
     public int getWaitingTime() {
         return waitingTime;
     }
@@ -82,10 +89,26 @@ public class Process {
         this.completionTime = completionTime;
     }
 
+    public void setWaiting(boolean waiting) {
+        this.waiting = waiting;
+    }
+
+    public boolean isWaiting() {
+        return waiting;
+    }
+
+    public int getAssignmentTime() {
+        return assignmentTime;
+    }
+
+    public void setAssignmentTime(int assignmentTime) {
+        this.assignmentTime = assignmentTime;
+    }
+
     public void executeProcess() {
         timeToComplete--;
 
-        if (timeToComplete == 0) {
+        if (timeToComplete <= 0) {
             completed = true;
         }
     }

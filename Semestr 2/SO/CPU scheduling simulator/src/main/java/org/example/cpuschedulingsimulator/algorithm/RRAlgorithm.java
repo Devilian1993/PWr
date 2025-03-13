@@ -14,6 +14,7 @@ public class RRAlgorithm implements SchedulingAlgorithm {
             Process processToExecute = waitingProcesses.getFirst();
             cpu.setExecutedProcess(processToExecute);
             waitingProcesses.remove(processToExecute);
+            processToExecute.setAssignmentTime(clock.getTimeSinceStart());
             clock.RRReset();
         } else if (clock.getRRClock() == clock.getRRTimeQuantum()) {
             Process processToExecute = waitingProcesses.getFirst();
@@ -23,7 +24,7 @@ public class RRAlgorithm implements SchedulingAlgorithm {
             waitingProcesses.add(previouslyExecutedProcess);
             waitingProcesses.remove(processToExecute);
 
-            clock.RRContextChange();
+            //clock.RRContextChange();
             clock.RRReset();
         } else {
             clock.RRTick();

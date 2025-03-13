@@ -9,22 +9,7 @@ import java.util.ArrayList;
 public class SJFAlgorithm implements SchedulingAlgorithm {
     @Override
     public void schedule(ArrayList<Process> waitingProcesses, CPU cpu, SimulationClock clock) {
-        if (cpu.isBusy()) {
-            Process executedProcess = cpu.getExecutedProcess();
-            Process processToExecute = null;
-            for (Process process : waitingProcesses) {
-                if (process.getTimeToComplete() < executedProcess.getTimeToComplete()) {
-                    waitingProcesses.addFirst(executedProcess);
-                    processToExecute = process;
-                }
-            }
-
-            if (processToExecute != null) {
-                cpu.setExecutedProcess(processToExecute);
-                waitingProcesses.remove(processToExecute);
-            }
-
-        } else {
+        if (!cpu.isBusy()) {
             cpu.setBusy(true);
 
             int minExecutionTime = Integer.MAX_VALUE;
@@ -33,11 +18,15 @@ public class SJFAlgorithm implements SchedulingAlgorithm {
             for (Process process : waitingProcesses) {
                 if (process.getTimeToComplete() < minExecutionTime) {
                     minProcess = process;
+                    minExecutionTime = process.getTimeToComplete();
                 }
             }
-
-            cpu.setExecutedProcess(minProcess);
-            waitingProcesses.remove(minProcess);
+            
+            if (minProcess != null) {
+                cpu.setExecutedProcess(minProcess);
+                waitingProcesses.remove(minProcess);
+                minProcess.setAssignmentTime(clock.getTimeSinceStart());
+            }
         }
     }
 }

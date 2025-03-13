@@ -23,11 +23,12 @@ public class CPU {
     }
 
     public void executeProcess() {
-        executedProcess.executeProcess();
-
-        if (executedProcess.isCompleted()) {
-            isBusy = false;
-            executedProcess = null;
+        if (executedProcess != null) {
+            executedProcess.executeProcess();
+            if (executedProcess.isCompleted()) {
+                isBusy = false;
+                executedProcess = null;
+            }
         }
     }
 }
