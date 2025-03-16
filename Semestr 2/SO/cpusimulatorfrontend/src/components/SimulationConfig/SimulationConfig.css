@@ -1,0 +1,21 @@
+fieldset {
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#config {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 50%;
+}
