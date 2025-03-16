@@ -26,6 +26,7 @@ public class SJFAlgorithm implements SchedulingAlgorithm {
                 cpu.setExecutedProcess(minProcess);
                 waitingProcesses.remove(minProcess);
                 minProcess.setAssignmentTime(clock.getTimeSinceStart());
+                clock.contextChange();
             }
         }
     }

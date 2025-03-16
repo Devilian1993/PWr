@@ -15,6 +15,7 @@ public class FJCSAlgorithm implements SchedulingAlgorithm {
             waitingProcesses.remove(processToExecute);
             cpu.setExecutedProcess(processToExecute);
             processToExecute.setAssignmentTime(clock.getTimeSinceStart());
+            clock.contextChange();
         }
     }
 }

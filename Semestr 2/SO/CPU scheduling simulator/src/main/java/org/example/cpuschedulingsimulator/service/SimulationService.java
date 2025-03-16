@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,12 +30,13 @@ public class SimulationService {
     }
 
     public void createSimulation(SimulationConfigDTO simulationConfigDTO) {
+        boolean areRandomGenerated = Objects.equals(simulationConfigDTO.getMode(), "random");
         simulationConfig = new SimulationConfig(
                 simulationConfigDTO.getMinimalProcessCompletionTime(),
                 simulationConfigDTO.getMaximalProcessCompletionTime(),
                 simulationConfigDTO.getNumberOfProcesses(),
                 simulationConfigDTO.getTimeUnit(),
-                simulationConfigDTO.isProcessesRandomGenerated(),
+                areRandomGenerated,
                 simulationConfigDTO.isSendSimulationState(),
                 simulationConfigDTO.getRoundRobinTimeQuantum(),
                 simulationConfigDTO.getRoundRobinContextChangeTime(),
@@ -49,12 +51,7 @@ public class SimulationService {
                     simulationConfig.getNumberOfProcesses()
             );
         } else {
-            generator = new FromListProcessGenerator(
-                    simulationConfig.getMinimalProcessCompletionTime(),
-                    simulationConfig.getMaximalProcessCompletionTime(),
-                    simulationConfig.getNumberOfProcesses(),
-                    simulationConfig.getProcessesCompletionTime()
-            );
+            generator = new FromListProcessGenerator();
         }
 
         processes = generator.generateProcesses();
@@ -151,13 +148,9 @@ public class SimulationService {
 
         return new SimulationStateDTO(
                 simulationState.getName(),
-                simulationState.getCurrentTime(),
-                simulationState.isRunning(),
-                currentProcessDTO,
-                initialProcessesDTO,
-                waitingProcessesDTO,
                 simulationState.getAvgWaitingTime(),
-                simulationState.getMaximumWaitingTime()
+                simulationState.getMaximumWaitingTime(),
+                simulationState.getContextChanges()
         );
     }
 
@@ -174,7 +167,7 @@ public class SimulationService {
     }
 
     public void startSimulation() {
-        System.out.println("Symulacja rozpoczeta");
+        System.out.println("##########Symulacja rozpoczeta##########");
         running = true;
 
         long startTime = System.nanoTime();
@@ -195,17 +188,25 @@ public class SimulationService {
         long endTime = System.nanoTime();
         long elapsedTime = endTime - startTime;
 
-        System.out.println("Symulacja zakończona");
-        System.out.printf("Symulacja trwała %d milisekund\n", elapsedTime / 1_000_000);
-        System.out.println("Statystyki symulacji FJCS");
+        System.out.println("##########Symulacja zakończona##########");
+        if (elapsedTime >= 1_000_000_000) {
+            System.out.printf("Symulacja trwała %f sekund i zawierała %d procesów\n", (double) elapsedTime / 1_000_000_000, processes.size());
+        } else {
+            System.out.printf("Symulacja trwała %f milisekund i zawierała %d procesów\n", (double) elapsedTime / 1_000_000, processes.size());
+        }
+
+        System.out.println("##########Statystyki symulacji FJCS##########");
         System.out.printf("Średni czas oczekiwania: %f\n", simulationEngines.get(0).getSimulationState().getAvgWaitingTime());
         System.out.printf("Maksymalny czas oczekiwania: %d\n", simulationEngines.get(0).getSimulationState().getMaximumWaitingTime());
-        System.out.println("Statystyki symulacji SJF");
+        System.out.printf("Liczba zmian kontekstu: %d\n", simulationEngines.get(0).getSimulationState().getContextChanges());
+        System.out.println("##########Statystyki symulacji SJF##########");
         System.out.printf("Średni czas oczekiwania: %f\n", simulationEngines.get(1).getSimulationState().getAvgWaitingTime());
         System.out.printf("Maksymalny czas oczekiwania: %d\n", simulationEngines.get(1).getSimulationState().getMaximumWaitingTime());
-        System.out.println("Statystyki symulacji RR");
+        System.out.printf("Liczba zmian kontekstu: %d\n", simulationEngines.get(1).getSimulationState().getContextChanges());
+        System.out.println("##########Statystyki symulacji RR##########");
         System.out.printf("Średni czas oczekiwania: %f\n", simulationEngines.get(2).getSimulationState().getAvgWaitingTime());
         System.out.printf("Maksymalny czas oczekiwania: %d\n", simulationEngines.get(2).getSimulationState().getMaximumWaitingTime());
+        System.out.printf("Liczba zmian kontekstu: %d\n", simulationEngines.get(2).getSimulationState().getContextChanges());
     }
 
     public void stopSimulation() {

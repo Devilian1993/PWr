@@ -4,12 +4,12 @@ public class SimulationClock {
     private int timeSinceStart;
     private int RRTimeQuantum;
     private int RRClock;
-    private int RRContextChangeTime;
+    private int contextChangeCounter;
 
-    public SimulationClock(int RRTimeQuantum, int RRContextChangeTime) {
+    public SimulationClock(int RRTimeQuantum) {
         this.timeSinceStart = 0;
         this.RRTimeQuantum = RRTimeQuantum;
-        this.RRContextChangeTime = RRContextChangeTime;
+        this.contextChangeCounter = 0;
     }
 
     public int getTimeSinceStart() {
@@ -44,8 +44,12 @@ public class SimulationClock {
         RRClock = 0;
     }
 
-    public void RRContextChange() {
-        timeSinceStart += RRContextChangeTime;
+    public int getContextChangeCounter() {
+        return contextChangeCounter;
+    }
+
+    public void contextChange() {
+        contextChangeCounter++;
     }
 
     public void clockTick() {

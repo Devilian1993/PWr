@@ -1,8 +1,8 @@
 package org.example.cpuschedulingsimulator.engine;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.example.cpuschedulingsimulator.model.*;
 import org.example.cpuschedulingsimulator.model.Process;
@@ -24,60 +24,34 @@ public class SimulationEngine {
 
     private SimulationState simulationState;
     private Consumer<SimulationState> stateUpdateCallback;
+    private boolean stateSent;
 
     public SimulationEngine(String name, SchedulingAlgorithm algorithm, int timeUnit, ArrayList<Process> initialProcesses, int RRTimeQuantum, int RRContextChangeTime) {
         this.name = name;
-        clock = new SimulationClock(RRTimeQuantum, RRContextChangeTime);
+        clock = new SimulationClock(RRTimeQuantum);
         cpu = new CPU();
         this.algorithm = algorithm;
         this.initialProcesses = initialProcesses;
         this.waitingProcesses = new ArrayList<>();
         this.running = true;
         this.timeUnit = timeUnit;
+        this.stateSent = false;
 
-        waitingProcesses.addAll(initialProcesses.subList(0, initialProcesses.size() / FRACTION_OF_PROCESSESS_WAITING_ON_START));
+        waitingProcesses.addAll(initialProcesses.subList(0, initialProcesses.size() / FRACTION_OF_PROCESSESS_WAITING_ON_START).stream().peek(process -> process.setWaiting(true)).collect(Collectors.toCollection(ArrayList::new)));
     }
 
     public void simulationTick() {
-        //long simulationStartTime = System.nanoTime();
-        //System.out.println("Symulacja " + name);
-
-        //long addNewProcessStartTime = System.nanoTime();
         if (clock.getTimeSinceStart() % ticksPerNewProcess == 0) {
             addNewProcess();
         }
-        //long addNewProcessEndTime = System.nanoTime();
-        //long addNewProcessTime = addNewProcessEndTime - addNewProcessStartTime;
 
-        //long scheduleStartTime = System.nanoTime();
         if (!waitingProcesses.isEmpty()) {
             algorithm.schedule(waitingProcesses, cpu, clock);
         }
-        //long scheduleEndTime = System.nanoTime();
-        //long scheduleTime = scheduleEndTime - scheduleStartTime;
 
-        //long executeStartTime = System.nanoTime();
         cpu.executeProcess();
-        //long executeEndTime = System.nanoTime();
-        //long executeTime = executeEndTime - executeStartTime;
 
-        //long clockTickStartTime = System.nanoTime();
         clock.clockTick();
-        //long clockTickEndTime = System.nanoTime();
-        //long clockTickTime = clockTickEndTime - clockTickStartTime;
-
-        //long updateWaitingTimeStartTime = System.nanoTime();
-        //updateWaitingTime();
-        //long updateWaitingTimeEndTime = System.nanoTime();
-        //long updateWaitingTimeTime = updateWaitingTimeEndTime - updateWaitingTimeStartTime;
-
-        //updateSimulationState();
-
-        //long simulationEndTime = System.nanoTime();
-        //long executionTime = simulationEndTime - simulationStartTime;
-        //System.out.printf("Czas dodania procesu: %d ns\nCzas algorytmu planowania: %d ns\nCzas wykonania procesu: %d ns\n" +
-        //                "Czas ticku zegara: %d ns\nCzas aktualizacji czasu oczekiwania: %d ns\nCzas całkowity: %d ns\n",
-        //                addNewProcessTime, scheduleTime, executeTime, clockTickTime, updateWaitingTimeTime, executionTime );
     }
 
     public SimulationState getSimulationState() {
@@ -123,7 +97,10 @@ public class SimulationEngine {
                 process.calculateWaitingTime();
             }
 
-            updateSimulationState();
+            if (!stateSent) {
+                updateSimulationState();
+                stateSent = true;
+            }
             return true;
         } else {
             return false;
@@ -150,15 +127,15 @@ public class SimulationEngine {
     private void updateSimulationState() {
         simulationState = new SimulationState(
                 name,
-                clock.getTimeSinceStart(),
+                clock,
                 running,
                 cpu,
                 initialProcesses,
                 waitingProcesses
         );
 
-        //if (stateUpdateCallback != null) {
-        //    stateUpdateCallback.accept(simulationState);
-        //}
+        if (stateUpdateCallback != null) {
+            stateUpdateCallback.accept(simulationState);
+        }
     }
 }

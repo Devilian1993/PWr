@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class SimulationState {
     private String name;
-    private int currentTime;
     private boolean running;
 
     private CPU cpu;
@@ -15,12 +14,13 @@ public class SimulationState {
     private ArrayList<Process> initialProcesses;
     private ArrayList<Process> waitingProcesses;
 
-    private float avgWaitingTime;
+    private double avgWaitingTime;
+    private int currentTime;
     private int maximumWaitingTime;
+    private int contextChanges;
 
-    public SimulationState(String name, int currentTime, boolean running, CPU cpu, ArrayList<Process> initialProcesses, ArrayList<Process> waitingProcesses) {
+    public SimulationState(String name, SimulationClock clock, boolean running, CPU cpu, ArrayList<Process> initialProcesses, ArrayList<Process> waitingProcesses) {
         this.name = name;
-        this.currentTime = currentTime;
         this.running = running;
         this.cpu = cpu;
 
@@ -28,12 +28,14 @@ public class SimulationState {
         this.initialProcesses = initialProcesses;
         this.waitingProcesses = waitingProcesses;
 
+        this.currentTime = clock.getTimeSinceStart();
         this.avgWaitingTime = calculateAvgWaitingTime();
         this.maximumWaitingTime = calculateMaximumWaitingTime();
+        this.contextChanges = clock.getContextChangeCounter();
     }
 
-    private float calculateAvgWaitingTime() {
-        float waitingTimeSum = 0;
+    private double calculateAvgWaitingTime() {
+        double waitingTimeSum = 0;
 
         for (Process process : initialProcesses) {
             waitingTimeSum += process.getWaitingTime();
@@ -110,7 +112,7 @@ public class SimulationState {
         this.waitingProcesses = waitingProcesses;
     }
 
-    public float getAvgWaitingTime() {
+    public double getAvgWaitingTime() {
         return avgWaitingTime;
     }
 
@@ -124,5 +126,13 @@ public class SimulationState {
 
     public void setMaximumWaitingTime(int maximumWaitingTime) {
         this.maximumWaitingTime = maximumWaitingTime;
+    }
+
+    public int getContextChanges() {
+        return contextChanges;
+    }
+
+    public void setContextChanges(int contextChanges) {
+        this.contextChanges = contextChanges;
     }
 }

@@ -19,6 +19,7 @@ public class SimulationConfigDTO {
     private int roundRobinContextChangeTime;
 
     private String processesCompletionTimes;
+    private String mode;
 
     public int getRoundRobinTimeQuantum() {
         return roundRobinTimeQuantum;
@@ -86,6 +87,14 @@ public class SimulationConfigDTO {
 
     public int getRoundRobinContextChangeTime() {
         return roundRobinContextChangeTime;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     public SimulationConfigDTO(){

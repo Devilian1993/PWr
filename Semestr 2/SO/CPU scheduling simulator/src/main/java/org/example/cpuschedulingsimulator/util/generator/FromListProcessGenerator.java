@@ -2,19 +2,35 @@ package org.example.cpuschedulingsimulator.util.generator;
 
 import org.example.cpuschedulingsimulator.model.Process;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public class FromListProcessGenerator implements ProcessGenerator {
-    private int minTime;
-    private int maxTime;
+    private final String PATH = "src/main/resources/processes.txt";
+    private final File FILE = new File(PATH);
     private int numberOfProcesses;
     private ArrayList<Integer> processesCompletionTimesList;
 
-    public FromListProcessGenerator(int minTime, int maxTime, int numberOfProcesses, ArrayList<Integer> processesCompletionTimes) {
-        this.minTime = minTime;
-        this.maxTime = maxTime;
-        this.numberOfProcesses = numberOfProcesses;
-        this.processesCompletionTimesList = processesCompletionTimes;
+    public FromListProcessGenerator() {
+        processesCompletionTimesList = new ArrayList<>();
+        loadProcessesFromFile();
+        this.numberOfProcesses = processesCompletionTimesList.size();
+    }
+
+    private void loadProcessesFromFile() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE))) {
+            System.out.println("Loading processes from file...");
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                processesCompletionTimesList.add(Integer.parseInt(line));
+            }
+            System.out.println("Processes loaded.");
+        } catch (Exception e) {
+            System.out.println("File not found: " + PATH);
+        }
     }
 
     @Override
