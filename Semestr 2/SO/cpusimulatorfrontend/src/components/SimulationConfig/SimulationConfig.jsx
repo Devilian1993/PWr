@@ -10,7 +10,8 @@ function SimulationConfig({ onSimulationStart }) {
         minProcessTime: 1,
         maxProcessTime: 10,
         rrTimeQuantum: 5,
-        update: true
+        update: true,
+        ticksPerNewProcess: 5
     });
 
     const handleModeChange = (e) => {
@@ -56,32 +57,30 @@ function SimulationConfig({ onSimulationStart }) {
             <fieldset>
                 <div>
                     <input type="radio" id="random" name="mode" onChange={handleModeChange} checked={config.mode==="random"} />
-                    <label htmlFor="random">Randomly generated processes</label>
+                    <label htmlFor="random">Generuj procesy losowo</label>
                 </div>
                 <div>
                     <input type="radio" id="starve" name="mode" onChange={handleModeChange} checked={config.mode==="starve"} />
-                    <label htmlFor="starve">Process starving presentation</label>
+                    <label htmlFor="starve">Pobierz procesy z pliku</label>
                 </div>
             </fieldset>
             {config.mode === "random" && (
                 <fieldset>
-                    <label htmlFor="numberOfProcesses">Number of processes</label>
+                    <label htmlFor="numberOfProcesses">Liczba procesów</label>
                     <input type="number" id="numberOfProcesses" name="numberOfProcesses" defaultValue={1000} onChange={handleNumericChange} />
-                    <label htmlFor="minProcessTime">Minimal process execution time</label>
+                    <label htmlFor="minProcessTime">Minimalny czas wykonywania procesu</label>
                     <input type="number" id="minProcessTime" name="minProcessTime" defaultValue={1} onChange={handleNumericChange} />
-                    <label htmlFor="maxProcessTime">Maximal process execution time</label>
+                    <label htmlFor="maxProcessTime">Maksymalny czas wykonywania procesu</label>
                     <input type="number" id="maxProcessTime" name="maxProcessTime" defaultValue={10} onChange={handleNumericChange} />
                 </fieldset>
             )}
             <fieldset>
-                <label htmlFor="rrTimeQuantum">Round robin time quantum</label>
+                <label htmlFor="rrTimeQuantum">Kwant czasu Round Robin</label>
                 <input type="number" id="rrTimeQuantum" name="rrTimeQuantum" defaultValue={5} onChange={handleNumericChange} />
-                <label htmlFor="random">Visualise simulation</label>
-                <input type="radio" id="sendUpdates" name="update" onChange={handleUpdateChange} defaultChecked/>
-                <label htmlFor="random">Show only results</label>
-                <input type="radio" id="dontSendUpdates" name="update" onChange={handleUpdateChange} />
+                <label htmlFor="ticksPerNewProcesses">Okres generowania nowych procesów</label>
+                <input type="number" id="ticksPerNewProcess" name="ticksPerNewProces" defaultValue={5} onChange={handleNumericChange} />
             </fieldset>
-            <button type="submit">Start simulation</button>
+            <button type="submit">Rozpocznij symulację</button>
         </form>
     );
 }

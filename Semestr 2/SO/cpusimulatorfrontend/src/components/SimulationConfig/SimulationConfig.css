@@ -2,6 +2,7 @@ fieldset {
     display: flex;
     flex-direction: column;
     width: 20vw;
+    margin-bottom: 10px;
 }
 
 #root {

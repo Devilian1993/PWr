@@ -1,24 +1,30 @@
 //import { useState } from 'react'
+import "./Simulation.css"
 import { useWebSocket } from "../../services/webSocketContext.jsx"
 
 function Simulation() {
     const { simulationData, isSimulationComplete } = useWebSocket()
 
+    const refreshPage = () => {
+        window.location.reload()
+    }
+
     return (
         <>
             {!isSimulationComplete ? (
-                <h1>Simulation is running.</h1>
+                <h1>Symulacja trwa.</h1>
             ) : (
                 <>
-                    <h1>Simulation results:</h1>
+                    <h1>Wyniki symulacji:</h1>
                     {simulationData.map((result) => (
-                        <div class="result" className="simulation-result">
+                        <div  className="result">
                             <h3>Algorytm: {result.name}</h3>
                             <p>Średni czas oczekiwania: {result.avgWaitingTime}</p>
                             <p>Maksymalny czas oczekiwania: {result.maximumWaitingTime}</p>
                             <p>Liczba zmian kontekstu: {result.contextChanges}</p>
                         </div>
                     ))}
+                    <button type="button" onClick={refreshPage} >Nowa symulacja</button>
                 </>
             )}
         </>

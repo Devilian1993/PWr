@@ -19,14 +19,14 @@ public class SimulationEngine {
     private boolean running;
 
     private final int FRACTION_OF_PROCESSESS_WAITING_ON_START = 5;
-    private int ticksPerNewProcess = 5;
+    private int ticksPerNewProcess;
     private int timeUnit;
 
     private SimulationState simulationState;
     private Consumer<SimulationState> stateUpdateCallback;
     private boolean stateSent;
 
-    public SimulationEngine(String name, SchedulingAlgorithm algorithm, int timeUnit, ArrayList<Process> initialProcesses, int RRTimeQuantum, int RRContextChangeTime) {
+    public SimulationEngine(String name, SchedulingAlgorithm algorithm, int timeUnit, ArrayList<Process> initialProcesses, int RRTimeQuantum, int RRContextChangeTime, int ticksPerNewProcess) {
         this.name = name;
         clock = new SimulationClock(RRTimeQuantum);
         cpu = new CPU();
@@ -36,8 +36,11 @@ public class SimulationEngine {
         this.running = true;
         this.timeUnit = timeUnit;
         this.stateSent = false;
+        this.ticksPerNewProcess = ticksPerNewProcess;
 
-        waitingProcesses.addAll(initialProcesses.subList(0, initialProcesses.size() / FRACTION_OF_PROCESSESS_WAITING_ON_START).stream().peek(process -> process.setWaiting(true)).collect(Collectors.toCollection(ArrayList::new)));
+        waitingProcesses.addAll(initialProcesses.subList(0, initialProcesses.size() / FRACTION_OF_PROCESSESS_WAITING_ON_START).
+                stream().peek(process -> process.setWaiting(true)).
+                collect(Collectors.toCollection(ArrayList::new)));
     }
 
     public void simulationTick() {

@@ -17,6 +17,7 @@ public class SimulationConfigDTO {
     @JsonProperty("rrTimeQuantum")
     private int roundRobinTimeQuantum;
     private int roundRobinContextChangeTime;
+    private int ticksPerNewProcess;
 
     private String processesCompletionTimes;
     private String mode;
@@ -97,10 +98,18 @@ public class SimulationConfigDTO {
         this.mode = mode;
     }
 
+    public int getTicksPerNewProcess() {
+        return ticksPerNewProcess;
+    }
+
+    public void setTicksPerNewProcess(int ticksPerNewProcess) {
+        this.ticksPerNewProcess = ticksPerNewProcess;
+    }
+
     public SimulationConfigDTO(){
     }
 
-    public SimulationConfigDTO(int minimalProcessCompletionTime, int maximalProcessCompletionTime, int numberOfProcesses, int timeUnit, boolean processesRandomGenerated, boolean sendSimulationState, int roundRobinTimeQuantum, int roundRobinContextChangeTime, String processesCompletionTimes) {
+    public SimulationConfigDTO(int minimalProcessCompletionTime, int maximalProcessCompletionTime, int numberOfProcesses, int timeUnit, boolean processesRandomGenerated, boolean sendSimulationState, int roundRobinTimeQuantum, int roundRobinContextChangeTime, String processesCompletionTimes, int ticksPerNewProcess) {
         this.minimalProcessCompletionTime = minimalProcessCompletionTime;
         this.maximalProcessCompletionTime = maximalProcessCompletionTime;
         this.numberOfProcesses = numberOfProcesses;
@@ -113,5 +122,7 @@ public class SimulationConfigDTO {
         if (processesRandomGenerated) {
             this.processesCompletionTimes = processesCompletionTimes;
         }
+
+        this.ticksPerNewProcess = ticksPerNewProcess;
     }
 }

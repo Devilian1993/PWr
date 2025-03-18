@@ -40,7 +40,8 @@ public class SimulationService {
                 simulationConfigDTO.isSendSimulationState(),
                 simulationConfigDTO.getRoundRobinTimeQuantum(),
                 simulationConfigDTO.getRoundRobinContextChangeTime(),
-                simulationConfigDTO.getProcessesCompletionTimes()
+                simulationConfigDTO.getProcessesCompletionTimes(),
+                simulationConfigDTO.getTicksPerNewProcess()
 
         );
 
@@ -70,7 +71,8 @@ public class SimulationService {
                 timeUnit,
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
-                simulationConfig.getRoundRobinContextChangeTime()
+                simulationConfig.getRoundRobinContextChangeTime(),
+                simulationConfig.getTicksPerNewProcess()
         ) {{
             setStateUpdateCallback(state -> {
                 SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
@@ -84,7 +86,8 @@ public class SimulationService {
                 timeUnit,
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
-                simulationConfig.getRoundRobinContextChangeTime()
+                simulationConfig.getRoundRobinContextChangeTime(),
+                simulationConfig.getTicksPerNewProcess()
         ) {{
             setStateUpdateCallback(state -> {
                 SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
@@ -112,7 +115,8 @@ public class SimulationService {
                 timeUnit,
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
-                simulationConfig.getRoundRobinContextChangeTime()
+                simulationConfig.getRoundRobinContextChangeTime(),
+                simulationConfig.getTicksPerNewProcess()
         ) {{
             setStateUpdateCallback(state -> {
                 SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
