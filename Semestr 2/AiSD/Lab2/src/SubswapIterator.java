@@ -1,31 +1,37 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
 
-public class SubswapIterator<E> implements Iterator {
+public class SubswapIterator<E> implements Iterator<E> {
 
-    Iterator<Integer> baseIterator;
-    ArrayList<E> tempList;
+    Iterator<E> baseIterator;
     int K;
+    Stack<E> stack;
 
-    public SubswapIterator(Iterator<Integer> baseIterator, int K) {
+    public SubswapIterator(Iterator<E> baseIterator, int K) {
         this.baseIterator = baseIterator;
-        this.tempList = new ArrayList<>();
+        this.K = K;
+        this.stack = new Stack<>();
     }
 
-    private void setupList(){
-        int temp = 0;
-        while (baseIterator.hasNext() && temp < K) {
-            
+    private void fillStack(){
+        for (int i = 0; i < K && baseIterator.hasNext(); i++) {
+            stack.push(baseIterator.next());
         }
     }
 
     @Override
     public boolean hasNext() {
-        return baseIterator.hasNext();
+        return baseIterator.hasNext() || !stack.isEmpty();
     }
 
     @Override
-    public Object next() {
-        return 0;
+    public E next() {
+        if (stack.isEmpty()){
+            fillStack();
+        }
+
+        return stack.pop();
     }
 }

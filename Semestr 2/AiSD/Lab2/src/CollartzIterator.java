@@ -10,7 +10,7 @@ public class CollartzIterator implements Iterator<Integer>, Iterable<Integer> {
 
     @Override
     public boolean hasNext() {
-        return n != 1;
+        return true;
     }
 
     @Override

@@ -1,28 +1,28 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
 public class Main {
     public static void main(String[] args) {
         int n = 100;
-        CollartzIterator iterator = new CollartzIterator(n);
+        CollartzIterator collartzIterator = new CollartzIterator(n);
 
-        for (Integer value : iterator) {
-            //System.out.println(value);
+        for (Integer value : collartzIterator) {
+            System.out.println(value);
         }
 
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for (int i = 0; i < 10; i++) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 1; i < 11; i++) {
             list.add(i);
         }
 
+        Iterator iterator2 = list.iterator();
 
+        SubswapIterator subswapIterator = new SubswapIterator(iterator2, 4);
 
-        for (Iterator<Integer> iterator2 = list.iterator() ; iterator2.hasNext();) {
-            System.out.println(iterator2.next());
+        while (subswapIterator.hasNext()) {
+            System.out.println(subswapIterator.next());
         }
-
-        //SubswapIterator subswapIterator = new SubswapIterator(iterator2, 4);
     }
 }
