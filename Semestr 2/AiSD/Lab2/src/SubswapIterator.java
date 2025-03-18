@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class SubswapIterator<E> implements Iterator<E> {
 
@@ -13,6 +10,7 @@ public class SubswapIterator<E> implements Iterator<E> {
         this.baseIterator = baseIterator;
         this.K = K;
         this.stack = new Stack<>();
+        fillStack();
     }
 
     private void fillStack(){
@@ -23,11 +21,14 @@ public class SubswapIterator<E> implements Iterator<E> {
 
     @Override
     public boolean hasNext() {
-        return baseIterator.hasNext() || !stack.isEmpty();
+        return !stack.isEmpty() || baseIterator.hasNext();
     }
 
     @Override
     public E next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
         if (stack.isEmpty()){
             fillStack();
         }
