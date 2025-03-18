@@ -67,7 +67,7 @@ public class SimulationService {
 
         engines.add(new SimulationEngine(
                 "FJCS",
-                new FJCSAlgorithm(),
+                new FCFSAlgorithm(),
                 timeUnit,
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),

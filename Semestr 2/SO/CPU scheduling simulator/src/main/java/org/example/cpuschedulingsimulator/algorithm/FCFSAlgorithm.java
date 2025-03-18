@@ -6,7 +6,7 @@ import org.example.cpuschedulingsimulator.engine.SimulationClock;
 
 import java.util.ArrayList;
 
-public class FJCSAlgorithm implements SchedulingAlgorithm {
+public class FCFSAlgorithm implements SchedulingAlgorithm {
     @Override
     public void schedule(ArrayList<Process> waitingProcesses, CPU cpu, SimulationClock clock) {
         if (!cpu.isBusy()) {
