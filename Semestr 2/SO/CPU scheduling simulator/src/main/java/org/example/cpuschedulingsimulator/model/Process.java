@@ -70,7 +70,9 @@ public class Process {
     }
 
     public void calculateWaitingTime() {
-        waitingTime = assignmentTime - initiationTime;
+        if (waitingTime == 0) {
+            waitingTime = assignmentTime - initiationTime;
+        }
     }
 
     public int getWaitingTime() {
