@@ -30,7 +30,7 @@ public class RandomProcessGenerator implements ProcessGenerator {
 
 
     public ArrayList<org.example.cpuschedulingsimulator.model.Process> generateProcesses() {
-        ArrayList<org.example.cpuschedulingsimulator.model.Process> processes = new ArrayList<>();
+        ArrayList<Process> processes = new ArrayList<>();
 
         for (int i = 0; i < numberOfProcesses; i++) {
             processes.add(generateProcess(i, 0));

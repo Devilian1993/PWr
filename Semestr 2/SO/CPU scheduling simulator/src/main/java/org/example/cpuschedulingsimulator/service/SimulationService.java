@@ -66,7 +66,7 @@ public class SimulationService {
         int timeUnit = simulationConfig.getTimeUnit();
 
         engines.add(new SimulationEngine(
-                "FJCS",
+                "FCFS",
                 new FCFSAlgorithm(),
                 timeUnit,
                 createProcessesListCopy(processes),
