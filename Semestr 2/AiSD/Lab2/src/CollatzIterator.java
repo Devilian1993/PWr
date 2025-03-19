@@ -1,10 +1,14 @@
 import java.util.Iterator;
 
-public class CollartzIterator implements Iterator<Integer>, Iterable<Integer> {
+public class CollatzIterator implements Iterator<Integer>, Iterable<Integer> {
 
     Integer n;
 
-    public CollartzIterator(Integer n) {
+    public CollatzIterator(Integer n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("n must be positive");
+        }
+
         this.n = n;
     }
 
