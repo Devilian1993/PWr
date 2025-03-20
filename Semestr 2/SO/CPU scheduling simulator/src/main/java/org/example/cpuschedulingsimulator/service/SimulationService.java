@@ -30,7 +30,8 @@ public class SimulationService {
     }
 
     public void createSimulation(SimulationConfigDTO simulationConfigDTO) {
-        boolean areRandomGenerated = Objects.equals(simulationConfigDTO.getMode(), "random");
+        boolean areRandomGenerated = !Objects.equals(simulationConfigDTO.getMode(), "starve");
+        boolean areGeneratedInBursts = Objects.equals(simulationConfigDTO.getMode(), "bursts");
         simulationConfig = new SimulationConfig(
                 simulationConfigDTO.getMinimalProcessCompletionTime(),
                 simulationConfigDTO.getMaximalProcessCompletionTime(),
@@ -41,8 +42,8 @@ public class SimulationService {
                 simulationConfigDTO.getRoundRobinTimeQuantum(),
                 simulationConfigDTO.getRoundRobinContextChangeTime(),
                 simulationConfigDTO.getProcessesCompletionTimes(),
-                simulationConfigDTO.getTicksPerNewProcess()
-
+                simulationConfigDTO.getTicksPerNewProcess(),
+                areGeneratedInBursts
         );
 
         if (simulationConfig.isProcessesRandomGenerated()) {
@@ -72,7 +73,8 @@ public class SimulationService {
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
                 simulationConfig.getRoundRobinContextChangeTime(),
-                simulationConfig.getTicksPerNewProcess()
+                simulationConfig.getTicksPerNewProcess(),
+                simulationConfig.isGenerateProcessesInBursts()
         ) {{
             setStateUpdateCallback(state -> {
                 SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
@@ -87,7 +89,8 @@ public class SimulationService {
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
                 simulationConfig.getRoundRobinContextChangeTime(),
-                simulationConfig.getTicksPerNewProcess()
+                simulationConfig.getTicksPerNewProcess(),
+                simulationConfig.isGenerateProcessesInBursts()
         ) {{
             setStateUpdateCallback(state -> {
                 SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);
@@ -116,7 +119,8 @@ public class SimulationService {
                 createProcessesListCopy(processes),
                 simulationConfig.getRoundRobinTimeQuantum(),
                 simulationConfig.getRoundRobinContextChangeTime(),
-                simulationConfig.getTicksPerNewProcess()
+                simulationConfig.getTicksPerNewProcess(),
+                simulationConfig.isGenerateProcessesInBursts()
         ) {{
             setStateUpdateCallback(state -> {
                 SimulationStateDTO simulationStateDTO = convertSimulationStateToDTO(state);

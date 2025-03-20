@@ -63,8 +63,12 @@ function SimulationConfig({ onSimulationStart }) {
                     <input type="radio" id="starve" name="mode" onChange={handleModeChange} checked={config.mode==="starve"} />
                     <label htmlFor="starve">Pobierz procesy z pliku</label>
                 </div>
+                <div>
+                <input type="radio" id="bursts" name="mode" onChange={handleModeChange} checked={config.mode==="bursts"} />
+                <label htmlFor="starve">Generuj "wybuchy" procesów</label>
+                </div>
             </fieldset>
-            {config.mode === "random" && (
+            {config.mode !== "starve" && (
                 <fieldset>
                     <label htmlFor="numberOfProcesses">Liczba procesów</label>
                     <input type="number" id="numberOfProcesses" name="numberOfProcesses" defaultValue={1000} onChange={handleNumericChange} />
