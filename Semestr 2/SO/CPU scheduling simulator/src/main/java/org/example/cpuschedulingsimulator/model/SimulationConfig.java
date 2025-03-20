@@ -13,6 +13,7 @@ public class SimulationConfig {
     private int timeUnit;
     private boolean processesRandomGenerated;
     private boolean sendSimulationState;
+    private boolean generateProcessesInBursts;
     private int roundRobinTimeQuantum;
     private int roundRobinContextChangeTime;
     private int ticksPerNewProcess;
@@ -96,7 +97,15 @@ public class SimulationConfig {
         this.ticksPerNewProcess = ticksPerNewProcess;
     }
 
-    public SimulationConfig(int minimalProcessCompletionTime, int maximalProcessCompletionTime, int numberOfProcesses, int timeUnit, boolean processesRandomGenerated, boolean sendSimulationState, int roundRobinTimeQuantum, int roundRobinContextChangeTime, String processesCompletionTimesString, int ticksPerNewProcess) {
+    public boolean isGenerateProcessesInBursts() {
+        return generateProcessesInBursts;
+    }
+
+    public void setGenerateProcessesInBursts(boolean generateProcessesInBursts) {
+        this.generateProcessesInBursts = generateProcessesInBursts;
+    }
+
+    public SimulationConfig(int minimalProcessCompletionTime, int maximalProcessCompletionTime, int numberOfProcesses, int timeUnit, boolean processesRandomGenerated, boolean sendSimulationState, int roundRobinTimeQuantum, int roundRobinContextChangeTime, String processesCompletionTimesString, int ticksPerNewProcess, boolean generateProcessesInBursts) {
         this.minimalProcessCompletionTime = minimalProcessCompletionTime;
         this.maximalProcessCompletionTime = maximalProcessCompletionTime;
         this.numberOfProcesses = numberOfProcesses;
@@ -108,6 +117,7 @@ public class SimulationConfig {
 
         this.processesCompletionTime = parseCompletionTimeString(processesCompletionTimesString);
         this.ticksPerNewProcess = ticksPerNewProcess;
+        this.generateProcessesInBursts = generateProcessesInBursts;
     }
 
     private ArrayList<Integer> parseCompletionTimeString(String completionTimeString) {

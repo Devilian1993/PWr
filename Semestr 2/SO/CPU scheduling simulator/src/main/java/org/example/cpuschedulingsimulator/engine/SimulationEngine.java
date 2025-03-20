@@ -19,6 +19,8 @@ public class SimulationEngine {
     private boolean running;
 
     private final int FRACTION_OF_PROCESSESS_WAITING_ON_START = 5;
+    private final int TICKS_PER_BURSTS = 200;
+    private final int BURST_SIZE = 100;
     private int ticksPerNewProcess;
     private int timeUnit;
 
@@ -26,7 +28,9 @@ public class SimulationEngine {
     private Consumer<SimulationState> stateUpdateCallback;
     private boolean stateSent;
 
-    public SimulationEngine(String name, SchedulingAlgorithm algorithm, int timeUnit, ArrayList<Process> initialProcesses, int RRTimeQuantum, int RRContextChangeTime, int ticksPerNewProcess) {
+    private boolean generateProcessesInBursts;
+
+    public SimulationEngine(String name, SchedulingAlgorithm algorithm, int timeUnit, ArrayList<Process> initialProcesses, int RRTimeQuantum, int RRContextChangeTime, int ticksPerNewProcess, boolean generateProcessesInBursts) {
         this.name = name;
         clock = new SimulationClock(RRTimeQuantum);
         cpu = new CPU();
@@ -37,6 +41,7 @@ public class SimulationEngine {
         this.timeUnit = timeUnit;
         this.stateSent = false;
         this.ticksPerNewProcess = ticksPerNewProcess;
+        this.generateProcessesInBursts = generateProcessesInBursts;
 
         waitingProcesses.addAll(initialProcesses.subList(0, initialProcesses.size() / FRACTION_OF_PROCESSESS_WAITING_ON_START).
                 stream().peek(process -> process.setWaiting(true)).
@@ -44,8 +49,20 @@ public class SimulationEngine {
     }
 
     public void simulationTick() {
-        if (clock.getTimeSinceStart() % ticksPerNewProcess == 0) {
-            addNewProcess();
+        if (!generateProcessesInBursts) {
+            if (clock.getTimeSinceStart() % ticksPerNewProcess == 0) {
+                addNewProcess();
+            }
+        } else {
+            if (clock.getTimeSinceStart() % ticksPerNewProcess*4 == 0) {
+                addNewProcess();
+            } else if ((clock.getTimeSinceStart() + 1 )% TICKS_PER_BURSTS == 0) {
+                waitingProcesses.addAll(initialProcesses.stream().
+                        filter(Process::isWaiting).
+                        collect(Collectors.toCollection(ArrayList::new)).subList(0, BURST_SIZE).
+                        stream().peek(process -> process.setWaiting(true)).
+                        collect(Collectors.toCollection(ArrayList::new)));
+            }
         }
 
         if (!waitingProcesses.isEmpty()) {
