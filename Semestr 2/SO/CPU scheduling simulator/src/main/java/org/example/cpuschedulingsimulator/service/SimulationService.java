@@ -154,7 +154,8 @@ public class SimulationService {
                 simulationState.getName(),
                 simulationState.getAvgWaitingTime(),
                 simulationState.getMaximumWaitingTime(),
-                simulationState.getContextChanges()
+                simulationState.getContextChanges(),
+                simulationState.getStarvedProcessCount()
         );
     }
 
@@ -203,14 +204,18 @@ public class SimulationService {
         System.out.printf("Średni czas oczekiwania: %f\n", simulationEngines.get(0).getSimulationState().getAvgWaitingTime());
         System.out.printf("Maksymalny czas oczekiwania: %d\n", simulationEngines.get(0).getSimulationState().getMaximumWaitingTime());
         System.out.printf("Liczba zmian kontekstu: %d\n", simulationEngines.get(0).getSimulationState().getContextChanges());
+        System.out.printf("Liczba zagłodzonych procesów: %d", simulationEngines.get(0).getSimulationState().getStarvedProcessCount());
         System.out.println("##########Statystyki symulacji SJF##########");
         System.out.printf("Średni czas oczekiwania: %f\n", simulationEngines.get(1).getSimulationState().getAvgWaitingTime());
         System.out.printf("Maksymalny czas oczekiwania: %d\n", simulationEngines.get(1).getSimulationState().getMaximumWaitingTime());
         System.out.printf("Liczba zmian kontekstu: %d\n", simulationEngines.get(1).getSimulationState().getContextChanges());
+        System.out.printf("Liczba zagłodzonych procesów: %d", simulationEngines.get(1).getSimulationState().getStarvedProcessCount());
         System.out.println("##########Statystyki symulacji RR##########");
         System.out.printf("Średni czas oczekiwania: %f\n", simulationEngines.get(2).getSimulationState().getAvgWaitingTime());
         System.out.printf("Maksymalny czas oczekiwania: %d\n", simulationEngines.get(2).getSimulationState().getMaximumWaitingTime());
         System.out.printf("Liczba zmian kontekstu: %d\n", simulationEngines.get(2).getSimulationState().getContextChanges());
+        System.out.printf("Liczba zagłodzonych procesów: %d", simulationEngines.get(2).getSimulationState().getStarvedProcessCount());
+
     }
 
     public void stopSimulation() {

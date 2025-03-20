@@ -8,6 +8,7 @@ public class SimulationStateDTO {
     private double avgWaitingTime;
     private int maximumWaitingTime;
     private int contextChanges;
+    private int numberOfStarvedProcesses;
 
     public SimulationStateDTO() {
     }
@@ -44,11 +45,20 @@ public class SimulationStateDTO {
         this.contextChanges = contextChanges;
     }
 
+    public int getNumberOfStarvedProcesses() {
+        return numberOfStarvedProcesses;
+    }
+
+    public void setNumberOfStarvedProcesses(int numberOfStarvedProcesses) {
+        this.numberOfStarvedProcesses = numberOfStarvedProcesses;
+    }
+
     public SimulationStateDTO(String name, double avgWaitingTime,
-                              int maximumWaitingTime, int contextChanges) {
+                              int maximumWaitingTime, int contextChanges, int numberOfStarvedProcesses) {
         this.name = name;
         this.avgWaitingTime = avgWaitingTime;
         this.maximumWaitingTime = maximumWaitingTime;
         this.contextChanges = contextChanges;
+        this.numberOfStarvedProcesses = numberOfStarvedProcesses;
     }
 }

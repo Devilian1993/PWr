@@ -4,6 +4,7 @@ import org.example.cpuschedulingsimulator.model.CPU;
 import org.example.cpuschedulingsimulator.model.Process;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class SimulationState {
     private String name;
@@ -18,6 +19,7 @@ public class SimulationState {
     private int currentTime;
     private int maximumWaitingTime;
     private int contextChanges;
+    private int starvedProcessCount;
 
     public SimulationState(String name, SimulationClock clock, boolean running, CPU cpu, ArrayList<Process> initialProcesses, ArrayList<Process> waitingProcesses) {
         this.name = name;
@@ -31,7 +33,8 @@ public class SimulationState {
         this.currentTime = clock.getTimeSinceStart();
         this.avgWaitingTime = calculateAvgWaitingTime();
         this.maximumWaitingTime = calculateMaximumWaitingTime();
-        this.contextChanges = clock.getContextChangeCounter();
+
+        this.starvedProcessCount = calculateNumberOfStarvedProcesses();
     }
 
     private double calculateAvgWaitingTime() {
@@ -41,7 +44,13 @@ public class SimulationState {
             waitingTimeSum += process.getWaitingTime();
         }
 
-        return waitingTimeSum / initialProcesses.size();
+        double avgWaitingTime = waitingTimeSum / initialProcesses.size();
+        int starvedProcessThreshold = (int) avgWaitingTime*3;
+
+        for (Process process : initialProcesses) {
+            process.setStarvedThreshold(starvedProcessThreshold);
+        }
+        return avgWaitingTime;
     }
 
     private int calculateMaximumWaitingTime() {
@@ -54,6 +63,13 @@ public class SimulationState {
         }
 
         return maximumWaitingTime;
+    }
+
+    private int calculateNumberOfStarvedProcesses() {
+        return initialProcesses.stream().
+                filter(Process::isStarved).
+                collect(Collectors.toCollection(ArrayList::new)).
+                size();
     }
 
     public String getName() {
@@ -135,4 +151,9 @@ public class SimulationState {
     public void setContextChanges(int contextChanges) {
         this.contextChanges = contextChanges;
     }
+
+    public int getStarvedProcessCount() {
+        return starvedProcessCount;
+    }
 }
+
