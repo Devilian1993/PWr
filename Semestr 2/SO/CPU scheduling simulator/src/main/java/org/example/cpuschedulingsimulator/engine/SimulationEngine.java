@@ -2,6 +2,7 @@ package org.example.cpuschedulingsimulator.engine;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.example.cpuschedulingsimulator.model.*;
@@ -54,14 +55,22 @@ public class SimulationEngine {
                 addNewProcess();
             }
         } else {
-            if (clock.getTimeSinceStart() % ticksPerNewProcess*4 == 0) {
+            if (clock.getTimeSinceStart() % ticksPerNewProcess*10 == 0) {
                 addNewProcess();
-            } else if ((clock.getTimeSinceStart() + 1 )% TICKS_PER_BURSTS == 0) {
-                waitingProcesses.addAll(initialProcesses.stream().
-                        filter(Process::isWaiting).
-                        collect(Collectors.toCollection(ArrayList::new)).subList(0, BURST_SIZE).
-                        stream().peek(process -> process.setWaiting(true)).
-                        collect(Collectors.toCollection(ArrayList::new)));
+            }
+            if ((clock.getTimeSinceStart() + 1 )% TICKS_PER_BURSTS == 0) {
+                ArrayList<Process> availableProcesses = initialProcesses.stream()
+                        .filter(Predicate.not(Process::isWaiting))
+                        .filter(Predicate.not(Process::isCompleted))
+                        .collect(Collectors.toCollection(ArrayList::new));
+
+                int burstSize = Math.min(TICKS_PER_BURSTS, availableProcesses.size());
+
+                if (burstSize > 0) {
+                    waitingProcesses.addAll(availableProcesses.subList(0, burstSize).
+                            stream().peek(process -> process.setWaiting(true)).
+                            collect(Collectors.toCollection(ArrayList::new)));
+                }
             }
         }
 

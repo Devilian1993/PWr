@@ -33,6 +33,7 @@ public class SimulationState {
         this.currentTime = clock.getTimeSinceStart();
         this.avgWaitingTime = calculateAvgWaitingTime();
         this.maximumWaitingTime = calculateMaximumWaitingTime();
+        this.contextChanges = clock.getContextChangeCounter();
 
         this.starvedProcessCount = calculateNumberOfStarvedProcesses();
     }
@@ -45,11 +46,9 @@ public class SimulationState {
         }
 
         double avgWaitingTime = waitingTimeSum / initialProcesses.size();
-        int starvedProcessThreshold = (int) avgWaitingTime*3;
+        int starvedProcessThreshold = (int) avgWaitingTime*4;
 
-        for (Process process : initialProcesses) {
-            process.setStarvedThreshold(starvedProcessThreshold);
-        }
+        initialProcesses.forEach(process -> process.setStarvedThreshold(starvedProcessThreshold));
         return avgWaitingTime;
     }
 
