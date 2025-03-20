@@ -19,6 +19,7 @@ export const connectWebSocket = (onConnect, onSimulationUpdate) => {
 
         stompClient.subscribe('/topic/simulation', message => {
             const data = JSON.parse(message.body);
+            console.log(data)
             onSimulationUpdate(data);
         });
 

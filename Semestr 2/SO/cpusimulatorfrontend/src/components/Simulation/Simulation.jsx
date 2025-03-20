@@ -22,6 +22,7 @@ function Simulation() {
                             <p>Średni czas oczekiwania: {result.avgWaitingTime}</p>
                             <p>Maksymalny czas oczekiwania: {result.maximumWaitingTime}</p>
                             <p>Liczba zmian kontekstu: {result.contextChanges}</p>
+                            <p>Liczba procesów zagłodzonych: {result.numberOfStarvedProcesses}</p>
                         </div>
                     ))}
                     <button type="button" onClick={refreshPage} >Nowa symulacja</button>
