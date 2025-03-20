@@ -4,6 +4,7 @@ import org.example.cpuschedulingsimulator.model.CPU;
 import org.example.cpuschedulingsimulator.model.Process;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class SimulationState {
@@ -46,10 +47,9 @@ public class SimulationState {
         }
 
         double avgWaitingTime = waitingTimeSum / initialProcesses.size();
-        int starvedProcessThreshold = (int) avgWaitingTime*4;
+        Process.setStarvedThreshold((int)avgWaitingTime*4);
 
-        initialProcesses.forEach(process -> process.setStarvedThreshold(starvedProcessThreshold));
-        return avgWaitingTime;
+        return waitingTimeSum / initialProcesses.size();
     }
 
     private int calculateMaximumWaitingTime() {

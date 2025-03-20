@@ -10,7 +10,7 @@ public class Process {
     private int waitingTime;
     private int completionTime;
     private int assignmentTime;
-    private int starvedThreshold;
+    private static int starvedThreshold;
 
     public Process(int id, int timeToComplete, int initiationTime) {
         this.id = id;
@@ -108,8 +108,8 @@ public class Process {
         this.assignmentTime = assignmentTime;
     }
 
-    public void setStarvedThreshold(int threshold) {
-        this.starvedThreshold = threshold;
+    public static void setStarvedThreshold(int threshold) {
+        starvedThreshold = threshold;
     }
 
     public void executeProcess() {
