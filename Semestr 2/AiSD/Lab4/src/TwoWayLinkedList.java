@@ -184,4 +184,12 @@ public class TwoWayLinkedList<E> implements IList<E> {
 
         return size;
     }
+
+    public TwoWayListElement<E> getHead() {
+        return head;
+    }
+
+    public TwoWayListElement<E> getTail() {
+        return tail;
+    }
 }
