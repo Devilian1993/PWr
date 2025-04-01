@@ -5,9 +5,9 @@ public class ProcessDTO {
     private boolean completed;
     private boolean paused;
     private int timeToComplete;
-    private int initiationTime;
-    private int waitingTime;
-    private int completionTime;
+    private long initiationTime;
+    private long waitingTime;
+    private long completionTime;
 
     public ProcessDTO() {
     }
@@ -44,7 +44,7 @@ public class ProcessDTO {
         this.timeToComplete = timeToComplete;
     }
 
-    public int getInitiationTime() {
+    public long getInitiationTime() {
         return initiationTime;
     }
 
@@ -52,7 +52,7 @@ public class ProcessDTO {
         this.initiationTime = initiationTime;
     }
 
-    public int getWaitingTime() {
+    public long getWaitingTime() {
         return waitingTime;
     }
 
@@ -60,7 +60,7 @@ public class ProcessDTO {
         this.waitingTime = waitingTime;
     }
 
-    public int getCompletionTime() {
+    public long getCompletionTime() {
         return completionTime;
     }
 
@@ -68,7 +68,7 @@ public class ProcessDTO {
         this.completionTime = completionTime;
     }
 
-    public ProcessDTO(int id, boolean completed, boolean paused, int timeToComplete, int initiationTime, int waitingTime, int completionTime) {
+    public ProcessDTO(int id, boolean completed, boolean paused, int timeToComplete, long initiationTime, long waitingTime, long completionTime) {
         this.id = id;
         this.completed = completed;
         this.paused = paused;

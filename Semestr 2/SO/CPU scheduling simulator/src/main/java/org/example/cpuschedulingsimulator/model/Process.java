@@ -7,9 +7,9 @@ public class Process {
     private boolean waiting;
     private int timeToComplete;
     private int initiationTime;
-    private int waitingTime;
-    private int completionTime;
-    private int assignmentTime;
+    private long waitingTime;
+    private long completionTime;
+    private long assignmentTime;
     private static int starvedThreshold;
 
     public Process(int id, int timeToComplete, int initiationTime) {
@@ -76,7 +76,7 @@ public class Process {
         }
     }
 
-    public int getWaitingTime() {
+    public long getWaitingTime() {
         return waitingTime;
     }
 
@@ -84,7 +84,7 @@ public class Process {
         this.waitingTime = waitingTime;
     }
 
-    public int getCompletionTime() {
+    public long getCompletionTime() {
         return completionTime;
     }
 
@@ -100,12 +100,14 @@ public class Process {
         return waiting;
     }
 
-    public int getAssignmentTime() {
+    public long getAssignmentTime() {
         return assignmentTime;
     }
 
     public void setAssignmentTime(int assignmentTime) {
-        this.assignmentTime = assignmentTime;
+        if (!paused) {
+            this.assignmentTime = assignmentTime;
+        }
     }
 
     public static void setStarvedThreshold(int threshold) {

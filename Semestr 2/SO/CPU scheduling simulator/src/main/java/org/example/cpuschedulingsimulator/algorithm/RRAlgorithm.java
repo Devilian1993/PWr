@@ -23,6 +23,7 @@ public class RRAlgorithm implements SchedulingAlgorithm {
 
             cpu.setExecutedProcess(processToExecute);
             waitingProcesses.add(previouslyExecutedProcess);
+            previouslyExecutedProcess.setPaused(true);
             waitingProcesses.remove(processToExecute);
 
             clock.contextChange();

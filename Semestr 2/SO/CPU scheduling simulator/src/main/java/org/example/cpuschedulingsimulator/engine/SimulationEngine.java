@@ -1,6 +1,7 @@
 package org.example.cpuschedulingsimulator.engine;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -19,9 +20,9 @@ public class SimulationEngine {
     private ArrayList<Process> waitingProcesses;
     private boolean running;
 
-    private final int FRACTION_OF_PROCESSESS_WAITING_ON_START = 5;
+    private final int FRACTION_OF_PROCESSESS_WAITING_ON_START = 100;
     private final int TICKS_PER_BURSTS = 200;
-    private final int BURST_SIZE = 100;
+    private final int BURST_SIZE = 50;
     private int ticksPerNewProcess;
     private int timeUnit;
 
@@ -64,7 +65,7 @@ public class SimulationEngine {
                         .filter(Predicate.not(Process::isCompleted))
                         .collect(Collectors.toCollection(ArrayList::new));
 
-                int burstSize = Math.min(TICKS_PER_BURSTS, availableProcesses.size());
+                int burstSize = Math.min(BURST_SIZE, availableProcesses.size());
 
                 if (burstSize > 0) {
                     waitingProcesses.addAll(availableProcesses.subList(0, burstSize).
@@ -142,6 +143,17 @@ public class SimulationEngine {
                 waitingProcesses.add(process);
                 process.setWaiting(true);
                 process.setInitiationTime(clock.getTimeSinceStart());
+
+                final boolean randomLargeProcess = false;
+                if (randomLargeProcess) {
+                    Random random = new Random();
+                    int randInt = random.nextInt(101);
+
+                    if (randInt == 100) {
+                        process.setCompletionTime(100);
+                    }
+                }
+
                 break;
             }
         }

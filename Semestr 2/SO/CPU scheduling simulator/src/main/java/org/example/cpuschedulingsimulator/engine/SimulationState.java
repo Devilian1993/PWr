@@ -3,6 +3,7 @@ package org.example.cpuschedulingsimulator.engine;
 import org.example.cpuschedulingsimulator.model.CPU;
 import org.example.cpuschedulingsimulator.model.Process;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +19,7 @@ public class SimulationState {
 
     private double avgWaitingTime;
     private int currentTime;
-    private int maximumWaitingTime;
+    private long maximumWaitingTime;
     private int contextChanges;
     private int starvedProcessCount;
 
@@ -40,20 +41,20 @@ public class SimulationState {
     }
 
     private double calculateAvgWaitingTime() {
-        double waitingTimeSum = 0;
+        long waitingTimeSum = 0;
 
         for (Process process : initialProcesses) {
             waitingTimeSum += process.getWaitingTime();
         }
 
-        double avgWaitingTime = waitingTimeSum / initialProcesses.size();
-        Process.setStarvedThreshold((int)avgWaitingTime*4);
+        long avgWaitingTime = waitingTimeSum / initialProcesses.size();
+        Process.setStarvedThreshold(10000);
 
-        return waitingTimeSum / initialProcesses.size();
+        return avgWaitingTime;
     }
 
-    private int calculateMaximumWaitingTime() {
-        int maximumWaitingTime = 0;
+    private long calculateMaximumWaitingTime() {
+        long maximumWaitingTime = 0;
 
         for (Process process : initialProcesses) {
             if (process.getWaitingTime() > maximumWaitingTime) {
@@ -135,7 +136,7 @@ public class SimulationState {
         this.avgWaitingTime = avgWaitingTime;
     }
 
-    public int getMaximumWaitingTime() {
+    public long getMaximumWaitingTime() {
         return maximumWaitingTime;
     }
 

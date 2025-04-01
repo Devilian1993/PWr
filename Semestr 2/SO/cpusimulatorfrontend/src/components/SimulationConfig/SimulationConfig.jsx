@@ -6,12 +6,12 @@ import {useEffect, useState} from "react";
 function SimulationConfig({ onSimulationStart }) {
     const [config, setConfig] = useState({
         mode: "random",
-        numberOfProcesses: 1000,
+        numberOfProcesses: 10000,
         minProcessTime: 1,
-        maxProcessTime: 10,
+        maxProcessTime: 30,
         rrTimeQuantum: 5,
         update: true,
-        ticksPerNewProcess: 5
+        ticksPerNewProcess: 15
     });
 
     const handleModeChange = (e) => {
@@ -71,18 +71,18 @@ function SimulationConfig({ onSimulationStart }) {
             {config.mode !== "starve" && (
                 <fieldset>
                     <label htmlFor="numberOfProcesses">Liczba procesów</label>
-                    <input type="number" id="numberOfProcesses" name="numberOfProcesses" defaultValue={1000} onChange={handleNumericChange} />
+                    <input type="number" id="numberOfProcesses" name="numberOfProcesses" defaultValue={10000} onChange={handleNumericChange} />
                     <label htmlFor="minProcessTime">Minimalny czas wykonywania procesu</label>
                     <input type="number" id="minProcessTime" name="minProcessTime" defaultValue={1} onChange={handleNumericChange} />
                     <label htmlFor="maxProcessTime">Maksymalny czas wykonywania procesu</label>
-                    <input type="number" id="maxProcessTime" name="maxProcessTime" defaultValue={10} onChange={handleNumericChange} />
+                    <input type="number" id="maxProcessTime" name="maxProcessTime" defaultValue={30} onChange={handleNumericChange} />
                 </fieldset>
             )}
             <fieldset>
                 <label htmlFor="rrTimeQuantum">Kwant czasu Round Robin</label>
                 <input type="number" id="rrTimeQuantum" name="rrTimeQuantum" defaultValue={5} onChange={handleNumericChange} />
                 <label htmlFor="ticksPerNewProcesses">Okres generowania nowych procesów</label>
-                <input type="number" id="ticksPerNewProcess" name="ticksPerNewProces" defaultValue={5} onChange={handleNumericChange} />
+                <input type="number" id="ticksPerNewProcess" name="ticksPerNewProces" defaultValue={15} onChange={handleNumericChange} />
             </fieldset>
             <button type="submit">Rozpocznij symulację</button>
         </form>

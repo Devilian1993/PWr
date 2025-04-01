@@ -6,7 +6,7 @@ import java.util.List;
 public class SimulationStateDTO {
     private String name;
     private double avgWaitingTime;
-    private int maximumWaitingTime;
+    private long maximumWaitingTime;
     private int contextChanges;
     private int numberOfStarvedProcesses;
 
@@ -29,7 +29,7 @@ public class SimulationStateDTO {
         this.avgWaitingTime = avgWaitingTime;
     }
 
-    public int getMaximumWaitingTime() {
+    public long getMaximumWaitingTime() {
         return maximumWaitingTime;
     }
 
@@ -54,7 +54,7 @@ public class SimulationStateDTO {
     }
 
     public SimulationStateDTO(String name, double avgWaitingTime,
-                              int maximumWaitingTime, int contextChanges, int numberOfStarvedProcesses) {
+                              long maximumWaitingTime, int contextChanges, int numberOfStarvedProcesses) {
         this.name = name;
         this.avgWaitingTime = avgWaitingTime;
         this.maximumWaitingTime = maximumWaitingTime;
