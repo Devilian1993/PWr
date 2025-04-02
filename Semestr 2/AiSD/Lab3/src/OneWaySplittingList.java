@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class OneWaySplittingList<E> implements IList<E> {
     ListElement<E> head;
 
@@ -16,11 +19,17 @@ public class OneWaySplittingList<E> implements IList<E> {
         }
 
         ListElement<E> tail = head;
+
+        while (tail.getSplitElement() != null) {
+            tail = tail.getSplitElement();
+        }
+
         while(tail.getNextElement()!=null) {
             tail = tail.getNextElement();
         }
+
         tail.setNextElement(newElement);
-        newElement.setIndex(tail.getIndex()+1);
+        newElement.setIndex(size() - 1);
 
         return true;
     }
@@ -33,7 +42,7 @@ public class OneWaySplittingList<E> implements IList<E> {
             add(element);
         } else {
             ListElement<E> newElement = new ListElement<>(element);
-            ListElement<E> previousElement = get(index - 1);
+            ListElement<E> previousElement = getElement(index - 1);
 
             newElement.setNextElement(previousElement.getNextElement());
             previousElement.setNextElement(newElement);
@@ -51,18 +60,23 @@ public class OneWaySplittingList<E> implements IList<E> {
     }
 
     @Override
-    public ListElement<E> get(int index) {
+    public E get(int index) {
         if (index < 0) {
             throw new IndexOutOfBoundsException();
         } else {
+            ListElement<E> previousElement = null;
             ListElement<E> currentElement = head;
-            while(index > 0 && currentElement != null){
-                index--;
-                if (currentElement.getSplitElement() != null && index >= currentElement.getSplitElement().getIndex()) {
-                    index -= currentElement.getSplitElement().getIndex() - 1;
-                    currentElement = currentElement.getSplitElement();
-                } else {
-                    currentElement = currentElement.getNextElement();
+            ListElement<E> splitHead = head;
+            int counter = 0;
+
+            while(counter != index && currentElement != null){
+                counter++;
+                previousElement = currentElement;
+                currentElement = currentElement.getNextElement();
+
+                if(currentElement == null && splitHead.getSplitElement() != null) {
+                    currentElement = splitHead.getSplitElement();
+                    splitHead = currentElement;
                 }
             }
 
@@ -71,23 +85,61 @@ public class OneWaySplittingList<E> implements IList<E> {
 
             ListElement<E> splitElement = head;
 
-            while (splitElement.getSplitElement() != null) {
+            while(splitElement.getSplitElement() != null && splitElement != currentElement) {
+                if (currentElement.getIndex() > splitElement.getIndex() && currentElement.getIndex() < splitElement.getSplitElement().getIndex()) {
+                    break;
+                }
+
                 splitElement = splitElement.getSplitElement();
             }
-            if (!splitElement.equals(currentElement)) {
+
+            if (splitElement.getSplitElement() != null && splitElement != currentElement) {
+                currentElement.setSplitElement(splitElement.getSplitElement());
+            }
+
+            if (splitElement != currentElement) {
                 splitElement.setSplitElement(currentElement);
             }
+
+            if (previousElement != null) {
+                previousElement.setNextElement(null);
+            }
+
+            return currentElement.getValue();
+        }
+    }
+
+    private ListElement<E> getElement(int index) {
+        if (index < 0) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            ListElement<E> currentElement = head;
+            ListElement<E> splitHead = head;
+            int counter = 0;
+
+            while(counter != index && currentElement != null){
+                counter++;
+                currentElement = currentElement.getNextElement();
+
+                if(currentElement == null && splitHead.getSplitElement() != null) {
+                    currentElement = splitHead.getSplitElement();
+                    splitHead = currentElement;
+                }
+            }
+
+            if (currentElement ==null)
+                throw new IndexOutOfBoundsException();
 
             return currentElement;
         }
     }
 
+
     @Override
-    public ListElement<E> set(int index, E data) {
-        ListElement<E> actElem= get(index);
-        E elemData=actElem.getValue();
+    public E set(int index, E data) {
+        ListElement<E> actElem= getElement(index);
         actElem.setValue(data);
-        return actElem;
+        return actElem.getValue();
     }
 
     @Override
@@ -96,8 +148,10 @@ public class OneWaySplittingList<E> implements IList<E> {
         ListElement<E> actElem = head;
         while(actElem!=null)
         {
-            if(actElem.getValue().equals(data))
+            if(actElem.getValue().equals(data)) {
+                get(pos);
                 return pos;
+            }
             pos++;
             actElem=actElem.getNextElement();
         }
@@ -121,7 +175,7 @@ public class OneWaySplittingList<E> implements IList<E> {
             return retValue;
         }
 
-        ListElement<E> actElem = get(index-1);
+        ListElement<E> actElem = getElement(index-1);
 
         if(actElem.getNextElement() == null) {
             throw new IndexOutOfBoundsException();
@@ -143,7 +197,7 @@ public class OneWaySplittingList<E> implements IList<E> {
             return true;
         }
 
-        ListElement<E> actElem=head;
+        ListElement<E> actElem= head ;
         while(actElem.getNextElement()!=null && !actElem.getNextElement().getValue().equals(value)) {
             actElem = actElem.getNextElement();
         }
@@ -160,12 +214,88 @@ public class OneWaySplittingList<E> implements IList<E> {
     public int size() {
         int counter = 0;
         ListElement<E> currentElement = head;
+        ListElement<E> splitElement = head;
 
-        while (currentElement != null) {
-            counter++;
+        do {
+            while(currentElement != null) {
+                currentElement = currentElement.getNextElement();
+                counter++;
+            }
+
+            if (splitElement != null) {
+                splitElement = splitElement.getSplitElement();
+                currentElement = splitElement;
+            }
+        } while(splitElement != null);
+
+        return counter;
+    }
+
+    private int maxSplitIndex() {
+        int index = 0;
+        ListElement<E> previousSplitElement = null;
+        ListElement<E> currentElement = head;
+
+        while(currentElement != null) {
+            index = currentElement.getIndex();
+            previousSplitElement = currentElement;
+            currentElement = currentElement.getSplitElement();
+        }
+
+
+        currentElement = previousSplitElement;
+
+        while(currentElement.getNextElement() != null) {
+            index++;
             currentElement = currentElement.getNextElement();
         }
 
-        return counter;
+        return index;
+    }
+
+    private void updateSublistIndexes(ListElement<E> head, List<Integer> indexesList) {
+        ListElement<E> currentElement = head;
+        for (Integer index : indexesList) {
+            currentElement.setIndex(index);
+            currentElement = currentElement.getNextElement();
+        }
+    }
+
+    public void reverseList() {
+        if (head != null) {
+            ListElement<E> previousElement = null;
+            ListElement<E> currentElement = head;
+            ListElement<E> nextElement = null;
+            ListElement<E> previousSplitElement = null;
+            ListElement<E> splitElement = head;
+            boolean assignedNewHead = false;
+
+            while (splitElement != null) {
+                List<Integer> indexesList = new ArrayList<>();
+                while (currentElement != null) {
+                    indexesList.add(currentElement.getIndex());
+                    nextElement = currentElement.getNextElement();
+                    currentElement.setNextElement(previousElement);
+                    previousElement = currentElement;
+                    currentElement = nextElement;
+                }
+
+                if (!assignedNewHead) {
+                    head = previousElement;
+                    assignedNewHead = true;
+                }
+
+                updateSublistIndexes(previousElement, indexesList);
+                if (previousSplitElement != null) {
+                    previousSplitElement.setSplitElement(previousElement);
+                }
+                previousSplitElement = previousElement;
+                previousElement.setSplitElement(splitElement.getSplitElement());
+                splitElement.setSplitElement(null);
+                splitElement = previousElement.getSplitElement();
+                currentElement = splitElement;
+                previousElement = null;
+            }
+        }
     }
 }

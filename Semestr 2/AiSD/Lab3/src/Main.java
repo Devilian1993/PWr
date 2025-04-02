@@ -8,6 +8,6 @@ public class Main {
         list.add(3);
         list.add(null);
         list.remove(3);
-        System.out.println(list.get(3).getValue());
+        System.out.println(list.get(3));
     }
 }
