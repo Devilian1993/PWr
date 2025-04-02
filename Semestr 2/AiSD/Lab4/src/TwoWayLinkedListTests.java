@@ -82,6 +82,14 @@ public class TwoWayLinkedListTests {
         list.remove(0);
 
         assertThrows(IndexOutOfBoundsException.class, () -> list.get(0));
+
+        list.add(4);
+
+        list.add(5);
+
+        list.remove(0);
+
+        assertEquals(5, list.get(0));
     }
 
     @Test

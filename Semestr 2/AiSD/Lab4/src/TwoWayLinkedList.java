@@ -157,6 +157,14 @@ public class TwoWayLinkedList<E> implements IList<E> {
         previous.setNextSecondElement(next.getNextElement());
         next.setPreviousElement(previous);
 
+        if (removedElement == head) {
+            head = frontSentinel.getNextSecondElement();
+        }
+
+        if (removedElement == tail) {
+            tail = rearSentinel.getPreviousElement();
+        }
+
         return removedElement.getValue();
     }
 
