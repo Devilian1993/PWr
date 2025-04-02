@@ -69,6 +69,19 @@ public class OneWaySplittingList<E> implements IList<E> {
             ListElement<E> splitHead = head;
             int counter = 0;
 
+            do {
+                if (splitHead != null && splitHead.getIndex() == index) {
+                    return splitHead.getValue();
+                }
+
+                if (splitHead != null) {
+                    splitHead = splitHead.getSplitElement();
+                }
+
+            } while (splitHead != null && splitHead.getIndex() != index);
+
+            splitHead = head;
+
             while(counter != index && currentElement != null){
                 counter++;
                 previousElement = currentElement;
