@@ -40,6 +40,10 @@ public class OneWaySplittingListTests {
         list.add(4);
         assertEquals(4, list.get(4));
         assertEquals(5, list.size());
+
+        list.remove(2);
+
+        assertEquals(4, list.get(3));
     }
 
     @Test
@@ -57,6 +61,14 @@ public class OneWaySplittingListTests {
 
         assertEquals(4, list.size());
         assertEquals(3, list.get(3));
+
+        list.remove(1);
+
+        assertEquals(2, list.get(1));
+
+        list.remove(1);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> list.get(2));
     }
 
     @Test
@@ -99,5 +111,8 @@ public class OneWaySplittingListTests {
         assertEquals(0, list.get(2));
         assertEquals(4, list.get(3));
         assertEquals(3, list.get(4));
+
+        list.remove(0);
+        assertEquals(1, list.get(0));
     }
 }

@@ -82,14 +82,13 @@ public class TwoWayLinkedList<E> implements IList<E> {
             throw new IndexOutOfBoundsException();
         }
 
-        TwoWayListElement<E> element = frontSentinel.getNextElement();
+        TwoWayListElement<E> element = null;
+        element = frontSentinel.getNextElement();
         int counter = 0;
-
-        while(element != frontSentinel && counter < index && element != rearSentinel) {
+        while(element != frontSentinel && counter < index && element != rearSentinel){
             counter++;
             element = element.getNextElement();
         }
-
         if(element == frontSentinel || element == rearSentinel) {
             throw new IndexOutOfBoundsException();
         }
@@ -102,14 +101,13 @@ public class TwoWayLinkedList<E> implements IList<E> {
             throw new IndexOutOfBoundsException();
         }
 
-        TwoWayListElement<E> element = frontSentinel.getNextElement();
+        TwoWayListElement<E> element = null;
+        element = frontSentinel.getNextElement();
         int counter = 0;
-
         while(element != frontSentinel && counter < index && element != rearSentinel){
             counter++;
             element = element.getNextElement();
         }
-
         if(element == frontSentinel || element == rearSentinel) {
             throw new IndexOutOfBoundsException();
         }
