@@ -8,6 +8,5 @@ public interface IList<E>{
     int indexOf(E element); // pozycja szukanego elementu (equals())
     boolean isEmpty(); // czy lista jest pusta
     E remove(int index); // usuwa element z podanej pozycji
-    boolean remove(E element); // usuwa element (equals())
     int size(); // rozmiar listy
 }
