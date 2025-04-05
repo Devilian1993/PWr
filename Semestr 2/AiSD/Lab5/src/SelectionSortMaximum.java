@@ -11,6 +11,20 @@ public class SelectionSortMaximum<T> extends AbstractSwappingSortingAlgorithm<T>
 
     @Override
     public List<T> sort(List<T> list) {
-        return List.of();
+        int swapIndex = list.size() - 1;
+
+        for (int i = swapIndex; i >= 0; i--) {
+            int maxIndex = i;
+            for (int j = i - 1; j >= 0; j--) {
+                if(compare(list.get(j), list.get(maxIndex)) > 0) {
+                    maxIndex = j;
+                }
+            }
+            if (i != maxIndex) {
+                swap(list, i, maxIndex);
+            }
+        }
+
+        return list;
     }
 }

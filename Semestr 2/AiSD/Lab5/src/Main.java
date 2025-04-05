@@ -1,6 +1,13 @@
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
+import core.AbstractSortingAlgorithm;
 import core.AbstractSwappingSortingAlgorithm;
 import testing.*;
 import testing.comparators.*;
@@ -9,26 +16,110 @@ import testing.generation.conversion.*;
 import testing.results.swapping.Result;
 
 public class Main {
-	private static Comparator<MarkedValue<Integer>> markedComparator;
-	private static Generator<MarkedValue<Integer>> generator;
-	private static final int TEST_SIZE = 10;
-	private static final int REPETITIONS = 50;
+    private static final List<Integer> TEST_SIZES = new ArrayList<>(){{
+		add(10);
+		add(20);
+		add(40);
+		add(50);
+		add(60);
+		add(80);
+		add(100);
+		add(150);
+		add(200);
+		add(300);
+		add(500);
+		add(600);
+		add(800);
+		add(1000);
+		add(1250);
+		add(1500);
+		add(2000);
+		add(2500);
+		add(3000);
+		add(4000);
+		add(5000);
+		add(10000);
+	}};
 
-	private static void shakerSort() {
-		AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> shakerSort = new ShakerSort<MarkedValue<Integer>>(markedComparator);
-		Result result = Tester.runNTimes(shakerSort, generator, TEST_SIZE, REPETITIONS);
-		printAllStatistics(result);
+	private static final List<Generator<Integer>> GENERATORS = new ArrayList<>();
+	private static final List<AbstractSwappingSortingAlgorithm<MarkedValue<Integer>>> ALGORITHMS = new ArrayList<>();
+	private static final int REPETITIONS = 20;
+
+	private static String generateFileName(AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> algorithm, Generator<Integer> generator) {
+		String algorithmName = "";
+
+		if (algorithm instanceof ShakerSort<MarkedValue<Integer>>) {
+			algorithmName = "shaker_sort";
+		} else if (algorithm instanceof InsertionSortBinarySearch<MarkedValue<Integer>>) {
+			algorithmName = "insertion_sort_bin_search";
+		} else if (algorithm instanceof SelectionSortMaximum<MarkedValue<Integer>>) {
+			algorithmName = "selection_sort_max";
+		}
+
+		String generatorName = "";
+
+		if (generator instanceof OrderedIntegerArrayGenerator) {
+			generatorName = "ordered_integer_array_generator";
+		} else if (generator instanceof ReversedIntegerArrayGenerator) {
+			generatorName = "reversed_integer_array_generator";
+		} else if (generator instanceof RandomIntegerArrayGenerator) {
+			generatorName = "random_integer_array_generator";
+		} else if (generator instanceof ShuffledIntegerArrayGenerator) {
+			generatorName = "shuffled_integer_array_generator";
+		}
+
+		return algorithmName + "_" + generatorName + "_result.txt";
 	}
 
-	private static void insertionSortBinarySearch() {
-		AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> shakerSort = new InsertionSortBinarySearch<MarkedValue<Integer>>(markedComparator);
-		Result result = Tester.runNTimes(shakerSort, generator, TEST_SIZE, REPETITIONS);
+    private static void writeResult(Result result, int testSize, AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> algorithm, Generator<Integer> generator) throws IOException {
+		String fileName = generateFileName(algorithm, generator);
+		File file = new File(fileName);
+        if (true) {
+            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true))) {
+                //if (file.length() == 0) {
+                //	bufferedWriter.write("Liczba elementów;Liczba zamian;Odchylenie standardowe zamian;Liczba porównań;Odchylenie standardowe porównań\n");
+                //}
+                bufferedWriter.write(String.format("%d;%f;%f;%f;%f\n", testSize, result.averageSwaps(), result.swapsStandardDeviation(), result.averageComparisons(), result.comparisonsStandardDeviation()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+	private static void printLabel(AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> algorithm, int testSize) {
+		String sizeInfo = " for size " + testSize;
+		if (algorithm instanceof ShakerSort) {
+			System.out.println("Test ShakerSort" + sizeInfo);
+		} else if (algorithm instanceof InsertionSortBinarySearch) {
+			System.out.println("Test InsertionSort with binary search" + sizeInfo);
+		} else if (algorithm instanceof SelectionSortMaximum) {
+			System.out.println("Test SelectionSort with selecting maximum" + sizeInfo);
+		}
+
+	}
+
+	private static void runTest(AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> algorithm, Generator<Integer> generator, int testSize) throws IOException {
+		Result result = Tester.runNTimes(algorithm, new MarkingGenerator<>(generator), testSize, REPETITIONS);
+		printLabel(algorithm, testSize);
+		printAllStatistics(result);
+		writeResult(result, testSize, algorithm, generator);
+	}
+
+	private static void runSingleTest(AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> algorithm, Generator<Integer> generator, int testSize) throws IOException {
+		Result result = Tester.runNTimes(algorithm, new MarkingGenerator<>(generator), testSize, REPETITIONS);
+		printLabel(algorithm, testSize);
 		printAllStatistics(result);
 	}
 
 	private static void setup() {
-		markedComparator = new MarkedValueComparator<Integer>(new IntegerComparator());
-		generator = new MarkingGenerator<Integer>(new RandomIntegerArrayGenerator(10));
+        Comparator<MarkedValue<Integer>> markedComparator = new MarkedValueComparator<Integer>(new IntegerComparator());
+		GENERATORS.add(new OrderedIntegerArrayGenerator());
+		GENERATORS.add(new ReversedIntegerArrayGenerator());
+		GENERATORS.add(new ShuffledIntegerArrayGenerator());
+		GENERATORS.add(new RandomIntegerArrayGenerator(100, 50));
+		ALGORITHMS.add(new ShakerSort<MarkedValue<Integer>>(markedComparator));
+		ALGORITHMS.add(new InsertionSortBinarySearch<MarkedValue<Integer>>(markedComparator));
+		ALGORITHMS.add(new SelectionSortMaximum<MarkedValue<Integer>>(markedComparator));
 	}
 
 	private static void printStatistic(String label, double average, double stdDev) {
@@ -48,12 +139,18 @@ public class Main {
 		System.out.println("always stable: " + result.stable());
 	}
 
-	public static void main(String[] args) {
+	private static void runAllTests()  throws IOException {
+		for (AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> algorithm : ALGORITHMS) {
+			for (Generator<Integer> generator : GENERATORS) {
+				for (Integer testSize : TEST_SIZES) {
+					runTest(algorithm, generator, testSize);
+				}
+			}
+		}
+	}
+
+	public static void main(String[] args) throws IOException{
 		setup();
-		//AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> algorithm = new BubbleSort<MarkedValue<Integer>>(markedComparator);
-		//Result result = Tester.runNTimes(algorithm, generator, TEST_SIZE, REPETITIONS);
-		//printAllStatistics(result);
-		//shakerSort();
-		insertionSortBinarySearch();
+		runAllTests();
 	}
 }
