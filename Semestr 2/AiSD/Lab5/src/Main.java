@@ -73,16 +73,10 @@ public class Main {
 
     private static void writeResult(Result result, int testSize, AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> algorithm, Generator<Integer> generator) throws IOException {
 		String fileName = generateFileName(algorithm, generator);
-		File file = new File(fileName);
-        if (true) {
-            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true))) {
-                //if (file.length() == 0) {
-                //	bufferedWriter.write("Liczba elementów;Liczba zamian;Odchylenie standardowe zamian;Liczba porównań;Odchylenie standardowe porównań\n");
-                //}
-                bufferedWriter.write(String.format("%d;%f;%f;%f;%f\n", testSize, result.averageSwaps(), result.swapsStandardDeviation(), result.averageComparisons(), result.comparisonsStandardDeviation()));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true))) {
+            bufferedWriter.write(String.format("%d;%f;%f;%f;%f;%f;%f\n", testSize, result.averageTimeInMilliseconds(), result.timeStandardDeviation(),result.averageSwaps(), result.swapsStandardDeviation(), result.averageComparisons(), result.comparisonsStandardDeviation()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -117,9 +111,9 @@ public class Main {
 		GENERATORS.add(new ReversedIntegerArrayGenerator());
 		GENERATORS.add(new ShuffledIntegerArrayGenerator());
 		GENERATORS.add(new RandomIntegerArrayGenerator(100, 50));
-		ALGORITHMS.add(new ShakerSort<MarkedValue<Integer>>(markedComparator));
+		//ALGORITHMS.add(new ShakerSort<MarkedValue<Integer>>(markedComparator));
 		ALGORITHMS.add(new InsertionSortBinarySearch<MarkedValue<Integer>>(markedComparator));
-		ALGORITHMS.add(new SelectionSortMaximum<MarkedValue<Integer>>(markedComparator));
+		//ALGORITHMS.add(new SelectionSortMaximum<MarkedValue<Integer>>(markedComparator));
 	}
 
 	private static void printStatistic(String label, double average, double stdDev) {
@@ -151,6 +145,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException{
 		setup();
+		//runSingleTest(new SelectionSortMaximum<>(new MarkedValueComparator<Integer>(new IntegerComparator())), new ShuffledIntegerArrayGenerator(5), 10);
 		runAllTests();
 	}
 }
