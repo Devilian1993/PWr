@@ -13,11 +13,11 @@ import java.util.ArrayList;
 public class SimulationService {
     public static void main(String[] args) {
         Simulation simulation = new Simulation(
-                "CSCAN",
-                new CSCAN(),
+                "EDF",
+                new EDF(),
                 new ArrayList<>(){{
-                    add(new DiskRequest(98));
-                    add(new DiskRequest(183));
+                    add(new DiskRequest(98, 30));
+                    add(new DiskRequest(183, 20));
                     add(new DiskRequest(37));
                     add(new DiskRequest(122));
                     add(new DiskRequest(14));

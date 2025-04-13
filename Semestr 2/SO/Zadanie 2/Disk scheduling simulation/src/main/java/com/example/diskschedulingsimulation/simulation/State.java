@@ -45,13 +45,35 @@ public class State {
         } else {
             deadlineResult = executedBeforeDeadlinePercentage + "%";
         }
+
+        // Dostosowujemy długość linii nagłówka do długości nazwy symulacji
+        int nameLength = simulation.name.length();
+        int headerWidth = Math.max(26, nameLength + 6); // Zapewniamy minimalne i odpowiednie marginesy
+
+        // Tworzymy linię z odpowiednią liczbą znaków #
+        String headerLine = "#".repeat(headerWidth);
+
+        // Centrujemy nazwę symulacji
+        String centeredName = centerText("Symulacja: " + simulation.name, headerWidth - 2);
+        String titleLine = "#" + centeredName + "#";
+
         return String.format(
-                "####################\n" +
-                "# Symulacja: %s  #\n" +
-                        "####################\n" +
+                "%s\n" +
+                        "%s\n" +
+                        "%s\n" +
                         "Całkowita liczba przemieszczeń głowicy: %d\n" +
-                        "Średni czas oczekiwania żądania: %f\n" +
+                        "Średni czas oczekiwania żądania: %.2f\n" + // Ogranicz do 2 miejsc po przecinku
                         "Procent żądań czasu rzeczywistego obsłużonych przed deadlinem: %s\n",
-        simulation.name, totalHeadDistance, avgWaitingTime, deadlineResult);
+                headerLine, titleLine, headerLine,
+                totalHeadDistance, avgWaitingTime, deadlineResult);
     }
+
+    // Metoda pomocnicza do centrowania tekstu
+    private String centerText(String text, int width) {
+        int spaces = width - text.length();
+        int leftPadding = spaces / 2;
+        int rightPadding = spaces - leftPadding;
+        return " ".repeat(leftPadding) + text + " ".repeat(rightPadding);
+    }
+
 }
