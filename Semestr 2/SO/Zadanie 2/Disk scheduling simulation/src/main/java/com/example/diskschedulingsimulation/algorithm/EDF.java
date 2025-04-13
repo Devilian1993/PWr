@@ -11,7 +11,7 @@ public class EDF extends RealtimeSchedulingAlgorithm {
     boolean executingRTRequest = false;
 
     public EDF() {
-        baseAlgorithm = new FCFS();
+        baseAlgorithm = new SSTF();
     }
 
     private DiskRequest getShortestDeadlineRequest(ArrayList<DiskRequest> deadlineRequests) {
@@ -30,24 +30,15 @@ public class EDF extends RealtimeSchedulingAlgorithm {
 
     @Override
     public void execute(ArrayList<DiskRequest> waitingRequests, Disk disk) {
-        if (!anyRealtimeRequests(waitingRequests) && !executingRTRequest) {
+        if (!anyRealtimeRequests(waitingRequests) || disk.getCurrentRequest() != null) {
             baseAlgorithm.execute(waitingRequests, disk);
         } else {
             ArrayList<DiskRequest> deadlineRequests = getRealtimeRequests(waitingRequests);
 
-            if (!executingRTRequest) {
-                executingRTRequest = true;
-                disk.setCurrentRequest(getShortestDeadlineRequest(deadlineRequests));
-                waitingRequests.remove(disk.getCurrentRequest());
-            }
+            disk.setCurrentRequest(getShortestDeadlineRequest(deadlineRequests));
+            waitingRequests.remove(disk.getCurrentRequest());
 
             disk.moveHead();
-
-            if (disk.getHeadLocation() == disk.getCurrentRequest().getLocation()) {
-                disk.getCurrentRequest().setCompleted(true);
-                disk.setCurrentRequest(null);
-                executingRTRequest = false;
-            }
         }
     }
 }

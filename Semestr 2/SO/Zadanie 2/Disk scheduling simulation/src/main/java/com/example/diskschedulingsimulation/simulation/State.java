@@ -33,8 +33,8 @@ public class State {
             return -1;
         }
 
-        return (realtimeRequests.stream().filter(DiskRequest::wasExecutedBeforeDeadline).
-                collect(Collectors.toCollection(ArrayList::new)).size() / realtimeRequests.size()) * 100;
+        return (int) (((float) realtimeRequests.stream().filter(DiskRequest::wasExecutedBeforeDeadline).
+                collect(Collectors.toCollection(ArrayList::new)).size() / (float) realtimeRequests.size()) * 100);
     }
 
     @Override

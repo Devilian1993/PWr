@@ -9,7 +9,7 @@ public class Disk {
 
     public Disk(int size) {
         this.size = size;
-        headLocation = 53;
+        headLocation = size/2;
         currentRequest = null;
     }
 

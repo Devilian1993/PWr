@@ -17,9 +17,9 @@ public class Simulation {
 
     private int currentTime;
 
-    public Simulation(String name, SchedulingAlgorithm algorithm, ArrayList<DiskRequest> initialRequests, int newRequestFrequency) {
+    public Simulation(String name, SchedulingAlgorithm algorithm, ArrayList<DiskRequest> initialRequests, int newRequestFrequency, int diskSize) {
         this.name = name;
-        this.disk = new Disk(183);
+        this.disk = new Disk(diskSize);
         this.algorithm = algorithm;
         this.initialRequests = initialRequests;
         this.newRequestFrequency = newRequestFrequency;
@@ -28,7 +28,7 @@ public class Simulation {
     }
     private void addInitialRequests() {
         final int numberOfInitialRequests = initialRequests.size();
-        waitingRequests.addAll(initialRequests.subList(0, numberOfInitialRequests).stream().peek(request -> request.setWaiting(true)).
+        waitingRequests.addAll(initialRequests.subList(0, numberOfInitialRequests/100).stream().peek(request -> request.setWaiting(true)).
                 collect(Collectors.toCollection(ArrayList::new)));
     }
 
@@ -36,6 +36,7 @@ public class Simulation {
         if (currentTime % newRequestFrequency == 0) {
             addNewRequest();
         }
+
         algorithm.execute(waitingRequests, disk);
         updateWaitingTime();
         currentTime++;
@@ -52,13 +53,17 @@ public class Simulation {
     }
 
     private void updateWaitingTime() {
-        waitingRequests.forEach(DiskRequest::waitingTick);
+        initialRequests.stream().filter(DiskRequest::isWaiting).filter(r -> !r.isCompleted()).forEach(DiskRequest::waitingTick);
     }
 
     public State getResults() {
         addInitialRequests();
+        boolean test = true;
         while (!isCompleted()) {
             tick();
+            if (waitingRequests.isEmpty() && test) {
+                test = false;
+            }
         }
         return new State(this);
     }

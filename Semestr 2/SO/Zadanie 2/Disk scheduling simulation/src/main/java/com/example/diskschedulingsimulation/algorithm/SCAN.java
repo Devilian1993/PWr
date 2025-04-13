@@ -4,16 +4,25 @@ import com.example.diskschedulingsimulation.model.Disk;
 import com.example.diskschedulingsimulation.model.DiskRequest;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class SCAN implements SchedulingAlgorithm{
     private boolean directionLeft = true;
 
     private DiskRequest getRequestOnLocation(int location, ArrayList<DiskRequest> waitingRequests) {
-        for (DiskRequest diskRequest : waitingRequests) {
-            if (diskRequest.getLocation() == location) {
-                return diskRequest;
+        ArrayList<DiskRequest> requestsOnLocation = waitingRequests.stream().filter(p -> p.getLocation() == location).collect(Collectors.toCollection(ArrayList::new));
+
+        if (!requestsOnLocation.isEmpty()) {
+            DiskRequest request = requestsOnLocation.getFirst();
+
+            for (int i = 1; i < requestsOnLocation.size(); i++) {
+                requestsOnLocation.get(i).setCompleted(true);
+                waitingRequests.remove(requestsOnLocation.get(i));
             }
+
+            return request;
         }
+
         return null;
     }
 
