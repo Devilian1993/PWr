@@ -89,14 +89,20 @@ public class Main {
 	}
 
 	private static void runTest(AbstractSortingAlgorithm<MarkedValue<Integer>> algorithm, Generator<Integer> generator, int testSize) throws IOException {
-		Result result = Tester.runNTimes(algorithm, new MarkingGenerator<>(generator), testSize, REPETITIONS);
-		printLabel(algorithm, testSize);
-		printAllStatistics(result);
-		writeResult(result, testSize, algorithm, generator);
+		//Result result = Tester.runNTimes(algorithm, new MarkingGenerator<>(generator), testSize, REPETITIONS);
+		//printLabel(algorithm, testSize);
+		//printAllStatistics(result);
+		//writeResult(result, testSize, algorithm, generator);
 	}
 
 	private static void runSingleTest(AbstractSortingAlgorithm<MarkedValue<Integer>> algorithm, Generator<Integer> generator, int testSize) throws IOException {
-		Result result = Tester.runNTimes(algorithm, new MarkingGenerator<>(generator), testSize, REPETITIONS);
+            testing.results.Result result = Tester.runNTimes(algorithm, new MarkingGenerator<>(generator), testSize, REPETITIONS);
+            printLabel(algorithm, testSize);
+            printAllStatistics(result);
+    }
+
+	private static void runSingleTest(AbstractSwappingSortingAlgorithm<MarkedValue<Integer>> algorithm, Generator<Integer> generator, int testSize) throws IOException {
+		testing.results.swapping.Result result = Tester.runNTimes(algorithm, new MarkingGenerator<>(generator), testSize, REPETITIONS);
 		printLabel(algorithm, testSize);
 		printAllStatistics(result);
 	}
@@ -119,10 +125,18 @@ public class Main {
 		return String.format("%.12f", value);
 	}
 
-	private static void printAllStatistics(Result result) {
+	private static void printAllStatistics(testing.results.swapping.Result result) {
 		printStatistic("time [ms]", result.averageTimeInMilliseconds(), result.timeStandardDeviation());
 		printStatistic("comparisons", result.averageComparisons(), result.comparisonsStandardDeviation());
 		printStatistic("swaps", result.averageSwaps(), result.swapsStandardDeviation());
+
+		System.out.println("always sorted: " + result.sorted());
+		System.out.println("always stable: " + result.stable());
+	}
+
+	private static void printAllStatistics(testing.results.Result result) {
+		printStatistic("time [ms]", result.averageTimeInMilliseconds(), result.timeStandardDeviation());
+		printStatistic("comparisons", result.averageComparisons(), result.comparisonsStandardDeviation());
 
 		System.out.println("always sorted: " + result.sorted());
 		System.out.println("always stable: " + result.stable());
@@ -144,7 +158,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException{
 		setup();
-		//runSingleTest(new SelectionSortMaximum<>(new MarkedValueComparator<Integer>(new IntegerComparator())), new ShuffledIntegerArrayGenerator(5), 10);
-		runAllTests();
+		runSingleTest(new MergeSortTriplePartition<>(new MarkedValueComparator<Integer>(new IntegerComparator())), new ShuffledIntegerArrayGenerator(5), 10000);
+		//runAllTests();
 	}
 }
