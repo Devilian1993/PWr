@@ -36,7 +36,6 @@ public class Simulation {
         if (currentTime % newRequestFrequency == 0) {
             addNewRequest();
         }
-
         algorithm.execute(waitingRequests, disk);
         updateWaitingTime();
         currentTime++;

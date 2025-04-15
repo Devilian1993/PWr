@@ -31,7 +31,7 @@ public class SimulationService {
     public static void main(String[] args) {
         int DISK_SIZE = 1000;
         int NUMBER_OF_REQUESTS = 1000;
-        int NEW_REQUEST_FREQUENCY = 100;
+        int NEW_REQUEST_FREQUENCY = 10;
 
         Generator randomGenerator = new RandomGenerator(NUMBER_OF_REQUESTS, DISK_SIZE);
         Generator twoSectorsRandomGenerator = new TwoSectorsRandomGenerator(NUMBER_OF_REQUESTS, DISK_SIZE);
@@ -129,12 +129,12 @@ public class SimulationService {
             ));
         }};
 
-        //System.out.println("######SYMULACJE STANDARDOWE######");
-//
-        //for(Simulation simulation : standardSimulations) {
-        //    System.out.println(simulation.getResults());
-        //}
-//
+        System.out.println("######SYMULACJE STANDARDOWE######");
+
+        for(Simulation simulation : standardSimulations) {
+            System.out.println(simulation.getResults());
+        }
+
         //System.out.println("######SYMULACJA ŻĄDAŃ W DWÓCH ODDALONYCH SEKTORACH######");
 //
         //for(Simulation simulation : twoSectorsSimulation) {

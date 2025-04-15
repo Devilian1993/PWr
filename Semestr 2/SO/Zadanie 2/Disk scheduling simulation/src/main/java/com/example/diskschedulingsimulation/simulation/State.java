@@ -11,18 +11,24 @@ public class State {
     private final Simulation simulation;
     private int totalHeadDistance;
     private double avgWaitingTime;
+    private int maxWaitingTime;
     private int executedBeforeDeadlinePercentage;
 
     public State(Simulation simulation) {
         this.simulation = simulation;
         this.totalHeadDistance = simulation.disk.getTotalHeadRoute();
         this.avgWaitingTime = calculateAvgWaitingTime();
+        this.maxWaitingTime = calculateMaxWaitingTime();
         this.executedBeforeDeadlinePercentage = calculateBeforeDeadlinePercentage();
     }
 
     private double calculateAvgWaitingTime() {
         return (double) simulation.initialRequests.stream().
                 mapToInt(DiskRequest::getWaitingTime).sum() / simulation.initialRequests.size();
+    }
+
+    private int calculateMaxWaitingTime() {
+        return simulation.initialRequests.stream().mapToInt(DiskRequest::getWaitingTime).max().getAsInt();
     }
 
     private int calculateBeforeDeadlinePercentage() {
@@ -62,10 +68,11 @@ public class State {
                         "%s\n" +
                         "%s\n" +
                         "Całkowita liczba przemieszczeń głowicy: %d\n" +
-                        "Średni czas oczekiwania żądania: %.2f\n" + // Ogranicz do 2 miejsc po przecinku
+                        "Średni czas oczekiwania żądania: %.2f\n" +
+                        "Maksymalny czas oczekiwania żądania: %d\n"+// Ogranicz do 2 miejsc po przecinku
                         "Procent żądań czasu rzeczywistego obsłużonych przed deadlinem: %s\n",
                 headerLine, titleLine, headerLine,
-                totalHeadDistance, avgWaitingTime, deadlineResult);
+                totalHeadDistance, avgWaitingTime, maxWaitingTime, deadlineResult);
     }
 
     // Metoda pomocnicza do centrowania tekstu
