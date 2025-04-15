@@ -11,7 +11,11 @@ public class LinkedListGenerator<T> implements Generator<T> {
 	public LinkedListGenerator(Generator<? extends T> generator) {
 		this.generator = generator;
 	}
-	
+
+	public Generator<? extends T> getGenerator() {
+		return generator;
+	}
+
 	@Override
 	public LinkedList<T> generate(int size) {
 		LinkedList<T> list = new LinkedList<T>();

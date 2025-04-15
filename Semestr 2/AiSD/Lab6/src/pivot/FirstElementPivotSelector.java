@@ -4,7 +4,7 @@ import java.util.List;
 
 public class FirstElementPivotSelector<E> implements PivotSelector<E> {
     @Override
-    public int selectPivotIndex(List<E> list) {
-        return 0;
+    public E selectPivot(List<E> list, int left, int right) {
+        return list.get(left);
     }
 }
