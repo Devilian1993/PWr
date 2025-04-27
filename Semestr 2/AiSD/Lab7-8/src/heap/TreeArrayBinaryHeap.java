@@ -13,10 +13,10 @@ public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
     private int size;
 
     public TreeArrayBinaryHeap(int H) {
-        if (H < 1) {
-            throw new IllegalArgumentException("Argument H musi być >= 1");
+        if (H < 0) {
+            throw new IllegalArgumentException("Argument H musi być >= 0");
         }
-        this.H = H;
+        this.H = H + 1;
         size = 0;
     }
 
@@ -25,9 +25,9 @@ public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
         root = null;
     }
 
-    private List<Node<T>> getPathToRoot() {
+    private List<Node<T>> getPathToRoot(int index) {
         List<Node<T>> path = new ArrayList<>();
-        String binaryIndex = Integer.toBinaryString(size + 1).substring(1);
+        String binaryIndex = Integer.toBinaryString(index).substring(1);
 
         TreeNode<T> currentNode = root;
         int depth = 0;
@@ -77,7 +77,7 @@ public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
     private void siftUp(List<Node<T>> pathToRoot) {
 
         SiftUpVisitor<T> visitor = new SiftUpVisitor<>();
-        pathToRoot.getFirst().siftUpSetup(visitor);
+        pathToRoot.getFirst().internalSiftUp(visitor);
 
         for (int i = 1; i < pathToRoot.size() && visitor.continueSiftUp(); i++) {
             Node<T> parentNode = pathToRoot.get(i);
@@ -87,11 +87,16 @@ public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
 
     @Override
     public void add(T element) {
-        List<Node<T>> pathToRoot = getPathToRoot();
+        List<Node<T>> pathToRoot = getPathToRoot(size + 1);
         Node<T> newElementNode = pathToRoot.getFirst();
         newElementNode.addValue(element);
         size++;
         siftUp(pathToRoot);
+    }
+
+    public void siftDown() {
+        SiftDownVisitor<T> visitor = new SiftDownVisitor<>();
+        root.accept(visitor);
     }
 
     @Override
@@ -100,9 +105,24 @@ public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
             return null;
         }
 
-        T returnValue = root.getValue();
+        T returnValue = root.getSubheapRootValue();
+
+        List<Node<T>> pathFromRoot = getPathToRoot(size).reversed();
+        Node<T> lastNode = pathFromRoot.getLast();
+        root.setSubheapRootValue(lastNode.getLastValue());
         size--;
 
-        return null;
+        if (lastNode.checkForRemoval()) {
+            if (lastNode != root) {
+                lastNode.remove((TreeNode<T>) pathFromRoot.get(pathFromRoot.size() - 2));
+            } else {
+                root = null;
+                return returnValue;
+            }
+        }
+
+        siftDown();
+
+        return returnValue;
     }
 }

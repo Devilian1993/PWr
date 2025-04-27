@@ -35,7 +35,7 @@ public class TreeNode<T extends Comparable<T>> implements Node<T> {
     }
 
     @Override
-    public void setValue(T value) {
+    public void setSubheapRootValue(T value) {
         this.value = value;
     }
 
@@ -45,7 +45,12 @@ public class TreeNode<T extends Comparable<T>> implements Node<T> {
     }
 
     @Override
-    public T getValue() {
+    public T getSubheapRootValue() {
+        return value;
+    }
+
+    @Override
+    public T getLastValue() {
         return value;
     }
 
@@ -55,9 +60,22 @@ public class TreeNode<T extends Comparable<T>> implements Node<T> {
     }
 
     @Override
-    public boolean siftUpSetup(SiftUpVisitor<T> visitor) {
+    public void internalSiftUp(SiftUpVisitor<T> visitor) {
         visitor.setChildNode(this);
+    }
+
+    @Override
+    public boolean checkForRemoval() {
         return true;
+    }
+
+    @Override
+    public void remove(TreeNode<T> parentNode) {
+        if (parentNode.getRightChild() == this) {
+            parentNode.setRightChild(null);
+        } else {
+            parentNode.setLeftChild(null);
+        }
     }
 }
 

@@ -4,10 +4,13 @@ import heap.visitors.NodeVisitor;
 import heap.visitors.SiftUpVisitor;
 
 public interface Node<T extends Comparable<T>> {
-    T getValue();
-    void setValue(T value);
+    T getSubheapRootValue();
+    T getLastValue();
+    void setSubheapRootValue(T value);
     void addValue(T value);
     void accept(NodeVisitor<T> visitor);
-    boolean siftUpSetup(SiftUpVisitor<T> visitor);
+    void internalSiftUp(SiftUpVisitor<T> visitor);
+    boolean checkForRemoval();
+    void remove(TreeNode<T> parentNode);
 }
 

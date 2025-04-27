@@ -15,12 +15,12 @@ public class ArrayNode<T extends Comparable<T>> implements Node<T> {
     }
 
     @Override
-    public T getValue() {
+    public T getSubheapRootValue() {
         return array[0];
     }
 
     @Override
-    public void setValue(T value) {
+    public void setSubheapRootValue(T value) {
         array[0] = value;
     }
 
@@ -30,18 +30,39 @@ public class ArrayNode<T extends Comparable<T>> implements Node<T> {
     }
 
     @Override
+    public T getLastValue() {
+        T returnValue = array[size - 1];
+        array[--size] = null;
+        return returnValue;
+    }
+
+    @Override
     public void accept(NodeVisitor<T> visitor) {
         visitor.visitArrayNode(this);
     }
 
     @Override
-    public boolean siftUpSetup(SiftUpVisitor<T> visitor) {
-        T valueBeforeSiftUp = size != 0 ? getValue() : null;
-        internalSiftUp();
-        visitor.setContinueSiftUp(valueBeforeSiftUp == null || !valueBeforeSiftUp.equals(getValue()));
+    public void internalSiftUp(SiftUpVisitor<T> visitor) {
+        T valueBeforeSiftUp = size > 1 ? getSubheapRootValue() : null;
+        arraySiftUp();
+        visitor.setContinueSiftUp(valueBeforeSiftUp == null || !valueBeforeSiftUp.equals(getSubheapRootValue()));
 
         visitor.setChildNode(this);
-        return visitor.continueSiftUp();
+        visitor.continueSiftUp();
+    }
+
+    @Override
+    public boolean checkForRemoval() {
+        return size == 0;
+    }
+
+    @Override
+    public void remove(TreeNode<T> parentNode) {
+        if (parentNode.getRightChild() == this) {
+            parentNode.setRightChild(null);
+        } else {
+            parentNode.setLeftChild(null);
+        }
     }
 
     private void swap(int i, int j) {
@@ -50,7 +71,7 @@ public class ArrayNode<T extends Comparable<T>> implements Node<T> {
         array[j] = temp;
     }
 
-    public void internalSiftUp() {
+    private void arraySiftUp() {
         int index = size - 1;
         T currentValue = array[index];
 
@@ -60,6 +81,20 @@ public class ArrayNode<T extends Comparable<T>> implements Node<T> {
             if (currentValue.compareTo(array[parentIndex]) > 0) {
                 swap(index, parentIndex);
                 index = parentIndex;
+            } else {
+                break;
+            }
+        }
+    }
+
+    public void internalSiftDown() {
+        int index = 0;
+
+        while (index < size && index*2 + 1 < size) {
+            int childIndex = index*2 + 1 == size - 1 || array[index*2 + 1].compareTo(array[index*2 + 2]) > 0 ? index * 2 + 1 : index*2 + 2;
+            if (array[index].compareTo(array[childIndex]) < 0) {
+                swap(index, childIndex);
+                index = childIndex;
             } else {
                 break;
             }

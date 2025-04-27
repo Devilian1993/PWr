@@ -12,12 +12,12 @@ public class SiftUpVisitor<T extends Comparable<T>> implements NodeVisitor<T> {
 
     @Override
     public void visitTreeNode(TreeNode<T> node) {
-        T parentValue = node.getValue();
-        T childValue = childNode.getValue();
+        T parentValue = node.getSubheapRootValue();
+        T childValue = childNode.getSubheapRootValue();
 
         if(parentValue.compareTo(childValue) < 0) {
             node.addValue(childValue);
-            childNode.setValue(parentValue);
+            childNode.setSubheapRootValue(parentValue);
             childNode = node;
         } else {
             continueSiftUp = false;
