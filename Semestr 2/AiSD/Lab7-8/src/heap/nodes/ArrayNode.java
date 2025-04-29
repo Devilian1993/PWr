@@ -24,8 +24,18 @@ public class ArrayNode<T extends Comparable<T>> implements Node<T> {
         array[0] = value;
     }
 
+    @SuppressWarnings("unchecked")
+    private void enlargeArray() {
+        T[] newArray = (T[]) new Comparable[array.length * 2];
+        System.arraycopy(array, 0, newArray, 0, array.length);
+        array = newArray;
+    }
+
     @Override
     public void addValue(T value) {
+        if (size == array.length) {
+            enlargeArray();
+        }
         array[size++] = value;
     }
 
