@@ -3,6 +3,9 @@ package heap.nodes;
 import heap.visitors.NodeVisitor;
 import heap.visitors.SiftUpVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ArrayNode<T extends Comparable<T>> implements Node<T> {
     private T[] array;
     private int size;
@@ -44,6 +47,29 @@ public class ArrayNode<T extends Comparable<T>> implements Node<T> {
         T returnValue = array[size - 1];
         array[--size] = null;
         return returnValue;
+    }
+
+    private Integer pathSum(List<T> path) {
+        List<Integer> intPath = (ArrayList<Integer>) path;
+        return intPath.stream().reduce(0, Integer::sum);
+    }
+
+    public List<T> getGreatestPath(int index) {
+        List<T> list = new ArrayList<>();
+        if (2*index + 1 >= size) {
+            list.add(array[index]);
+            return list;
+        } else if (2*index + 2 >= size) {
+            list.addAll(getGreatestPath(2*index + 1));
+            return list;
+        } else {
+            List<T> leftPath = getGreatestPath(2*index + 1);
+            List<T> rightPath = getGreatestPath(2*index + 2);
+
+            List<T> biggerSum = pathSum(leftPath).compareTo(pathSum(rightPath)) > 0 ? leftPath : rightPath;
+            list.addAll(biggerSum);
+            return list;
+        }
     }
 
     @Override

@@ -5,6 +5,8 @@ import heap.visitors.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Stack;
 
 public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
 
@@ -102,7 +104,7 @@ public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
     @Override
     public T maximum() {
         if (size == 0) {
-            return null;
+            throw new NoSuchElementException();
         }
 
         T returnValue = root.getSubheapRootValue();
@@ -124,5 +126,40 @@ public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
         siftDown();
 
         return returnValue;
+    }
+
+    static public List<Integer> hotPath(TreeArrayBinaryHeap<Integer> heap) {
+        return heap.root.getGreatestPath(0).reversed();
+    }
+
+    static private List<Integer> nodesToInteger(List<Node<Integer>> list) {
+        List<Integer> integers = new ArrayList<>();
+        for (Node<Integer> node : list) {
+            if (node instanceof TreeNode) {
+                integers.add(node.getSubheapRootValue());
+            } else if (node instanceof ArrayNode) {
+                integers.addAll(((ArrayNode<Integer>) node).getGreatestPath(0));
+            }
+        }
+        return integers.reversed();
+    }
+
+    static private Integer sumList(List<Integer> list) {
+        return list.stream().mapToInt(Integer::intValue).sum();
+    }
+
+    static public List<Integer> hotPathUnoptimal(TreeArrayBinaryHeap<Integer> heap) {
+        Integer maxSum = 0;
+        List<Integer> path = new ArrayList<>();
+
+        for (int i = heap.size - 1; i >= 0; i--) {
+            Integer sum = sumList(nodesToInteger(heap.getPathToRoot(i)));
+            if (sum > maxSum) {
+                maxSum = sum;
+                path = nodesToInteger(heap.getPathToRoot(i));
+            }
+        }
+
+        return path;
     }
 }

@@ -2,6 +2,9 @@ import heap.TreeArrayBinaryHeap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -10,12 +13,12 @@ public class HeapTests {
     @Test
     @DisplayName("Testy pustego kopca")
     void emptyHeapTest() {
-        TreeArrayBinaryHeap<Integer> heap = new TreeArrayBinaryHeap<>(4);
+        TreeArrayBinaryHeap<Integer> heap = new TreeArrayBinaryHeap<>(2);
 
-        assertNull(heap.maximum());
+        assertThrows(NoSuchElementException.class, heap::maximum);
         heap.add(0);
         assertEquals(0, heap.maximum());
-        assertNull(heap.maximum());
+        assertThrows(NoSuchElementException.class, heap::maximum);
     }
 
     private void size9HeapAssertions(TreeArrayBinaryHeap<Integer> heap) {

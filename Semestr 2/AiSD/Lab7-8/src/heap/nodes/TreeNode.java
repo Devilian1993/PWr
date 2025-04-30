@@ -3,13 +3,19 @@ package heap.nodes;
 import heap.visitors.NodeVisitor;
 import heap.visitors.SiftUpVisitor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TreeNode<T extends Comparable<T>> implements Node<T> {
     private T value;
     private Node<T> leftChild;
     private Node<T> rightChild;
+    private List<T> greatestList;
+
     public TreeNode() {
         this.leftChild = null;
         this.rightChild = null;
+        this.greatestList = new ArrayList<>();
     }
 
     public TreeNode(T value) {
@@ -75,6 +81,30 @@ public class TreeNode<T extends Comparable<T>> implements Node<T> {
             parentNode.setRightChild(null);
         } else {
             parentNode.setLeftChild(null);
+        }
+    }
+
+    private Integer pathSum(List<T> path) {
+        List<Integer> intPath = (ArrayList<Integer>) path;
+        return intPath.stream().reduce(0, Integer::sum);
+    }
+
+    public List<T> getGreatestPath(int index) {
+        List<T> list = new ArrayList<>();
+        list.add(value);
+        if (leftChild == null) {
+            list.add(value);
+            return list;
+        } else if (rightChild == null) {
+            greatestList.addAll(leftChild.getGreatestPath(index));
+            return list;
+        } else {
+            List<T> leftPath = leftChild.getGreatestPath(index);
+            List<T> rightPath = rightChild.getGreatestPath(index);
+
+            List<T> biggerSum = pathSum(leftPath).compareTo(pathSum(rightPath)) > 0 ? leftPath : rightPath;
+            list.addAll(biggerSum);
+            return list;
         }
     }
 }
