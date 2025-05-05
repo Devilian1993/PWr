@@ -93,10 +93,9 @@ public class TreeNode<T extends Comparable<T>> implements Node<T> {
         List<T> list = new ArrayList<>();
         list.add(value);
         if (leftChild == null) {
-            list.add(value);
             return list;
         } else if (rightChild == null) {
-            greatestList.addAll(leftChild.getGreatestPath(index));
+            list.addAll(leftChild.getGreatestPath(index));
             return list;
         } else {
             List<T> leftPath = leftChild.getGreatestPath(index);

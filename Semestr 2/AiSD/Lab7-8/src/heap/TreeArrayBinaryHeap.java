@@ -129,7 +129,7 @@ public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
     }
 
     static public List<Integer> hotPath(TreeArrayBinaryHeap<Integer> heap) {
-        return heap.root.getGreatestPath(0).reversed();
+        return heap.root.getGreatestPath(0);
     }
 
     static private List<Integer> nodesToInteger(List<Node<Integer>> list) {
@@ -138,7 +138,7 @@ public class TreeArrayBinaryHeap<T extends Comparable<T>> implements IHeap<T> {
             if (node instanceof TreeNode) {
                 integers.add(node.getSubheapRootValue());
             } else if (node instanceof ArrayNode) {
-                integers.addAll(((ArrayNode<Integer>) node).getGreatestPath(0));
+                integers.addAll(node.getGreatestPath(0));
             }
         }
         return integers.reversed();

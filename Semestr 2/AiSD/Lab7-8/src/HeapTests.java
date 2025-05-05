@@ -13,7 +13,7 @@ public class HeapTests {
     @Test
     @DisplayName("Testy pustego kopca")
     void emptyHeapTest() {
-        TreeArrayBinaryHeap<Integer> heap = new TreeArrayBinaryHeap<>(2);
+        TreeArrayBinaryHeap<Integer> heap = new TreeArrayBinaryHeap<>(1);
 
         assertThrows(NoSuchElementException.class, heap::maximum);
         heap.add(0);

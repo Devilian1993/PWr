@@ -56,8 +56,8 @@ public class ArrayNode<T extends Comparable<T>> implements Node<T> {
 
     public List<T> getGreatestPath(int index) {
         List<T> list = new ArrayList<>();
+        list.add(array[index]);
         if (2*index + 1 >= size) {
-            list.add(array[index]);
             return list;
         } else if (2*index + 2 >= size) {
             list.addAll(getGreatestPath(2*index + 1));
