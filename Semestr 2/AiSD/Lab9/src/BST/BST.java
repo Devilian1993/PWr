@@ -14,7 +14,7 @@ public class BST<T> {
 
     private Node<T> findNode(Node<T> node, T key) {
         if (node == null) {
-            return null;
+            throw new NoSuchElementException();
         }
 
         if (comparator.compare(node.getValue(), key) == 0) {
@@ -44,7 +44,7 @@ public class BST<T> {
 
     private Node<T> findMin(Node<T> node) {
         if (node == null) {
-            return null;
+            throw new NoSuchElementException();
         }
 
         if (node.hasLeftChild()) {
@@ -55,15 +55,12 @@ public class BST<T> {
     }
 
     public T findMin() {
-        if (root == null) {
-            return null;
-        }
         return findMin(root).getValue();
     }
 
     private Node<T> findMax(Node<T> node) {
         if (node == null) {
-            return null;
+            throw new NoSuchElementException();
         }
 
         if (node.hasRightChild()) {
@@ -75,9 +72,6 @@ public class BST<T> {
 
 
     public T findMax() {
-        if (root == null) {
-            return null;
-        }
         return findMax(root).getValue();
     }
 
@@ -119,18 +113,15 @@ public class BST<T> {
                 }
             }
 
-            return null;
+            throw new NoSuchElementException();
         }
     }
 
     public T findSuccessor(T key) {
         if (root == null) {
-            return null;
+            throw new NoSuchElementException();
         }
         Node<T> successor = findSuccessor(findNode(root, key));
-        if (successor == null) {
-            return null;
-        }
 
         return successor.getValue();
     }
@@ -168,7 +159,7 @@ public class BST<T> {
         Node<T> nodeToDelete = findNodeIterative(key);
 
         if (nodeToDelete == null) {
-            return;
+            throw new NoSuchElementException();
         }
 
         Node<T> parentNode = nodeToDelete.getParent(root, comparator);
