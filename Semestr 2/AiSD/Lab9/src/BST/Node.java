@@ -1,6 +1,8 @@
 package BST;
 
-public class Node<T> {
+import java.util.Comparator;
+
+class Node<T> {
     private T value;
     private Node<T> leftChild;
     private Node<T> rightChild;
@@ -39,5 +41,47 @@ public class Node<T> {
 
     public boolean hasRightChild() {
         return rightChild != null;
+    }
+
+    public boolean hasBothChildren() {
+        return leftChild != null && rightChild != null;
+    }
+
+    public boolean hasAnyChildren() {
+        return leftChild != null || rightChild != null;
+    }
+
+    public boolean hasExactlyOneChild() {
+        return ( leftChild == null && rightChild != null ) || ( leftChild != null && rightChild == null );
+    }
+
+    public Node<T> getParent(Node<T> root, Comparator<T> comparator) {
+        if (this == root) {
+            return null;
+        }
+
+        Node<T> currentNode = root;
+
+        while (currentNode != null && currentNode.leftChild != this && currentNode.rightChild != this) {
+            if (comparator.compare(currentNode.value, this.value) > 0) {
+                currentNode = currentNode.leftChild;
+            } else {
+                currentNode = currentNode.rightChild;
+            }
+        }
+
+        return currentNode;
+    }
+
+    public boolean isLeftChild(Node<T> parent, Comparator<T> comparator) {
+        return parent.hasLeftChild() && comparator.compare(parent.value, this.value) > 0;
+    }
+
+    public Node<T> getOnlyChild() {
+        return leftChild != null ? leftChild : rightChild;
+    }
+
+    public void accept(Visitor<T> visitor) {
+        visitor.visit(this);
     }
 }
