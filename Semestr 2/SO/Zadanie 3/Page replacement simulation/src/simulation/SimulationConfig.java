@@ -8,21 +8,24 @@ public class SimulationConfig {
     private final int totalRequestsCount;
     private final Algorithm algorithm;
     private final boolean writeToFile;
+    private final int generatorSeed;
 
-    public SimulationConfig(int uniquePageNumber, int framesNumber, int totalRequestsCount, Algorithm algorithm) {
+    public SimulationConfig(int uniquePageNumber, int framesNumber, int totalRequestsCount, Algorithm algorithm, int generatorSeed) {
         this.uniquePageNumber = uniquePageNumber;
         this.framesNumber = framesNumber;
         this.totalRequestsCount = totalRequestsCount;
         this.algorithm = algorithm;
         this.writeToFile = false;
+        this.generatorSeed = generatorSeed;
     }
 
-    public SimulationConfig(int uniquePageNumber, int framesNumber, int totalRequestsCount, Algorithm algorithm, boolean writeToFile) {
+    public SimulationConfig(int uniquePageNumber, int framesNumber, int totalRequestsCount, Algorithm algorithm, int generatorSeed, boolean writeToFile) {
         this.uniquePageNumber = uniquePageNumber;
         this.framesNumber = framesNumber;
         this.totalRequestsCount = totalRequestsCount;
         this.algorithm = algorithm;
         this.writeToFile = writeToFile;
+        this.generatorSeed = generatorSeed;
     }
 
     public int getUniquePageNumber() {
@@ -43,5 +46,9 @@ public class SimulationConfig {
 
     public boolean isWriteToFile() {
         return writeToFile;
+    }
+
+    public int getGeneratorSeed() {
+        return generatorSeed;
     }
 }

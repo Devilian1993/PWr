@@ -6,12 +6,14 @@ import models.Page;
 import java.util.List;
 
 public class LRUAprox extends Algorithm {
+    private int index;
     public LRUAprox() {
         super();
+        this.index = 0;
     }
 
     private Frame frameToInsert() {
-        int index = 0;
+
         while (true) {
             Frame currentFrame = frames.get(index);
             Page pageInCurrentFrame = currentFrame.getPage();
