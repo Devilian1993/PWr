@@ -21,7 +21,7 @@ public class Main {
     public static void defaultConfiguration() {
         NUMBER_OF_PAGES = 20;
         NUMBER_OF_FRAMES = 5;
-        NUMBER_OF_REQUESTS = 1000;
+        NUMBER_OF_REQUESTS = 50000;
     }
 
     public static void setValues() {
@@ -100,9 +100,12 @@ public class Main {
             Simulation simulation = new Simulation(config);
             simulation.run();
             simulation.printResults();
-            //System.out.println();
+            System.out.println();
             //writeResults(simulation, config);
         }
 
+        //for (Algorithm algorithm : algorithms) {
+        //    new Simulation(new SimulationConfig(NUMBER_OF_PAGES, NUMBER_OF_FRAMES, NUMBER_OF_REQUESTS, algorithm, GENERATOR_SEED)).printResults();
+        //}
     }
 }

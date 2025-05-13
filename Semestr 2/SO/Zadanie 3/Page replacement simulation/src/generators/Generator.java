@@ -8,14 +8,17 @@ import java.util.List;
 import java.util.Random;
 
 public class Generator {
+    private List<List<Page>> localPagesArray;
     private List<Page> localPages1;
     private List<Page> localPages2;
     private List<Page> nonLocalPages;
     private Random rand;
 
     private final double LOCAL_PAGE_PROBABILITY = 0.9;
+    private final int LOCAL_PAGES_NUMBER = 2;
 
     public Generator(int generatorSeed) {
+        this.localPagesArray = new ArrayList<>();
         this.localPages1 = new ArrayList<Page>();
         this.localPages2 = new ArrayList<Page>();
         this.nonLocalPages = new ArrayList<Page>();
@@ -32,6 +35,15 @@ public class Generator {
         for (int i = uniquePages/3*2; i < uniquePages; i++) {
             nonLocalPages.add(new Page(i));
         }
+
+        //for (int i = 0; i < LOCAL_PAGES_NUMBER; i++) {
+        //    List<Page> pages = new ArrayList<>();
+        //    localPagesArray.add(pages);
+        //}
+//
+        //for (int i = 0; i < uniquePages; i++) {
+        //    localPagesArray.get(i%localPagesArray.size()).add(new Page(i));
+        //}
     }
 
     public void generateRequests(List<Page> simulationPages, int totalPages, int uniquePages) {
