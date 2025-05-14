@@ -88,14 +88,20 @@ cipher:
 	beq $t2, $zero, print_result
 	#dodajemy do wartoœci w $t2 (kod ASCII) wartoœæ przesuniecia
 	add $t2, $t2, $t1
-	bgt $t2, 90, wrap_around_cipher
+	bgt $t2, 90, wrap_around_cipher_sub
+	blt $t2, 65, wrap_around_cipher_add
 	j load_char_cipher
 
-wrap_around_cipher:
+wrap_around_cipher_sub:
 	#odejmujemy 26 od wyniku je¿eli wykracza on poza zakres du¿ych liter ASCII
 	subi $t2, $t2, 26
 	j load_char_cipher
-
+	
+wrap_around_cipher_add:
+	#odejmujemy 26 od wyniku je¿eli wykracza on poza zakres du¿ych liter ASCII od dolu
+	addi $t2, $t2, 26
+	j load_char_cipher 
+	
 load_char_cipher:
 	#³adujemy bajt znajduj¹cy siê w $t2 z powrotem do $s0
 	sb $t2, 0($s0)
@@ -109,12 +115,18 @@ decipher:
 	lb $t2, 0($s0)
 	beq $t2, $zero, print_result
 	sub $t2, $t2, $t1
-	blt $t2, 65, wrap_around_decipher
+	blt $t2, 65, wrap_around_decipher_add
+	bgt $t2, 90, wrap_around_decipher_sub
 	j load_char_decipher
 	
-wrap_around_decipher:
+wrap_around_decipher_add:
 	#dodajemy 26 do wyniku je¿eli wykracza on poza zakres du¿ych liter ASCII
 	addi $t2, $t2, 26
+	j load_char_decipher
+	
+wrap_around_decipher_sub:
+	#odejmujemy 26 do wyniku je¿eli wykracza on poza zakres du¿ych liter ASCII od gory
+	subi $t2, $t2, 26
 	j load_char_decipher
 
 load_char_decipher:
