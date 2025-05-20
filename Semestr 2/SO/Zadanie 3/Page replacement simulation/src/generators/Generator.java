@@ -2,6 +2,7 @@ package generators;
 
 import models.Frame;
 import models.Page;
+import models.Process;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +36,26 @@ public class Generator {
         for (int i = uniquePages/3*2; i < uniquePages; i++) {
             nonLocalPages.add(new Page(i));
         }
+    }
 
-        //for (int i = 0; i < LOCAL_PAGES_NUMBER; i++) {
-        //    List<Page> pages = new ArrayList<>();
-        //    localPagesArray.add(pages);
-        //}
-//
-        //for (int i = 0; i < uniquePages; i++) {
-        //    localPagesArray.get(i%localPagesArray.size()).add(new Page(i));
-        //}
+    private void localPagesFromPageSet(List<Page> pageSet) {
+        int uniquePages = pageSet.size();
+
+        for (int i = 0; i < uniquePages/3; i++) {
+            localPages1.add(new Page(i));
+        }
+        for (int i = uniquePages/3; i < uniquePages/3*2; i++) {
+            localPages2.add(new Page(i));
+        }
+        for (int i = uniquePages/3*2; i < uniquePages; i++) {
+            nonLocalPages.add(new Page(i));
+        }
+    }
+
+    public void publicGeneratePagesSet(List<Page> pageSet, int uniquePages) {
+        for (int i = 0; i < uniquePages; i++) {
+            pageSet.add(new Page(i));
+        }
     }
 
     public void generateRequests(List<Page> simulationPages, int totalPages, int uniquePages) {
@@ -68,9 +80,38 @@ public class Generator {
         }
     }
 
+    public void generateRequestsFromPageSet(List<Page> pageSet, int totalPages, List<Page> simulationPages) {
+        localPagesFromPageSet(pageSet);
+
+        int counter = 0;
+        List<Page> currentSet = localPages1;
+        List<Page> otherSet = localPages2;
+
+        for (int i = 0; i < totalPages; i++) {
+            if (rand.nextDouble() < LOCAL_PAGE_PROBABILITY) {
+                if (counter == 200) {
+                    List<Page> temp = localPages1;
+                    currentSet = otherSet;
+                    otherSet = temp;
+                    counter = 0;
+                }
+                simulationPages.add(currentSet.get(rand.nextInt(currentSet.size())));
+                counter++;
+            } else {
+                simulationPages.add(nonLocalPages.get(rand.nextInt(nonLocalPages.size())));
+            }
+        }
+    }
+
     public void generateFrames(List<Frame> simulationFrames, int uniqueFrames) {
         for (int i = 0; i < uniqueFrames; i++) {
             simulationFrames.add(new Frame());
+        }
+    }
+
+    public void generateProcesses(List<Process> processList, int numberOfProcesses) {
+        for (int i = 0; i < numberOfProcesses; i++) {
+            processList.add(new Process(i))
         }
     }
 }

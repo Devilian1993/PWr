@@ -4,6 +4,7 @@ import algorithms.Algorithm;
 import algorithms.OPT;
 import models.Frame;
 import models.Page;
+import models.Process;
 import generators.Generator;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Simulation {
 
     private List<Page> requestsList;
     private List<Frame> frameList;
+    private List<Process> processList;
     private Algorithm algorithm;
     private int pageFaults;
     private int thrashingCount;
