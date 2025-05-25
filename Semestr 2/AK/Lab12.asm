@@ -9,7 +9,7 @@ main:
 	li $v0, 40
 	li $a0, 0
 	#w adresie $a1 znajduje sie ziarno - jest ono sta³e wiec bez jego zmiany wyniki bêd¹ takie same
-	li $a1, 11
+	li $a1, 19
 	syscall
 	
 	#ustaw licznik
