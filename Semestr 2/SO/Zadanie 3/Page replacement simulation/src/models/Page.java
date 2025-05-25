@@ -6,6 +6,7 @@ public class Page {
     private int lastUseTime;
     private int loadTime;
     private boolean referenceBit;
+    private final Process process;
 
     public Page(int id) {
         this.id = id;
@@ -13,6 +14,16 @@ public class Page {
         lastUseTime = 0;
         loadTime = 0;
         referenceBit = true;
+        process = null;
+    }
+
+    public Page(int id, Process process) {
+        this.id = id;
+        numberOfUses = 0;
+        lastUseTime = 0;
+        loadTime = 0;
+        referenceBit = true;
+        this.process = process;
     }
 
     public int getId() {
