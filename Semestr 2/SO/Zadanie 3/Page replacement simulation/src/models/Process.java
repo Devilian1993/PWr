@@ -3,6 +3,7 @@ package models;
 import generators.Generator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Process {
@@ -32,7 +33,7 @@ public class Process {
 
     public void generateRequestsList(Generator generator, int numberOfRequests) {
         generator.publicGeneratePagesSet(pageSet, pageSetSize, this);
-        generator.generateRequestsFromPageSet(pageSet, numberOfRequests, requestsList);
+        generator.generateRequestsFromPageSet(pageSet, numberOfRequests, requestsList, this);
     }
 
     public boolean isHalted() {
@@ -57,6 +58,14 @@ public class Process {
 
     public int getId() {
         return id;
+    }
+
+    public List<Page> getRequestsList() {
+        return requestsList;
+    }
+
+    public Iterator<Page> getRequestsIterator() {
+        return requestsList.iterator();
     }
 
     public void addFrame(Frame frame) {

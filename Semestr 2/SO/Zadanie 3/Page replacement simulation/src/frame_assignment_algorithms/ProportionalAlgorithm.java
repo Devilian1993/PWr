@@ -10,6 +10,9 @@ public class ProportionalAlgorithm extends FrameAlgorithm {
         super(frames);
     }
 
+    public ProportionalAlgorithm() {
+    }
+
     private int getFramesForProcess(Process process, int totalPageNumber) {
         return process.getPageSetSize()  * frames.size() / totalPageNumber;
     }

@@ -11,6 +11,9 @@ public class ZonalAlgorithm extends FrameAlgorithm {
         super(frames);
     }
 
+    public ZonalAlgorithm() {
+    }
+
     private int requiredFramesNumber(List<Process> processList) {
         return processList.stream().filter(p -> !p.isHalted()).mapToInt(Process::getWSS).sum();
     }

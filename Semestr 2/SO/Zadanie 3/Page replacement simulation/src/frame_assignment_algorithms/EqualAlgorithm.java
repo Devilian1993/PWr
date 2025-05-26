@@ -10,6 +10,9 @@ public class EqualAlgorithm extends FrameAlgorithm {
         super(frames);
     }
 
+    public EqualAlgorithm() {
+    }
+
     private int getFramesPerProcess(List<Process> processList) {
         return framesSize() / processList.size();
     }

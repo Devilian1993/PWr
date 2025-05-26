@@ -15,6 +15,9 @@ public class PFFSteeringAlgorithm extends FrameAlgorithm {
         super(frames);
     }
 
+    public PFFSteeringAlgorithm() {
+    }
+
     @Override
     public void assignFrames(List<Process> processList) {
         if (!hasAssignedFrames) {

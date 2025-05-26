@@ -64,8 +64,9 @@ public class Page {
 
     @Override
     public String toString() {
+        assert process != null;
         return "Page{" +
-                "id=" + id +
+                "id=" + process.getId() + id +
                 ", uses=" + numberOfUses +
                 ", lastUse=" + lastUseTime +
                 ", loadT=" + loadTime +

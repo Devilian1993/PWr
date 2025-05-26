@@ -52,6 +52,20 @@ public class Generator {
         }
     }
 
+    private void localPagesFromPageSet(List<Page> pageSet, Process process) {
+        int uniquePages = pageSet.size();
+
+        for (int i = 0; i < uniquePages/3; i++) {
+            localPages1.add(new Page(i, process));
+        }
+        for (int i = uniquePages/3; i < uniquePages/3*2; i++) {
+            localPages2.add(new Page(i, process));
+        }
+        for (int i = uniquePages/3*2; i < uniquePages; i++) {
+            nonLocalPages.add(new Page(i, process));
+        }
+    }
+
     public void publicGeneratePagesSet(List<Page> pageSet, int uniquePages, Process process) {
         for (int i = 0; i < uniquePages; i++) {
             pageSet.add(new Page(i, process));
@@ -80,8 +94,8 @@ public class Generator {
         }
     }
 
-    public void generateRequestsFromPageSet(List<Page> pageSet, int totalPages, List<Page> simulationPages) {
-        localPagesFromPageSet(pageSet);
+    public void generateRequestsFromPageSet(List<Page> pageSet, int totalPages, List<Page> simulationPages, Process process) {
+        localPagesFromPageSet(pageSet, process);
 
         int counter = 0;
         List<Page> currentSet = localPages1;
