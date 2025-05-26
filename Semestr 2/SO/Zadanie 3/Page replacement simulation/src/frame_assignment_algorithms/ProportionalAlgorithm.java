@@ -3,7 +3,10 @@ package frame_assignment_algorithms;
 import models.Frame;
 import models.Process;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProportionalAlgorithm extends FrameAlgorithm {
     public ProportionalAlgorithm(List<Frame> frames) {
@@ -15,6 +18,10 @@ public class ProportionalAlgorithm extends FrameAlgorithm {
 
     private int getFramesForProcess(Process process, int totalPageNumber) {
         return process.getPageSetSize()  * frames.size() / totalPageNumber;
+    }
+
+    private double getFramesForProcessRemainder(Process process, int totalPageNumber) {
+        return ((double) process.getPageSetSize() / totalPageNumber) * frames.size();
     }
 
     @Override
@@ -29,9 +36,6 @@ public class ProportionalAlgorithm extends FrameAlgorithm {
 
             for (Process process : processList) {
                 int framesForProcess = getFramesForProcess(process, totalPageNumber);
-                if (framesForProcess == 0) {
-                    System.out.printf("PROCES O ID %d NIE OTRZYMAŁ ŻADNEJ RAMKI\n", process.getId());
-                }
                 for (int i = 0; i < framesForProcess; i++) {
                     Frame frame = frames.get(frameIndex);
                     process.addFrame(frame);
@@ -39,6 +43,16 @@ public class ProportionalAlgorithm extends FrameAlgorithm {
                     frameIndex++;
                 }
             }
+
+            List<Frame> remainingFrames = frames.stream().filter(Frame::isFree).collect(Collectors.toCollection(ArrayList::new));
+            processList.sort(Comparator.comparingDouble(p -> getFramesForProcessRemainder(p, totalPageNumber)));
+
+            for (int i = 0; i < remainingFrames.size(); i++) {
+                Frame frame = remainingFrames.get(i);
+                frame.assignProcess(processList.get(i));
+                processList.get(i).addFrame(frame);
+            }
+
             hasAssignedFrames = true;
         }
     }

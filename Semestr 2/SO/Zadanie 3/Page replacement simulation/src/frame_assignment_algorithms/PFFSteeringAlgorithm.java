@@ -27,12 +27,17 @@ public class PFFSteeringAlgorithm extends FrameAlgorithm {
             for (Process process : processList) {
                 int numberOfPageFaults = process.getPageFaultCountInWindow();
 
+                if (numberOfPageFaults != 0) {
+                    System.out.println("TEST");
+                }
+
                 if (numberOfPageFaults >= ASSIGN_NEW_FRAME_PFF_THRESHOLD) {
                     boolean assignedFrame = false;
                     for (Frame frame : frames) {
                         if (frame.isFree()) {
                             assignedFrame = true;
                             frame.assignProcess(process);
+                            process.addFrame(frame);
                             break;
                         }
                     }

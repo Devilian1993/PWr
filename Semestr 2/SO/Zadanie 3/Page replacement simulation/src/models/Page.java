@@ -62,6 +62,10 @@ public class Page {
         this.referenceBit = referenceBit;
     }
 
+    public Process getProcess() {
+        return process;
+    }
+
     @Override
     public String toString() {
         assert process != null;
@@ -72,5 +76,18 @@ public class Page {
                 ", loadT=" + loadTime +
                 ", refBit=" + referenceBit +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Page page = (Page) o;
+        return id == page.id && process == page.process;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
     }
 }

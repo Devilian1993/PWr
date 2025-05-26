@@ -90,15 +90,32 @@ public class Process {
     }
 
     public void calculateNumberOfPageFaultsInWindow(int globalTime) {
-        pageFaultCountInWindow =  pageFaultList.subList(globalTime, globalTime + pffTimeWindow).stream().reduce(0, Integer::sum);
+        if (globalTime < pffTimeWindow - 1 || pageFaultList.size() < pffTimeWindow) {
+            pageFaultCountInWindow = 0;
+            return;
+        }
+
+        int end = Math.min(globalTime + 1, pageFaultList.size());
+        int start = Math.max(0, end - pffTimeWindow);
+
+        pageFaultCountInWindow = pageFaultList.subList(start, end).stream().reduce(0, Integer::sum);
     }
+
 
     public int getPageFaultCountInWindow() {
         return pageFaultCountInWindow;
     }
 
     public void calculateWSSInWindow(int globalTime) {
-        wssInWindow = (int) requestsList.subList(globalTime, globalTime + pffTimeWindow).stream().distinct().count();
+        if (globalTime < pffTimeWindow) {
+            wssInWindow = 0;
+            return;
+        }
+
+        int fromIndex = Math.max(0, globalTime - pffTimeWindow + 1);
+        int toIndex = Math.min(globalTime + 1, requestsList.size());
+
+        wssInWindow = (int) requestsList.subList(fromIndex, toIndex).stream().distinct().count();
     }
 
     public int getWSS() {

@@ -24,6 +24,16 @@ public class ZonalAlgorithm extends FrameAlgorithm {
             throw new IllegalArgumentException();
         }
 
+        if (!hasAssignedFrames) {
+            for (int i = 0; i < processList.size(); i++) {
+                Process process = processList.get(i);
+                process.addFrame(frames.get(i));
+                frames.get(i).assignProcess(process);
+            }
+            hasAssignedFrames = true;
+            return;
+        }
+
         while (requiredFramesNumber(processList) > frames.size()) {
             processList.stream().filter(p -> !p.isHalted()).max(Comparator.comparingInt(Process::getWSS)).ifPresent(p -> p.setHalted(true));
         }

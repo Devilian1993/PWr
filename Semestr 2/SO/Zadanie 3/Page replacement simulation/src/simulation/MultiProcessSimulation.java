@@ -17,6 +17,7 @@ public class MultiProcessSimulation {
     private final Algorithm algorithm;
     private final Generator generator;
     private final List<Page> globalRequests;
+    private final HashMap<Process, Simulation> virtualSimulationsMap;
 
     public MultiProcessSimulation(MultiProcessSimulationConfig config) {
         processList = new ArrayList<>();
@@ -26,6 +27,7 @@ public class MultiProcessSimulation {
         algorithm = new LRU();
         generator = new Generator(config.getGeneratorSeed());
         globalRequests = new ArrayList<>();
+        virtualSimulationsMap = new HashMap<>();
 
         generator.generateProcesses(processList, config.getNumberOfProcesses(), config.getPagesPerProcess(), config.getPffTimeWindow());
         generator.generateFrames(frameSet, config.getNumberOfFrames());
@@ -35,6 +37,7 @@ public class MultiProcessSimulation {
     private void setupProcesses(int numberOfRequests) {
         for (Process process : processList) {
             process.generateRequestsList(generator, numberOfRequests);
+            virtualSimulationsMap.put(process, new Simulation(process, algorithm));
         }
         createGlobalRequests();
     }
@@ -56,7 +59,19 @@ public class MultiProcessSimulation {
         }
     }
 
-    public void run() {
+    private void updateWssGlobal(List<Process> processes, int globalTime) {
+        processes.forEach(p -> p.calculateWSSInWindow(globalTime));
+    }
 
+    public void run() {
+        int globalTime = 0;
+        for (Page request : globalRequests) {
+            updateWssGlobal(processList, globalTime);
+            frameAlgorithm.assignFrames(processList);
+            Simulation virtualSimulation = virtualSimulationsMap.get(request.getProcess());
+            virtualSimulation.step(globalTime, request);
+            virtualSimulationsMap.values().stream().filter(s -> s != virtualSimulation).forEach(Simulation::emptyStep);
+            globalTime++;
+        }
     }
 }

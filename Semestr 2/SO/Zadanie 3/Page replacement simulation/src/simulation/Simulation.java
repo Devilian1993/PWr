@@ -16,10 +16,10 @@ public class Simulation {
 
     private List<Page> requestsList;
     private List<Frame> frameList;
-    private List<Process> processList;
     private Algorithm algorithm;
     private int pageFaults;
     private int thrashingCount;
+    private final Process process;
 
     private final int THRASHING_TIME_WINDOW;
     private final int THRASHING_THRESHOLD;
@@ -41,6 +41,21 @@ public class Simulation {
         THRASHING_TIME_WINDOW = 20;
         THRASHING_THRESHOLD = 12;
         pageFaultsArray = new ArrayList<>();
+
+        this.process = null;
+    }
+
+    public Simulation(Process process, Algorithm algorithm) {
+        this.requestsList = process.getRequestsList();
+        this.frameList = process.getFrameSet();
+        this.algorithm = algorithm;
+        this.thrashingCount = 0;
+
+        THRASHING_TIME_WINDOW = 20;
+        THRASHING_THRESHOLD = 12;
+        this.pageFaultsArray = new ArrayList<>();
+
+        this.process = process;
     }
 
     private boolean isPageInFrame(Page page) {
@@ -56,6 +71,10 @@ public class Simulation {
     }
 
     public void run() {
+        if (process != null) {
+            throw new UnsupportedOperationException("Run function is to be used only as a full simulation of a page replacement" +
+                    "algorithms, not as a virtual simulation in a multiprocess environment.");
+        }
         int timer = 0;
         for (int i = 0; i < requestsList.size(); i++) {
             if (i >= THRASHING_TIME_WINDOW && (i % (THRASHING_TIME_WINDOW/2) == 0)) {
@@ -84,6 +103,51 @@ public class Simulation {
             request.setReferenceBit(true);
             timer++;
         }
+    }
+
+    public void step(int globalTime, Page request) {
+        if (process == null) {
+            throw new UnsupportedOperationException("Step function is to be used only as an internal simulation" +
+                    "with a reference to a single process");
+        }
+        algorithm.setFrames(process.getFrameSet());
+        process.calculateWSSInWindow(globalTime);
+        if (globalTime >= THRASHING_TIME_WINDOW && (globalTime % (THRASHING_TIME_WINDOW/2) == 0)) {
+            if (pageFaultsArray.subList(globalTime-THRASHING_TIME_WINDOW, globalTime).stream().reduce(0, Integer::sum) > THRASHING_THRESHOLD) {
+                thrashingCount++;
+            }
+        }
+        if (isPageInFrame(request)) {
+            pageFaultsArray.add(0);
+            process.addPageFault(false);
+        } else if(anyEmptyFrame()) {
+            pageFaultsArray.add(1);
+            addToEmptyFrame(request);
+            pageFaults++;
+            request.setLoadTime(globalTime);
+            process.addPageFault(true);
+        } else {
+            pageFaultsArray.add(1);
+            if (algorithm instanceof OPT) {
+                ((OPT) algorithm).setFuturePages(requestsList.subList(globalTime+1, requestsList.size()));
+            }
+            algorithm.replacePage(request);
+            pageFaults++;
+            request.setLoadTime(globalTime);
+            process.addPageFault(true);
+        }
+        process.calculateNumberOfPageFaultsInWindow(globalTime);
+        request.setLastUseTime(globalTime);
+        request.setReferenceBit(true);
+    }
+
+    public void emptyStep() {
+        if (process == null) {
+            throw new UnsupportedOperationException("Empty step function is to be used only as an internal simulation" +
+                    "with a reference to a single process");
+        }
+
+        pageFaultsArray.add(0);
     }
 
     public void printResults() {

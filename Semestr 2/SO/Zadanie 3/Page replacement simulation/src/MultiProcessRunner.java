@@ -80,5 +80,7 @@ public class MultiProcessRunner {
 
         setupAlgorithms(algorithms);
         setupSimulations(simulations, algorithms);
+
+        simulations.get(3).run();
     }
 }
