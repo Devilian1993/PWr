@@ -72,12 +72,14 @@ public class MultiProcessSimulation {
         int globalTime = 0;
         for (Page request : globalRequests) {
             updateWssGlobal(processList, globalTime);
-            if (!(frameAlgorithm instanceof PFFSteeringAlgorithm)) {
-                frameAlgorithm.assignFrames(processList);
-            } else if (globalTime % request.getProcess().getPffTimeWindow() == 0) {
-                updatePffGlobal(processList, globalTime);
-                frameAlgorithm.assignFrames(processList);
-            }
+            //if (!(frameAlgorithm instanceof PFFSteeringAlgorithm)) {
+            //    frameAlgorithm.assignFrames(processList);
+            //} else if (globalTime % request.getProcess().getPffTimeWindow() == 0) {
+            //    updatePffGlobal(processList, globalTime);
+            //    frameAlgorithm.assignFrames(processList);
+            //}
+            updatePffGlobal(processList, globalTime);
+            frameAlgorithm.assignFrames(processList);
             Simulation virtualSimulation = virtualSimulationsMap.get(request.getProcess());
             virtualSimulation.step(globalTime, request);
             virtualSimulationsMap.values().stream().filter(s -> s != virtualSimulation).forEach(Simulation::emptyStep);

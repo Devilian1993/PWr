@@ -38,6 +38,10 @@ public class Process {
         generator.generateRequestsFromPageSet(pageSet, numberOfRequests, requestsList, this);
     }
 
+    public boolean moreThanPffRequests() {
+        return runningProcessPageFaultList.size() > pffTimeWindow;
+    }
+
     public boolean isHalted() {
         return isHalted;
     }
@@ -79,8 +83,12 @@ public class Process {
     }
 
     public void freeFrame() {
-        frameSet.getLast().free();
-        frameSet.removeLast();
+        Frame frame = frameSet.stream().filter(f -> f.getPage() != null).min(Comparator.comparingInt(f -> f.getPage().getLastUseTime())).orElse(null);
+        if (frame == null) {
+            return;
+        }
+        frame.free();
+        frameSet.remove(frame);
     }
 
     public int getPffTimeWindow() {
@@ -162,5 +170,9 @@ public class Process {
     public void freeAllFrames() {
         frameSet.forEach(Frame::free);
         frameSet.clear();
+    }
+
+    public boolean hasEmptyFrame() {
+        return frameSet.stream().anyMatch(f -> f.getPage() == null);
     }
 }

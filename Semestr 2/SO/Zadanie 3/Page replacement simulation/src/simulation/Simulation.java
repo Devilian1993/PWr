@@ -51,8 +51,8 @@ public class Simulation {
         this.algorithm = algorithm;
         this.thrashingCount = 0;
 
-        THRASHING_TIME_WINDOW = 10;
-        THRASHING_THRESHOLD = 4;
+        THRASHING_TIME_WINDOW = 20;
+        THRASHING_THRESHOLD = 8;
         this.pageFaultsArray = new ArrayList<>();
 
         this.process = process;
@@ -112,6 +112,9 @@ public class Simulation {
         }
         if (process.isHalted() || process.getFrameSet().isEmpty()) {
             return;
+        }
+        if (globalTime == 1074) {
+            System.out.println("TEST");
         }
         algorithm.setFrames(process.getFrameSet());
         process.calculateWSSInWindow(globalTime);

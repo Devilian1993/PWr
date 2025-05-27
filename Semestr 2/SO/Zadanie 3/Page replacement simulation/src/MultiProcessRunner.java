@@ -21,14 +21,14 @@ public class MultiProcessRunner {
 
     private static void defaultConfiguration() {
         NUMBER_OF_PROCESSES = 5;
-        NUMBER_OF_FRAMES = 12;
-        NUMBER_OF_TOTAL_REQUESTS = 3000;
+        NUMBER_OF_FRAMES = 30;
+        NUMBER_OF_TOTAL_REQUESTS = 50000;
         PAGES_PER_PROCESS = new ArrayList<>(){{
-            add(6);
+            add(15);
             add(3);
-            add(5);
             add(8);
-            add(3);
+            add(10);
+            add(10);
         }};
         GENERATOR_SEED = 1;
 
@@ -38,7 +38,7 @@ public class MultiProcessRunner {
 
         PFF_TIME_WINDOW = 10;
         PFF_ADD_FRAME_THRESHOLD = 4;
-        PFF_REMOVE_FRAME_THRESHOLD = 1;
+        PFF_REMOVE_FRAME_THRESHOLD = 0;
         WSS_TIME_WINDOW = 10;
     }
 
@@ -53,10 +53,10 @@ public class MultiProcessRunner {
     }
 
     private static void setupAlgorithms(List<FrameAlgorithm> algorithms) {
-        algorithms.add(new EqualAlgorithm());
-        algorithms.add(new ProportionalAlgorithm());
+        //algorithms.add(new EqualAlgorithm());
+        //algorithms.add(new ProportionalAlgorithm());
         algorithms.add(new PFFSteeringAlgorithm(PFF_ADD_FRAME_THRESHOLD, PFF_REMOVE_FRAME_THRESHOLD));
-        algorithms.add(new ZonalAlgorithm());
+        //algorithms.add(new ZonalAlgorithm());
     }
 
     private static MultiProcessSimulationConfig createConfig(FrameAlgorithm algorithm) {

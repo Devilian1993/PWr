@@ -27,9 +27,10 @@ public class Frame {
 
     public void free() {
         this.process = null;
+        this.page = null;
     }
 
     public boolean isFree() {
-        return this.process == null;
+        return this.process == null && page == null;
     }
 }
