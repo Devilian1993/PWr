@@ -51,8 +51,8 @@ public class Simulation {
         this.algorithm = algorithm;
         this.thrashingCount = 0;
 
-        THRASHING_TIME_WINDOW = 20;
-        THRASHING_THRESHOLD = 12;
+        THRASHING_TIME_WINDOW = 10;
+        THRASHING_THRESHOLD = 4;
         this.pageFaultsArray = new ArrayList<>();
 
         this.process = process;
@@ -110,10 +110,14 @@ public class Simulation {
             throw new UnsupportedOperationException("Step function is to be used only as an internal simulation" +
                     "with a reference to a single process");
         }
+        if (process.isHalted() || process.getFrameSet().isEmpty()) {
+            return;
+        }
         algorithm.setFrames(process.getFrameSet());
         process.calculateWSSInWindow(globalTime);
         if (globalTime >= THRASHING_TIME_WINDOW && (globalTime % (THRASHING_TIME_WINDOW/2) == 0)) {
-            if (pageFaultsArray.subList(globalTime-THRASHING_TIME_WINDOW, globalTime).stream().reduce(0, Integer::sum) > THRASHING_THRESHOLD) {
+            process.calculateNumberOfPageFaultsInWindow();
+            if (process.getPageFaultCountInWindow() >= THRASHING_THRESHOLD) {
                 thrashingCount++;
             }
         }
@@ -136,7 +140,9 @@ public class Simulation {
             request.setLoadTime(globalTime);
             process.addPageFault(true);
         }
-        process.calculateNumberOfPageFaultsInWindow(globalTime);
+        //if (globalTime % process.getPffTimeWindow() == 0) {
+        //    process.calculateNumberOfPageFaultsInWindow(globalTime);
+        //}
         request.setLastUseTime(globalTime);
         request.setReferenceBit(true);
     }
@@ -146,8 +152,8 @@ public class Simulation {
             throw new UnsupportedOperationException("Empty step function is to be used only as an internal simulation" +
                     "with a reference to a single process");
         }
-
         pageFaultsArray.add(0);
+        process.emptyStep();
     }
 
     public void printResults() {

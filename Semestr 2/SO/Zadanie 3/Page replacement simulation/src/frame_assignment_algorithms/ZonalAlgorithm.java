@@ -18,6 +18,11 @@ public class ZonalAlgorithm extends FrameAlgorithm {
         return processList.stream().filter(p -> !p.isHalted()).mapToInt(Process::getWSS).sum();
     }
 
+    private void freeAllFrames(List<Process> processList) {
+        frames.forEach(Frame::free);
+        processList.forEach(Process::freeAllFrames);
+    }
+
     @Override
     public void assignFrames(List<Process> processList) {
         if (processList == null || processList.isEmpty() || framesSize() == 0) {
@@ -33,6 +38,8 @@ public class ZonalAlgorithm extends FrameAlgorithm {
             hasAssignedFrames = true;
             return;
         }
+
+        freeAllFrames(processList);
 
         while (requiredFramesNumber(processList) > frames.size()) {
             processList.stream().filter(p -> !p.isHalted()).max(Comparator.comparingInt(Process::getWSS)).ifPresent(p -> p.setHalted(true));

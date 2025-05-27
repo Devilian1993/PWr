@@ -2,6 +2,7 @@ import frame_assignment_algorithms.*;
 import simulation.MultiProcessSimulation;
 import simulation.MultiProcessSimulationConfig;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,14 +17,15 @@ public class MultiProcessRunner {
     private static int PFF_TIME_WINDOW;
     private static int PFF_ADD_FRAME_THRESHOLD;
     private static int PFF_REMOVE_FRAME_THRESHOLD;
+    private static int WSS_TIME_WINDOW;
 
     private static void defaultConfiguration() {
         NUMBER_OF_PROCESSES = 5;
-        NUMBER_OF_FRAMES = 10;
-        NUMBER_OF_TOTAL_REQUESTS = 50000;
+        NUMBER_OF_FRAMES = 12;
+        NUMBER_OF_TOTAL_REQUESTS = 3000;
         PAGES_PER_PROCESS = new ArrayList<>(){{
-            add(10);
-            add(5);
+            add(6);
+            add(3);
             add(5);
             add(8);
             add(3);
@@ -34,9 +36,10 @@ public class MultiProcessRunner {
             throw new RuntimeException("Number of pages per process does not match number of processes");
         }
 
-        PFF_TIME_WINDOW = 20;
-        PFF_ADD_FRAME_THRESHOLD = 15;
-        PFF_REMOVE_FRAME_THRESHOLD = 0;
+        PFF_TIME_WINDOW = 10;
+        PFF_ADD_FRAME_THRESHOLD = 4;
+        PFF_REMOVE_FRAME_THRESHOLD = 1;
+        WSS_TIME_WINDOW = 10;
     }
 
     private static void setValues() {
@@ -52,13 +55,14 @@ public class MultiProcessRunner {
     private static void setupAlgorithms(List<FrameAlgorithm> algorithms) {
         algorithms.add(new EqualAlgorithm());
         algorithms.add(new ProportionalAlgorithm());
-        algorithms.add(new PFFSteeringAlgorithm());
+        algorithms.add(new PFFSteeringAlgorithm(PFF_ADD_FRAME_THRESHOLD, PFF_REMOVE_FRAME_THRESHOLD));
         algorithms.add(new ZonalAlgorithm());
     }
 
     private static MultiProcessSimulationConfig createConfig(FrameAlgorithm algorithm) {
         return new MultiProcessSimulationConfig(PAGES_PER_PROCESS, NUMBER_OF_PROCESSES, NUMBER_OF_FRAMES,
-                NUMBER_OF_TOTAL_REQUESTS, algorithm, GENERATOR_SEED, PFF_TIME_WINDOW, PFF_ADD_FRAME_THRESHOLD, PFF_REMOVE_FRAME_THRESHOLD);
+                NUMBER_OF_TOTAL_REQUESTS, algorithm, GENERATOR_SEED, PFF_TIME_WINDOW, PFF_ADD_FRAME_THRESHOLD, PFF_REMOVE_FRAME_THRESHOLD,
+                WSS_TIME_WINDOW);
     }
 
     private static void setupSimulations(List<MultiProcessSimulation> simulations, List<FrameAlgorithm> algorithms) {
@@ -73,7 +77,10 @@ public class MultiProcessRunner {
 
         System.out.println("Liczba procesów: " + NUMBER_OF_PROCESSES);
         System.out.println("Liczba ramek: " + NUMBER_OF_FRAMES);
+        System.out.println("Liczba różnych stron: " + PAGES_PER_PROCESS.stream().reduce(0, Integer::sum));
         System.out.println("Liczba zadan: " + NUMBER_OF_TOTAL_REQUESTS);
+        System.out.println("Liczba stron w procesie: " + PAGES_PER_PROCESS);
+        System.out.println();
 
         List<MultiProcessSimulation> simulations = new ArrayList<>();
         List<FrameAlgorithm> algorithms = new ArrayList<>();
@@ -81,6 +88,9 @@ public class MultiProcessRunner {
         setupAlgorithms(algorithms);
         setupSimulations(simulations, algorithms);
 
-        simulations.get(3).run();
+        for (MultiProcessSimulation simulation : simulations) {
+            simulation.run();
+            simulation.printResults();
+        }
     }
 }

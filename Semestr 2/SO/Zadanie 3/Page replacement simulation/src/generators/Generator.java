@@ -94,7 +94,14 @@ public class Generator {
         }
     }
 
+    private void clear() {
+        localPages1.clear();
+        localPages2.clear();
+        nonLocalPages.clear();
+    }
+
     public void generateRequestsFromPageSet(List<Page> pageSet, int totalPages, List<Page> simulationPages, Process process) {
+        clear();
         localPagesFromPageSet(pageSet, process);
 
         int counter = 0;
@@ -123,12 +130,12 @@ public class Generator {
         }
     }
 
-    public void generateProcesses(List<Process> processList, int numberOfProcesses, List<Integer> processPageSetSizes, int pffTimeWindow) {
+    public void generateProcesses(List<Process> processList, int numberOfProcesses, List<Integer> processPageSetSizes, int pffTimeWindow, int wssTimeWindow) {
         if (numberOfProcesses != processPageSetSizes.size()) {
             throw new IllegalArgumentException("Number of processes does not match number of page set sizes.");
         }
         for (int i = 0; i < numberOfProcesses; i++) {
-            processList.add(new Process(i, processPageSetSizes.get(i), pffTimeWindow));
+            processList.add(new Process(i, processPageSetSizes.get(i), pffTimeWindow, wssTimeWindow));
         }
     }
 }

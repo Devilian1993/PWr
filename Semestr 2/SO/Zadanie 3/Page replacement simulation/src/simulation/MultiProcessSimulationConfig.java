@@ -15,10 +15,12 @@ public class MultiProcessSimulationConfig {
     private final int pffTimeWindow;
     private final int pffAddFrameThreshold;
     private final int pffRemoveFrameThreshold;
+    private final int wssTimeWindow;
 
     public MultiProcessSimulationConfig(List<Integer> pagesPerProcess, int numberOfProcesses, int numberOfFrames,
                                         int totalRequestsCount, FrameAlgorithm frameAlgorithm, int generatorSeed,
-                                        int pffTimeWindow, int pffAddFrameThreshold, int pffRemoveFrameThreshold) {
+                                        int pffTimeWindow, int pffAddFrameThreshold, int pffRemoveFrameThreshold,
+                                        int wssTimeWindow) {
         this.pagesPerProcess = pagesPerProcess;
         this.numberOfProcesses = numberOfProcesses;
         this.numberOfFrames = numberOfFrames;
@@ -28,6 +30,7 @@ public class MultiProcessSimulationConfig {
         this.pffTimeWindow = pffTimeWindow;
         this.pffAddFrameThreshold = pffAddFrameThreshold;
         this.pffRemoveFrameThreshold = pffRemoveFrameThreshold;
+        this.wssTimeWindow = wssTimeWindow;
     }
 
     public List<Integer> getPagesPerProcess() {
@@ -64,5 +67,9 @@ public class MultiProcessSimulationConfig {
 
     public int getPffRemoveFrameThreshold() {
         return pffRemoveFrameThreshold;
+    }
+
+    public int getWssTimeWindow() {
+        return wssTimeWindow;
     }
 }
