@@ -1,5 +1,7 @@
 package trie_tree_dict;
 
+import java.util.List;
+
 class Leaf<T> extends Element<T> {
     public Leaf(Character c, T value) {
         super(c, value);
@@ -43,5 +45,10 @@ class Leaf<T> extends Element<T> {
     @Override
     public boolean hasChild(Character c) {
         return false;
+    }
+
+    @Override
+    public List<Element<T>> getChildren() {
+        return null;
     }
 }
