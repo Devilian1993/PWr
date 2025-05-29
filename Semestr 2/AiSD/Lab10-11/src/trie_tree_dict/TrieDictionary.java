@@ -1,12 +1,15 @@
 package trie_tree_dict;
 
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TrieDictionary<V> {
     private Element<V> root;
+    private List<V> LARGEST_PATH;
 
     public TrieDictionary() {
         this.root = null;
+        this.LARGEST_PATH = new ArrayList<>();
     }
 
     public V insert(String key, V value) {
@@ -36,6 +39,7 @@ public class TrieDictionary<V> {
                     ((Node<V>) current).addChild(chars[i], new Leaf<>(chars[i]));
                 } else {
                     ((Node<V>) current).addChild(chars[i], new Node<>(chars[i]));
+                    current.incrementChildrenCount();
                 }
             }
             prev = current;
@@ -84,24 +88,30 @@ public class TrieDictionary<V> {
             return null;
         }
 
+        if (!stack.isEmpty()) {
+            stack.peek().decrementChildrenCount();
+        }
+
         V returnValue = current.getValue();
         current.setEndOfWord(false);
         current.setValue(null);
 
-        if (current.hasAnyDescendants()) {
+        if (current.getNumberOfChildren() != 0) {
             return returnValue;
         }
 
-        current = stack.pop();
+        Element<V> parent = stack.pop();
+        parent.removeChild(current);
+        current = parent;
 
-        while (!stack.isEmpty() && !current.hasAnyDescendants() && !current.isEndOfWord()) {
-            Element<V> parent = stack.pop();
-
+        while (!stack.isEmpty() && current.getNumberOfChildren() < 2 && !current.isEndOfWord()) {
+            parent = stack.pop();
             parent.removeChild(current);
+            parent.decrementChildrenCount();
             current = parent;
         }
 
-        if (current != null && current.isEndOfWord() && !stack.isEmpty() && !current.hasAnyDescendants()) {
+          if (current != null && current.isEndOfWord() && !stack.isEmpty() && current.getNumberOfChildren() < 1) {
             stack.pop().setChild(current.getKey(), new Leaf<>(current.getKey(), current.getValue()));
         }
 
@@ -110,5 +120,53 @@ public class TrieDictionary<V> {
         }
 
         return returnValue;
+    }
+
+    private List<String> _longestEmptyPath(Element<V> currentElement, List<String> currentPath) {
+        if (currentElement == null || currentElement.isEndOfWord()) {
+            currentPath.clear();
+        } else {
+            currentPath.add(currentElement.getKeyString());
+        }
+
+
+        List<Element<V>> descendants = currentElement.getChildren();
+
+        if (descendants == null) {
+            return null;
+        }
+
+        descendants = descendants.stream().filter(Objects::nonNull).filter(Element::hasAnyDescendants).collect(Collectors.toCollection(ArrayList::new));
+
+        if (descendants.isEmpty()) {
+            return currentPath;
+        }
+
+        List<String> largestPath = new ArrayList<>();
+        for (Element<V> descendant : descendants) {
+            List<String> path = _longestEmptyPath(descendant, currentPath);
+            if (path != null && path.size() > largestPath.size()) {
+                largestPath = new ArrayList<>(path);
+                //currentPath.clear();
+            }
+            currentPath.clear();
+        }
+        return largestPath;
+    }
+
+    public String longestEmptyPath() {
+        List<String> path =  _longestEmptyPath(root, new ArrayList<>());
+
+        StringBuilder pathString = new StringBuilder();
+
+        if (path == null) {
+            return null;
+        }
+
+        for (String s : path) {
+            pathString.append(s);
+        }
+
+        return pathString.toString();
     }
 }

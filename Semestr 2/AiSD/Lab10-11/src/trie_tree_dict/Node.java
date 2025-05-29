@@ -1,6 +1,8 @@
 package trie_tree_dict;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 class Node<T> extends Element<T> {
@@ -40,6 +42,7 @@ class Node<T> extends Element<T> {
     @Override
     @SuppressWarnings("unchecked")
     public boolean hasAnyDescendants() {
+        //return this.getNumberOfChildren() > 0;
         for (Element<T> child : Arrays.stream(children).filter(Objects::nonNull).toArray(Element[]::new)) {
             if (child.isEndOfWord() || child.hasAnyDescendants()) {
                 return true;
@@ -61,5 +64,17 @@ class Node<T> extends Element<T> {
     @Override
     public boolean hasChild(Character c) {
         return children[Utils.getASCII(c)] != null;
+    }
+
+    @Override
+    public List<Element<T>> getChildren() {
+        List<Element<T>> list = new ArrayList<Element<T>>(children.length);
+
+        for (Element<T> child : children) {
+            if (child != null) {
+                list.add(child);
+            }
+        }
+        return list;
     }
 }
