@@ -114,7 +114,7 @@ public class Simulation {
             return;
         }
         if (globalTime == 1074) {
-            System.out.println("TEST");
+            //System.out.println("TEST");
         }
         algorithm.setFrames(process.getFrameSet());
         process.calculateWSSInWindow(globalTime);

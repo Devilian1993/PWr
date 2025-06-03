@@ -340,17 +340,17 @@ public class BST<T> {
 
         List<Node<T>> children = currentElement.getChildren();
 
-        children = children.stream().filter(Objects::nonNull).filter(Node::hasAnyChildren).collect(Collectors.toCollection(ArrayList::new));
+        children = children.stream().filter(Objects::nonNull).filter(Node::hasAnyChildren).collect(Collectors.toCollection(LinkedList::new));
 
         if (children.isEmpty()) {
             return currentPath;
         }
 
-        List<Node<T>> largestPath = new ArrayList<>();
-        for (Node<T> descendant : children) {
-            List<Node<T>> path = _longestOneChildPath(descendant, currentPath);
+        List<Node<T>> largestPath = new LinkedList<>();
+        for (Node<T> child : children) {
+            List<Node<T>> path = _longestOneChildPath(child, currentPath);
             if (path != null && path.size() > largestPath.size()) {
-                largestPath = new ArrayList<>(path);
+                largestPath = new LinkedList<>(path);
             }
             currentPath.clear();
         }
@@ -358,7 +358,7 @@ public class BST<T> {
     }
 
     public T longestOneChildSequenceStart() {
-        List<Node<T>> path = _longestOneChildPath(root, new ArrayList<>());
+        List<Node<T>> path = _longestOneChildPath(root, new LinkedList<>());
 
         return path.isEmpty() ? null : path.getFirst().getValue();
     }

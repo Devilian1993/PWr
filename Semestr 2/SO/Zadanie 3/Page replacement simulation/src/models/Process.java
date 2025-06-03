@@ -18,6 +18,7 @@ public class Process {
     private final int wssTimeWindow;
     private int pageFaultCountInWindow;
     private int wssInWindow;
+    private int haltCount;
 
     public Process(int id, int pageSetSize, int pffTimeWindow, int wssTimeWindow) {
         this.id = id;
@@ -31,6 +32,7 @@ public class Process {
         this.wssTimeWindow = wssTimeWindow;
         this.pageFaultCountInWindow = 0;
         this.runningProcessPageFaultList = new ArrayList<>();
+        this.haltCount = 0;
     }
 
     public void generateRequestsList(Generator generator, int numberOfRequests) {
@@ -50,6 +52,7 @@ public class Process {
         isHalted = halted;
 
         if (halted) {
+            haltCount++;
             freeAllFrames();
         }
     }
@@ -83,6 +86,13 @@ public class Process {
     }
 
     public void freeFrame() {
+        for (Frame frame : frameSet) {
+            if (frame.getPage() == null) {
+                frame.free();
+                frameSet.remove(frame);
+                return;
+            }
+        }
         Frame frame = frameSet.stream().filter(f -> f.getPage() != null).min(Comparator.comparingInt(f -> f.getPage().getLastUseTime())).orElse(null);
         if (frame == null) {
             return;
@@ -174,5 +184,9 @@ public class Process {
 
     public boolean hasEmptyFrame() {
         return frameSet.stream().anyMatch(f -> f.getPage() == null);
+    }
+
+    public int getHaltCount() {
+        return haltCount;
     }
 }

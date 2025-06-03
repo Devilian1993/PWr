@@ -26,9 +26,9 @@ public class Main {
         BST<Integer> bst = new BST<>(Comparator.<Integer>naturalOrder());
         bstSetup(bst);
 
-        bst.preOrderWalk();
-        bst.postOrderWalk();
-        bst.inOrderWalk();
+        //bst.preOrderWalk();
+        //bst.postOrderWalk();
+        //bst.inOrderWalk();
 
         System.out.println("NUMBER OF NODES: ");
         System.out.println(bst.countNodes());

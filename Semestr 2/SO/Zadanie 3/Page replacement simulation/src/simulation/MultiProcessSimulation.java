@@ -71,6 +71,9 @@ public class MultiProcessSimulation {
     public void run() {
         int globalTime = 0;
         for (Page request : globalRequests) {
+            if (request.getProcess().isHalted()) {
+                continue;
+            }
             updateWssGlobal(processList, globalTime);
             //if (!(frameAlgorithm instanceof PFFSteeringAlgorithm)) {
             //    frameAlgorithm.assignFrames(processList);
@@ -91,12 +94,15 @@ public class MultiProcessSimulation {
         String algName = frameAlgorithm.getClass().getSimpleName();
         int pageFaults = virtualSimulationsMap.values().stream().map(Simulation::getPageFaults).reduce(0, Integer::sum);
         int thrashingCount = virtualSimulationsMap.values().stream().map(Simulation::getThrashingCount).reduce(0, Integer::sum);
-        int haltedProcessCount = (int) processList.stream().filter(Process::isHalted).count();
+        int haltedProcessCount = 0;
 
+        for (Process process : processList) {
+            haltedProcessCount += process.getHaltCount();
+        }
         System.out.printf("Symulacja: %s\n" +
                 "Liczba błędów stron: %d\n" +
                 "Liczba szamotań: %d\n" +
-                "Liczba wstrzymanych procesów: %d\n" +
+                "Liczba wstrzymań: %d\n" +
                 "\n"
                 , algName, pageFaults, thrashingCount, haltedProcessCount);
     }

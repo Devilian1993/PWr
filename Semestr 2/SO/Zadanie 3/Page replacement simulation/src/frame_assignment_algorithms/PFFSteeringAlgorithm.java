@@ -22,7 +22,7 @@ public class PFFSteeringAlgorithm extends FrameAlgorithm {
     public PFFSteeringAlgorithm(int new_frame, int free_frame) {
         ASSIGN_NEW_FRAME_PFF_THRESHOLD = new_frame;
         FREE_FRAME_PFF_THRESHOLD = free_frame;
-        REMOVE_FRAME_THRESHHOLD = ASSIGN_NEW_FRAME_PFF_THRESHOLD + 2;
+        REMOVE_FRAME_THRESHHOLD = ASSIGN_NEW_FRAME_PFF_THRESHOLD;
     }
 
     @Override
@@ -37,9 +37,19 @@ public class PFFSteeringAlgorithm extends FrameAlgorithm {
         } else {
             //System.out.println("\n FREE FRAMES: " + frames.stream().filter(Frame::isFree).count());
             for (Process process : processList) {
+                if (process.isHalted()) {
+                    for (Frame frame: frames) {
+                        if (frame.isFree()) {
+                            process.addFrame(frame);
+                            frame.assignProcess(process);
+                            process.setHalted(false);
+                        }
+                    }
+                }
+
                 int numberOfPageFaults = process.getPageFaultCountInWindow();
 
-                //System.out.println("\n[PFF DEBUG] Process ID: " + process.getId() + " at globalTime: [CURRENT_TIME]"); // Replace [CURRENT_TIME]
+                //System.out.println("\n[PFF DEBUG] Process ID: " + process.getId());
                 //System.out.println("\nPAGE FAULTS: " + numberOfPageFaults);
                 //System.out.println("  Is Halted: " + process.isHalted());
 
@@ -57,7 +67,7 @@ public class PFFSteeringAlgorithm extends FrameAlgorithm {
                     }
 
                     //System.out.println("    FAILURE: No free frame found in the system to assign.");
-                    if (!assignedFrame && numberOfPageFaults >= REMOVE_FRAME_THRESHHOLD && !process.hasEmptyFrame()) {
+                    if (!assignedFrame && !process.hasEmptyFrame()) {
                         process.setHalted(true);
                     }
                 } else if ((numberOfPageFaults <= FREE_FRAME_PFF_THRESHOLD && process.getFrameSet().size() > 1 && process.moreThanPffRequests()) || process.getFrameSet().size() > process.getPageSetSize()) {
