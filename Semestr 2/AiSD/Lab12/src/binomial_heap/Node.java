@@ -4,12 +4,12 @@ class Node<T> {
     private T value;
     private int degree;
     private Node<T> parent;
-    private Node<T> left;
-    private Node<T> right;
+    private Node<T> child;
     private Node<T> sibling;
 
     public Node(T value) {
         this.value = value;
+        this.degree = 0;
     }
 
     public T getValue() {
@@ -28,6 +28,14 @@ class Node<T> {
         this.degree = degree;
     }
 
+    public void incrementDegree() {
+        degree++;
+    }
+
+    public void decrementDegree() {
+        degree--;
+    }
+
     public Node<T> getParent() {
         return parent;
     }
@@ -36,20 +44,12 @@ class Node<T> {
         this.parent = parent;
     }
 
-    public Node<T> getLeft() {
-        return left;
+    public Node<T> getChild() {
+        return child;
     }
 
-    public void setLeft(Node<T> left) {
-        this.left = left;
-    }
-
-    public Node<T> getRight() {
-        return right;
-    }
-
-    public void setRight(Node<T> right) {
-        this.right = right;
+    public void setChild(Node<T> child) {
+        this.child = child;
     }
 
     public Node<T> getSibling() {
