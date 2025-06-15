@@ -1,5 +1,6 @@
 package strategies;
 
+import models.Process;
 import models.Processor;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public abstract class Strategy {
         this.processors = processors;
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
-        this.NUMBER_OF_RANDOMIZES = 10;
+        this.NUMBER_OF_RANDOMIZES = 5;
     }
 
     List<Processor> listWithProcessorExcluded(Processor processor) {
@@ -28,5 +29,5 @@ public abstract class Strategy {
         return list.get(index);
     }
 
-    public abstract void execute(Processor processor);
+    public abstract void execute(Processor processor, Process process);
 }

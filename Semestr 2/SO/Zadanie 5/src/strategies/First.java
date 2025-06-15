@@ -1,6 +1,8 @@
 package strategies;
 
-import models.Processor;
+import models.*;
+import models.Process;
+import simulation.Simulation;
 
 import java.util.List;
 
@@ -10,12 +12,19 @@ public class First extends Strategy {
     }
 
     @Override
-    public void execute(Processor processor) {
+    public void execute(Processor processor, Process process) {
         List<Processor> otherProcessors = listWithProcessorExcluded(processor);
 
         for (int i = 0; i < NUMBER_OF_RANDOMIZES; i++) {
+            Simulation.incrementLoadQueries();
             Processor randomProcessor = getRandomProcessor(otherProcessors);
-            if (randomP)
+            if (randomProcessor.getLoadPercentage() < upperBound) {
+                Simulation.incrementMigrations();
+                randomProcessor.enqueueProcess(process);
+                return;
+            }
         }
+
+        processor.enqueueProcess(process);
     }
 }
