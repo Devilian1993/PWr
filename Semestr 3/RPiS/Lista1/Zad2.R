@@ -22,34 +22,32 @@ print(d)
 
 # a) A + B
 print("ii) a) A + B:")
-print(a + b) # Spowoduje błąd w R ze względu na niezgodność wymiarów
+print(a + b) 
 
 # b) A + B^T
 print("ii) b) A + B^T:")
 print(a + t(b))
 
-# c) A %*% B (mnożenie macierzowe)
+# c) A %*% B 
 print("ii) c) A %*% B:")
 print(a %*% b)
 
-# d) A * A (mnożenie element-po-elemencie)
+# d) A * A
 print("ii) d) A * A:")
 print(a * a)
 
-# e) D^-1 (macierz odwrotna do D)
+# e) D^-1 
 print("ii) e) D^-1:")
 print(solve(d))
 
-# f) D %*% D^-1 (mnożenie macierzowe D * D^-1)
+# f) D %*% D^-1 
 print("ii) f) D %*% D^-1:")
 print(d %*% solve(d))
 
 ### iii) Rozwiązać równania a) CX = A, b) XD=A
 
-# a) cX = a  => X = c^-1 %*% a
 print("iii) a) cX = a:")
 print(solve(c) %*% a)
 
-# b) Xd = a  => X = a %*% d^-1
 print("iii) b) Xd = a:")
 print(a %*% solve(d))

@@ -28,19 +28,19 @@ print(a + b)
 cat("\nii) b) A^T + B:\n")
 print(t(a) + b)
 
-# c) B %*% A (mnożenie macierzowe)
+# c) B %*% A
 cat("\nii) c) B %*% A:\n")
 print(b %*% a)
 
-# d) B * B (mnożenie element-po-elemencie)
+# d) B * B 
 cat("\nii) d) B * B:\n")
 print(b * b)
 
-# e) C^-1 (macierz odwrotna do C)
+# e) C^-1 
 cat("\nii) e) C^-1:\n")
 print(solve(c))
 
-# f) C %*% C^-1 (mnożenie macierzowe C * C^-1)
+# f) C %*% C^-1 
 cat("\nii) f) C %*% C^-1:\n")
 print(c %*% solve(c))
 
