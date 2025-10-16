@@ -18,11 +18,17 @@ class Table {
     public:
         Table();
         Table(std::string name, int size);
-        Table(Table& other);
+        Table(const Table& other);
         ~Table();
         void setName(std::string name);
         bool setNewSize(int size);
         Table* clone();
+        Table extractNegative();
+        void printContent();
+        void fill();
 };
+
+void modTab(Table* table, int newSize);
+void modTab(Table table, int newSize);
 
 #endif //LAB1_TABLE_H

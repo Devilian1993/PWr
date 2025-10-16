@@ -10,6 +10,21 @@ void printArray(int *table, int size) {
     std::cout << "]\n";
 }
 
+void printArray(int **table, int sizeX, int sizeY) {
+    for (int i = 0; i < sizeX; i++) {
+        for (int j = 0; j < sizeY; j++) {
+            table[i][j] = 0;
+        }
+    }
+
+    for (int i = 0; i < sizeX; i++) {
+        for (int j = 0; j < sizeY; j++) {
+            std::cout << table[i][j] << " ";
+        }
+        std::cout << "\n";
+    }
+}
+
 void allocTableFill34(int size) {
     if (size < 1) {
         std::cout << "Incorrect size" << "\n";
