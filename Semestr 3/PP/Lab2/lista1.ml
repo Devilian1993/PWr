@@ -54,8 +54,23 @@ let theVeryNextDay (day, month, year) =
     (day + 1, month, year)
 ;;
 
+theVeryNextDay (28, 2, 2023);;
 theVeryNextDay (28, 2, 2024);;
 theVeryNextDay (31, 12, 2024);;
 theVeryNextDay (32, 1, 2023);;
 
- 
+(* Modyfikacja *)
+
+let zigZag (list, n) = 
+  let rec helper (list, list2, n) = 
+    if n = 0 then []
+    else if list = [] then helper (list2, [], n - 1)
+    else List.hd list :: helper (List.tl list, List.hd list :: list2, n)
+  in
+  helper (list, [], n)
+;;
+
+zigZag ([1;2;3;4], 3)
+
+  
+

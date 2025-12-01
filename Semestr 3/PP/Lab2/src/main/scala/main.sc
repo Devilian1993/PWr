@@ -1,11 +1,11 @@
 //Zadanie 1
-def fiddle22(tuple1: (Int, Int), tuple2: (Int, Int)): ((Int, Int), (Int, Int)) = ((tuple2._2, tuple1._1), (tuple1._2, tuple2._1))
+def fiddle22[A](tuple1: (A, A), tuple2: (A, A)): ((A, A), (A, A)) = ((tuple2._2, tuple1._1), (tuple1._2, tuple2._1))
 
 println(fiddle22((1, 2), (3, 4)))
 
 // Zadanie 2
-def hits(list1: List[Int], list2: List[Int]): List[Int] = {
-  def checker(l1: List[Int], l2: List[Int], index: Int): List[Int] = {
+def hits[A](list1: List[A], list2: List[A]): List[Int] = {
+  def checker(l1: List[A], l2: List[A], index: Int): List[Int] = {
     if (l1.isEmpty || l2.isEmpty) Nil
     else if (l1.head == l2.head)
       index :: checker(l1.tail, l2.tail, index + 1)
@@ -66,3 +66,20 @@ def theVeryNextDay(day: Int, month: Int, year: Int): (Int, Int, Int) = {
 
 println(theVeryNextDay(28, 2, 2024))
 println(theVeryNextDay(31, 12, 2024))
+println(theVeryNextDay(32, 12, 2024))
+
+
+def zigZag[A](list: List[A], n: Int) = {
+  def helper(list: List[A], list2: List[A], n: Int): List[A] = {
+    if (n == 0) {
+      List()
+    } else if (list.isEmpty) {
+      helper(list2, List(), n - 1)
+    } else {
+       list.head :: helper (list.tail, list.head :: list2, n)
+    }
+  }
+  helper(list, List(), n)
+}
+
+println(zigZag(List(1, 2, 3, 4), 3))
