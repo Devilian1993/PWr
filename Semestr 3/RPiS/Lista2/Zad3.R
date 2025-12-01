@@ -31,7 +31,7 @@ mt_60_lt_350000 <- sum(frame$Metraz > 60 & frame$Cena < 350000)
 print(mt_60_lt_350000)
 
 # i) Mieszkanie o najlepszym stosunku metrażu do ceny
-ratio <- frame$Metraz / frame$Cena
+ratio <- frame$Metraz / frame$Pokoje / frame$Cena
 best_area_to_price <- frame[ratio == max(ratio), ]
 print(best_area_to_price)
 

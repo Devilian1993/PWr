@@ -15,7 +15,7 @@ head(frame, 2)
 str(frame)
 
 # d) średnia ocen z analizy
-print(mean(frame$"oceny_analiza"))
+print(mean(frame$oceny_analiza))
 
 # e) nowa kolumna z średnią ocen
 frame$srednia <- rowMeans(frame[,c("oceny_analiza", "oceny_algebra")])
