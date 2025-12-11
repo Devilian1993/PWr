@@ -4,13 +4,11 @@
 
 
 class Error {
-private:
     std::string message;
 public:
     Error();
     Error(const std::string& message);
-    std::string getMessage();
-public:
+    std::string getMessage() const;
 };
 
 

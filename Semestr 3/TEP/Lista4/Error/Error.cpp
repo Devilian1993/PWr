@@ -2,10 +2,9 @@
 
 Error::Error() = default;
 
-Error::Error(const std::string &message) {
-    this->message = message;
+Error::Error(const std::string &message): message(message) {
 }
 
-std::string Error::getMessage() {
+std::string Error::getMessage() const {
     return message;
 }

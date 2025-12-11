@@ -7,4 +7,10 @@ add_executable(Lista4 main.cpp
         Error/Error.cpp
         Error/Error.h
         Result/Result.cpp
-        Result/Result.h)
+        Result/Result.h
+        Tree/Tree.cpp
+        Tree/Node/Node.cpp
+        Utils/Utils.cpp
+        Console/Console.cpp
+        ResultSaver/ResultSaver.cpp
+        ResultSaver/ResultSaver.h)
