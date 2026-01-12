@@ -1,5 +1,8 @@
 package items
 
+import visitor.KitchenVisitor
+
 abstract class KitchenItem(val id: Int) {
-  override abstract def toString: String = super.toString
+  def toString: String
+  def accept(visitor: KitchenVisitor): Unit 
 }
