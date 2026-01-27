@@ -6,14 +6,21 @@
 
 #include <cmath>
 #include <fstream>
-#include <setjmp.h>
+#include <csetjmp>
 #include <sstream>
 
-Evaluator::Evaluator() {
+Evaluator::Evaluator() = default;
+
+int Evaluator::getNumberOfCustomers() const {
+    return (dimension > 0) ? dimension - 1 : 0;
+}
+
+int Evaluator::getCapacity() const {
+    return capacity;
 }
 
 double Evaluator::getDistance(int node_1, int node_2) const {
-    if (node_1 < 0 || node_2 >= nodes.size() || node_1 < 0 || node_2 >= nodes.size()) {
+    if (node_1 < 0 || node_2 >= nodes.size() || node_2 < 0 || node_2 >= nodes.size()) {
         throw std::runtime_error("Index out of bounds");
     }
 
@@ -62,6 +69,8 @@ std::vector<int> Evaluator::parsePermutation(const std::string &line) {
         }
         result.push_back(val);
     }
+
+    return result;
 }
 
 std::vector<Point> Evaluator::parseNodes(std::ifstream &file) {
@@ -89,7 +98,7 @@ std::vector<int> Evaluator::parseDemand(std::ifstream &file) {
         int id, dem;
         file >> id >> dem;
 
-        if (id < 0 || id >= dimension || dem < 0) {
+        if (id < 0 || id > dimension || dem < 0) {
             throw std::runtime_error("Invalid demands in problem file");
         }
         if(id-1 < dimension) {

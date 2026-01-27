@@ -17,6 +17,8 @@ class Evaluator {
     Evaluator();
     void load(const std::string& filename);
     double getFitness(const std::vector<int>& genotype);
+    int getNumberOfCustomers() const;
+    int getCapacity() const;
 
     private:
     std::string problemName;
