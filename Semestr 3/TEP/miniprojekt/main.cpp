@@ -3,26 +3,59 @@
 #include "Evaluator.h"
 #include "GeneticAlgorithm.h"
 
-using namespace std;
+
+template <typename T>
+T getInput(const std::string& prompt, T minVal, T maxVal) {
+    T value;
+    while (true) {
+        std::cout << prompt;
+        if (std::cin >> value && value >= minVal && value <= maxVal) {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return value;
+        }
+        std::cout << "Bledna wartosc! Podaj liczbe z zakresu [" << minVal << " - " << maxVal << "].\n";
+        std::cin.clear();
+    }
+}
 
 int main() {
-    string instancePath = "data/lcvrp/Vrp-Set-A/A-n32-k5.lcvrp";
-    int numberOfGroups = 5;
-
-    int populationSize = 100;
-    double mutationProbability = 0.03;
-    double crossoverProbability = 0.7;
-    int maxIterations = 10000;
-
+    std::string instancePath;
+    std::cout << "Podaj sciezke do pliku z danymi (.lcvrp): ";
+    std::getline(std::cin, instancePath);
 
     Evaluator evaluator;
-    cout << "Wczytywanie instancji: " << instancePath << "..." << endl;
+    std::cout << "Wczytywanie " << instancePath << std::endl;
+
+    int numberOfGroups = getInput<int>(
+            "Liczba ciezarowek: ",
+            1, 50000
+        );
+
+    int populationSize = getInput<int>(
+        "Rozmiar populacji: ",
+        10, 100000
+    );
+
+    int maxIterations = getInput<int>(
+        "Liczba iteracji: ",
+        1, 10000000
+    );
+
+    double mutationProb = getInput<double>(
+        "Prawdopodobienstwo mutacji: ",
+        0.0, 1.0
+    );
+
+    double crossoverProb = getInput<double>(
+        "Prawdopodobienstwo krzyzowania: ",
+        0.0, 1.0
+    );
 
     evaluator.load(instancePath);
 
-    cout << "Pomyslnie wczytano dane." << endl;
+    std::cout << "Pomyslnie wczytano dane." << std::endl;
 
-    GeneticAlgorithm algorithm(populationSize, mutationProbability, crossoverProbability,
+    GeneticAlgorithm algorithm(populationSize, mutationProb, crossoverProb,
                                maxIterations, numberOfGroups, evaluator);
 
     algorithm.run();
@@ -30,21 +63,18 @@ int main() {
 
     Individual best = algorithm.getBestSolution();
 
-    cout << "----------------------------------------" << endl;
-    cout << "KONIEC SYMULACJI" << endl;
+    std::cout << "KONIEC" << std::endl;
 
-    if (best.getFitness() > 0) {
-        cout << "Najlepszy znaleziony koszt: " << best.getFitness() << endl;
+    std::cout << "Najlepszy znaleziony koszt: " << best.getFitness() << std::endl;
 
-        cout << "Genotyp (przydzial do grup): ";
-        const vector<int>& genes = best.getGenotype();
-        for (int g : genes) {
-            cout << g << " ";
-        }
-        cout << endl;
-    } else {
-        cout << "Nie udalo sie znalezc poprawnego rozwiazania." << endl;
+    std::cout << "Genotyp: ";
+    const std::vector<int>& genes = best.getGenotype();
+    for (int g : genes) {
+        std::cout << g << " ";
     }
+
+    std::cout << std::endl;
+
 
     return 0;
 }

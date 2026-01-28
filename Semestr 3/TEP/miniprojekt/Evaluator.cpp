@@ -4,9 +4,11 @@
 
 #include "Evaluator.h"
 
+#include <algorithm>
 #include <cmath>
 #include <fstream>
 #include <csetjmp>
+#include <set>
 #include <sstream>
 
 Evaluator::Evaluator() = default;
@@ -109,6 +111,15 @@ std::vector<int> Evaluator::parseDemand(std::ifstream &file) {
     return result;
 }
 
+bool Evaluator::validPermutation(const std::vector<int>& p, const int& d) {
+    std::set<int> uniqueElements(p.begin(), p.end());
+
+    return p.size() == d - 1 &&
+           uniqueElements.size() == d - 1 &&
+           *uniqueElements.rbegin() == d &&
+           *uniqueElements.begin() == 2;
+}
+
 void Evaluator::load(const std::string& filename) {
     std::ifstream file(filename);
 
@@ -116,27 +127,73 @@ void Evaluator::load(const std::string& filename) {
         throw std::runtime_error("Cannot open file");
     }
 
+    bool nameRead = false;
+    bool dimensionRead = false;
+    bool capacityRead = false;
+    bool permutationRead = false;
+    bool nodesRead = false;
+    bool demandRead = false;
+
     std::string line;
     while (std::getline(file, line)) {
-        std::string type;
         std::stringstream stream(line);
 
         if (line.find("NAME") != std::string::npos) {
             problemName = parseString(line);
+            nameRead = true;
         } else if (line.find("DIMENSION") != std::string::npos) {
             dimension = parseInt(line);
+            if (dimension < 1) {
+                throw std::runtime_error("Invalid dimension in problem file");
+            }
+            dimensionRead = true;
         } else if (line.find("CAPACITY") != std::string::npos) {
             capacity = parseInt(line);
+            if (capacity < 1) {
+                throw std::runtime_error("Invalid capacity in problem file");
+            }
+            capacityRead = true;
         } else if (line.find("DISTANCE") != std::string::npos) {
             distance = parseDouble(line);
+            if (distance < 1) {
+                throw std::runtime_error("Invalid distance in problem file");
+            }
         } else if (line.find("PERMUTATION") != std::string::npos) {
             permutation = parsePermutation(line);
+            permutationRead = true;
         } else if (line.find("NODE_COORD_SECTION") != std::string::npos) {
             nodes = parseNodes(file);
+            nodesRead = true;
         } else if (line.find("DEMAND_SECTION") != std::string::npos) {
             demand = parseDemand(file);
+            demandRead = true;
         }
     }
+
+    if (!nameRead) {
+        throw std::runtime_error("No problem name in problem file");
+    }
+    if (!dimensionRead) {
+        throw std::runtime_error("No problem dimension in problem file");
+    }
+    if (!capacityRead) {
+        throw std::runtime_error("No problem capacity in problem file");
+    }
+    if (!permutationRead) {
+        throw std::runtime_error("No problem permutation in problem file");
+    }
+    if (!nodesRead) {
+        throw std::runtime_error("No problem nodes in problem file");
+    }
+    if (!demandRead) {
+        throw std::runtime_error("No problem demand in problem file");
+    }
+
+    if (!validPermutation(permutation, dimension)) {
+        throw std::runtime_error("Invalid permutation in problem file");
+    }
+
+
 
     file.close();
 }
@@ -178,9 +235,9 @@ double Evaluator::getFitness(const std::vector<int>& genotype) {
 
         for (int customerIdx : route) {
             currentLoad += demand[customerIdx];
-            if (currentLoad > capacity) {
-                return WRONG_VAL; 
-            }
+            // if (currentLoad > capacity) {
+            //     return WRONG_VAL;
+            // }
             routeDistance += getDistance(lastNode, customerIdx);
 
             lastNode = customerIdx;
@@ -189,7 +246,7 @@ double Evaluator::getFitness(const std::vector<int>& genotype) {
         routeDistance += getDistance(lastNode, 0);
 
         if (currentLoad > capacity) {
-            routeDistance += (currentLoad - capacity) * 100.0;
+            routeDistance += (currentLoad - capacity) * PENALTY_MULTIPLIER;
         }
 
         totalDistance += routeDistance;

@@ -1,20 +1,19 @@
 //
-// Created by devilian1993 on 27/01/2026.
+// Created by Maks on 26.01.2026.
 //
 
 #include "Individual.h"
-#include "Evaluator.h" // Tutaj musimy załączyć pełną definicję Evaluatora, żeby widzieć metodę calculateFitness
+#include "Evaluator.h"
 
-// Konstruktor domyślny
 Individual::Individual() : fitness(-1.0) {}
 
-Individual::Individual(const std::vector<int> &genotype) : genotype(genotype), fitness(-1.0) {}
+Individual::Individual(const std::vector<int> &genotype) : genotype(genotype), fitness(std::numeric_limits<double>::max()) {}
 
 Individual::Individual(int genotypeSize, int numberOfGroups, std::mt19937 &rng) {
     fitness = -1.0;
     genotype.resize(genotypeSize);
 
-    std::uniform_int_distribution<int> distribution(0, numberOfGroups - 1);
+    std::uniform_int_distribution<> distribution(0, numberOfGroups - 1);
 
     for (int i = 0; i < genotypeSize; ++i) {
         genotype[i] = distribution(rng);
@@ -27,8 +26,8 @@ double Individual::updateFitness(Evaluator &evaluator) {
 }
 
 void Individual::mutate(double mutationProbability, int numberOfGroups, std::mt19937 &rng) {
-    std::uniform_real_distribution<double> probabilityDist(0.0, 1.0);
-    std::uniform_int_distribution<int> groupDist(0, numberOfGroups - 1);
+    std::uniform_real_distribution<> probabilityDist(0.0, 1.0);
+    std::uniform_int_distribution<> groupDist(0, numberOfGroups - 1);
 
     for (int &gene : genotype) {
         if (probabilityDist(rng) < mutationProbability) {
@@ -38,7 +37,7 @@ void Individual::mutate(double mutationProbability, int numberOfGroups, std::mt1
 }
 
 std::pair<Individual, Individual> Individual::crossover(const Individual &partner, double crossoverProbability, std::mt19937 &rng) {
-    std::uniform_real_distribution<double> probabilityDist(0.0, 1.0);
+    std::uniform_real_distribution<> probabilityDist(0.0, 1.0);
 
     if (probabilityDist(rng) >= crossoverProbability) {
         return { *this, partner };
@@ -48,8 +47,7 @@ std::pair<Individual, Individual> Individual::crossover(const Individual &partne
         return { *this, partner };
     }
 
-
-    std::uniform_int_distribution<int> cutDist(1, static_cast<int>(genotype.size()) - 1);
+    std::uniform_int_distribution<> cutDist(1, genotype.size() - 1);
     int cutPoint = cutDist(rng);
 
     std::vector<int> child1Genotype = this->genotype;

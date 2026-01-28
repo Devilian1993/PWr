@@ -38,6 +38,10 @@ class Evaluator {
     std::vector<int> parsePermutation(const std::string& line);
     std::vector<Point> parseNodes(std::ifstream& file);
     std::vector<int> parseDemand(std::ifstream& file);
+
+    static bool validPermutation(const std::vector<int> &p, const int &d);
+
+    static constexpr double PENALTY_MULTIPLIER = 1000.0;
 };
 
 
