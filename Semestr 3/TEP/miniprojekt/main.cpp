@@ -58,6 +58,8 @@ int main() {
     GeneticAlgorithm algorithm(populationSize, mutationProb, crossoverProb,
                                maxIterations, numberOfGroups, evaluator);
 
+    std::cout << "START" << std::endl;
+
     algorithm.run();
 
 
