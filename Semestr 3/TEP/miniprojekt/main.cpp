@@ -10,11 +10,12 @@ T getInput(const std::string& prompt, T minVal, T maxVal) {
     while (true) {
         std::cout << prompt;
         if (std::cin >> value && value >= minVal && value <= maxVal) {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             return value;
         }
         std::cout << "Bledna wartosc! Podaj liczbe z zakresu [" << minVal << " - " << maxVal << "].\n";
         std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
 
@@ -25,6 +26,9 @@ int main() {
 
     Evaluator evaluator;
     std::cout << "Wczytywanie " << instancePath << std::endl;
+
+    evaluator.load(instancePath);
+    std::cout << "Pomyslnie wczytano dane." << std::endl;
 
     int numberOfGroups = getInput<int>(
             "Liczba ciezarowek: ",
@@ -50,10 +54,6 @@ int main() {
         "Prawdopodobienstwo krzyzowania: ",
         0.0, 1.0
     );
-
-    evaluator.load(instancePath);
-
-    std::cout << "Pomyslnie wczytano dane." << std::endl;
 
     GeneticAlgorithm algorithm(populationSize, mutationProb, crossoverProb,
                                maxIterations, numberOfGroups, evaluator);

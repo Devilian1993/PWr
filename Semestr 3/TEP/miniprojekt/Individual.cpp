@@ -5,12 +5,12 @@
 #include "Individual.h"
 #include "Evaluator.h"
 
-Individual::Individual() : fitness(-1.0) {}
+Individual::Individual() : fitness(std::numeric_limits<double>::max()) {}
 
 Individual::Individual(const std::vector<int> &genotype) : genotype(genotype), fitness(std::numeric_limits<double>::max()) {}
 
 Individual::Individual(int genotypeSize, int numberOfGroups, std::mt19937 &rng) {
-    fitness = -1.0;
+    fitness = std::numeric_limits<double>::max();
     genotype.resize(genotypeSize);
 
     std::uniform_int_distribution<> distribution(0, numberOfGroups - 1);
