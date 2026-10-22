@@ -44,42 +44,21 @@ void blinkAllLeds() {
   unsigned long currentMillis = millis();
 
   static unsigned long lastRedChange = 0UL;
-  static int redState = LOW;
   if (currentMillis - lastRedChange >= red_time) {
-    lastRedChange += red_time;
-    if (redState == HIGH) {
-      redState = LOW;
-      PORTD &= ~(1 << LED_RED);
-    } else {
-      redState = HIGH;
-      PORTD |= (1 << LED_RED);
-    }
+    lastRedChange = currentMillis; 
+    PORTD ^= (1 << LED_RED);       
   }
 
   static unsigned long lastGreenChange = 0UL;
-  static int greenState = LOW;
   if (currentMillis - lastGreenChange >= green_time) {
-    lastGreenChange += green_time;
-    if (greenState == HIGH) {
-      greenState = LOW;
-      PORTD &= ~(1 << LED_GREEN);
-    } else {
-      greenState = HIGH;
-      PORTD |= (1 << LED_GREEN);
-    }
+    lastGreenChange = currentMillis;
+    PORTD ^= (1 << LED_GREEN);
   }
 
   static unsigned long lastBlueChange = 0UL;
-  static int blueState = LOW;
   if (currentMillis - lastBlueChange >= blue_time) {
-    lastBlueChange += blue_time;
-    if (blueState == HIGH) {
-      blueState = LOW;
-      PORTD &= ~(1 << LED_BLUE);
-    } else {
-      blueState = HIGH;
-      PORTD |= (1 << LED_BLUE);
-    }
+    lastBlueChange = currentMillis;
+    PORTD ^= (1 << LED_BLUE);
   }
 }
 
@@ -106,38 +85,38 @@ void loop() {
 
   if (millis() - lastDebounceTime >= debounceDelay) {
     
-    if (redPressed && !lastRedPressed) {
-      lastDebounceTime = millis();
-      
-      if (selectedLed == LED_RED) {
-        selectedLed = LED_GREEN;
-      } else if (selectedLed == LED_GREEN) {
-        selectedLed = LED_BLUE;
-      } else {
-        selectedLed = LED_RED;
+    if (redPressed != lastRedPressed) {
+      lastDebounceTime = millis(); 
+      lastRedPressed = redPressed;
+
+      if (redPressed) { 
+        if (selectedLed == LED_RED) selectedLed = LED_GREEN;
+        else if (selectedLed == LED_GREEN) selectedLed = LED_BLUE;
+        else selectedLed = LED_RED;
+        
+        displayLedInfo();
       }
-      displayLedInfo();
     }
 
-    if (greenPressed && !lastGreenPressed) {
+    if (greenPressed != lastGreenPressed) {
       lastDebounceTime = millis();
-      
-      if (selectedLed == LED_RED) {
-        red_time += step;
-        if (red_time > 2000) red_time = 500;
-      } else if (selectedLed == LED_GREEN) {
-        green_time += step;
-        if (green_time > 2000) green_time = 500;
-      } else {
-        blue_time += step;
-        if (blue_time > 2000) blue_time = 500;
+      lastGreenPressed = greenPressed;
+
+      if (greenPressed) {
+        if (selectedLed == LED_RED) {
+          red_time += step;
+          if (red_time > 2000) red_time = 500;
+        } else if (selectedLed == LED_GREEN) {
+          green_time += step;
+          if (green_time > 2000) green_time = 500;
+        } else {
+          blue_time += step;
+          if (blue_time > 2000) blue_time = 500;
+        }
+        displayLedInfo();
       }
-      displayLedInfo();
     }
   }
-
-  lastRedPressed = redPressed;
-  lastGreenPressed = greenPressed;
 
   blinkAllLeds();
 }
