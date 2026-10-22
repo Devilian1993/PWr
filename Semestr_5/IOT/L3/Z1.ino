@@ -1,7 +1,3 @@
-#include <LiquidCrystal_I2C.h>
-
-LiquidCrystal_I2C lcd(0x27,16,2);
-
 const byte LED_RED = 6;
 const byte LED_GREEN = 5;
 const byte LED_BLUE = 3;
@@ -32,17 +28,27 @@ void loop()
   bool greenPressed = !(PIND & (1 << GREEN_BUTTON)); 
   bool redPressed = !(PIND & (1 << RED_BUTTON)); 
 
-  if(greenPressed && redPressed) {
-    Serial.println("Dwa na raz");
-    blink(counter);
-    delay(100);
-  } else if(greenPressed) {
-    counter++;
-    Serial.println(counter);
-    delay(100);
-  } else if(redPressed) {
-    counter--;
-    Serial.println(counter);
-    delay(100);
+  if (greenPressed || redPressed) {
+    delay(80); 
+
+    greenPressed = !(PIND & (1 << GREEN_BUTTON)); 
+    redPressed = !(PIND & (1 << RED_BUTTON)); 
+
+    if (greenPressed && redPressed) {
+      Serial.println("Dwa na raz");
+      blink(counter);
+    } else if (greenPressed) {
+      counter++;
+      Serial.println(counter);
+    } else if (redPressed) {
+      counter--;
+      Serial.println(counter);
+    }
+
+    while (!(PIND & (1 << GREEN_BUTTON)) || !(PIND & (1 << RED_BUTTON))) {
+      delay(10); 
+    }
+    
+    delay(50); 
   }
 }
