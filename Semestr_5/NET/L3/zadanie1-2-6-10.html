@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zadania 1, 2, 6</title>
+  <!-- Zadanie 1: Zewnętrzny arkusz stylów CSS3 -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- Zadanie 1: Osadzony arkusz stylów w elemencie <head> -->
+  <style type="text/css">
+    #styl-head {
+      color: navy;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Zadanie 10: Szablon menu rozwijanego opartego na strukturze HTML -->
+<nav>
+  <ul>
+    <li><a href="zadanie1-2-6-10.html">Zadania 1, 2, 6</a>
+      <ul>
+        <li><a href="zadanie1-2-6-10.html#zad1">Zadanie 1: Osadzanie</a></li>
+        <li><a href="zadanie1-2-6-10.html#zad2">Zadanie 2: Wielkość</a></li>
+        <li><a href="zadanie1-2-6-10.html#zad6">Zadanie 6: Formatowanie</a></li>
+      </ul>
+    </li>
+    <li><a href="zadanie3.html">Zadanie 3</a>
+      <ul>
+        <li><a href="zadanie3.html#tlo-pozycja">Pozycja i powtarzanie</a></li>
+        <li><a href="zadanie3.html#tlo-rozmiar">Ograniczanie i rozciąganie</a></li>
+      </ul>
+    </li>
+    <li><a href="zadanie4-9.html">Zadania 4, 9</a>
+      <ul>
+        <li><a href="zadanie4-9.html#zad4">Zadanie 4: Selektory &raquo;</a>
+          <ul>
+            <li><a href="zadanie4-9.html#zad4-proste">Proste</a></li>
+            <li><a href="zadanie4-9.html#zad4-zlozone">Złożone</a></li>
+          </ul>
+        </li>
+        <li><a href="zadanie4-9.html#zad9">Zadanie 9: Pseudo</a></li>
+      </ul>
+    </li>
+    <li><a href="zadanie5-7.html">Zadania 5, 7</a>
+      <ul>
+        <li><a href="zadanie5-7.html#zad5-box">Zadanie 5 i 7: Box i Border</a></li>
+        <li><a href="zadanie5-7.html#zad5-pos">Zadanie 5: Pozycja &raquo;</a>
+          <ul>
+            <li><a href="zadanie5-7.html#zad5-pos">Position</a></li>
+            <li><a href="zadanie5-7.html#zad5-float">Float</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="zadanie8.html">Zadanie 8</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- Zadanie 1 -->
+  <h1 id="zad1">Zadanie 1: Osadzanie reguł CSS</h1>
+  <p style="color: crimson; font-style: italic;">Styl inline (atrybut style w elemencie).</p>
+  <p id="styl-head">Styl osadzony w sekcji &lt;head&gt; (element &lt;style&gt;).</p>
+  <p class="styl-zewnetrzny">Styl z zewnętrznego pliku style.css (element &lt;link&gt;).</p>
+
+  <hr>
+
+  <!-- Zadanie 2 -->
+  <h1 id="zad2">Zadanie 2: Zmiana wielkości tekstu (em, px, pt, %)</h1>
+  <p class="rozmiar-em">Tekst o wielkości 1.5em</p>
+  <p class="rozmiar-px">Tekst o wielkości 22px</p>
+  <p class="rozmiar-pt">Tekst o wielkości 16pt</p>
+  <p class="rozmiar-proc">Tekst o wielkości 140%</p>
+
+  <hr>
+
+  <!-- Zadanie 6 -->
+  <h1 id="zad6">Zadanie 6: Formatowanie tekstu, wysokość i grubość</h1>
+  <p class="format-1">Czcionka szeryfowa, grubość 700 (bold), wysokość linii 1.8, podkreślenie.</p>
+  <p class="format-2">Czcionka bezszeryfowa, grubość 300 (light), wielkie litery, przekreślenie.</p>
+</main>
+
+</body>
+</html>

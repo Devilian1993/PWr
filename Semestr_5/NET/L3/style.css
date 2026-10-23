@@ -1,0 +1,314 @@
+/* Zadanie 10: Układ bazowy szablonu strony i menu rozwijanego opartego na strukturze HTML */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+}
+
+main {
+    max-width: 850px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+nav {
+    background-color: #8a2be2;
+    border-bottom: 2px solid #e91e63;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav > ul {
+    display: flex;
+    max-width: 890px;
+    margin: 0 auto;
+}
+
+nav li {
+    position: relative;
+    flex: 1;
+    text-align: center;
+}
+
+nav a {
+    display: block;
+    padding: 12px 10px;
+    color: yellow;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid #f48fb1;
+}
+
+nav li:hover > a {
+    background-color: cyan;
+    color: midnightblue;
+}
+
+nav ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 100;
+}
+
+nav ul ul a {
+    color: midnightblue;
+    background-color: white;
+}
+
+nav ul ul ul {
+    top: 0;
+    left: 100%;
+    min-width: 160px;
+}
+
+nav ul ul ul a {
+    background-color: #ffe4c4;
+    color: maroon;
+}
+
+nav li:hover > ul {
+    display: block;
+}
+
+/* Zadanie 1: Reguła w zewnętrznym arkuszu stylów */
+.styl-zewnetrzny {
+    color: darkgreen;
+}
+
+/* Zadanie 2: Zmiana wielkości tekstu (em, px, pt, %) */
+.rozmiar-em { font-size: 1.5em; }
+.rozmiar-px { font-size: 22px; }
+.rozmiar-pt { font-size: 16pt; }
+.rozmiar-proc { font-size: 140%; }
+
+/* Zadanie 6: Formatowanie tekstu, wysokość i grubość */
+.format-1 {
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.8;
+    text-decoration: underline blue;
+}
+
+.format-2 {
+    font-family: Verdana, sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    text-decoration: line-through red;
+}
+
+/* Zadanie 3: Ustawienia tła strony jako obrazka (pozycja, powtarzalność, ograniczanie, rozciąganie) */
+body.tlo-strony {
+    background-image: url("image.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.tlo-box {
+    height: 120px;
+    margin-bottom: 12px;
+    border: 1px solid #333;
+    background-image: url("image.jpg");
+    background-color: #eee;
+    padding: 8px;
+}
+
+.tlo-poz-no-repeat {
+    background-repeat: no-repeat;
+    background-position: right bottom;
+}
+
+.tlo-repeat-x {
+    background-repeat: repeat-x;
+    background-position: center;
+}
+
+.tlo-polowa-ekranu {
+    height: 50vh;
+    background-repeat: repeat;
+}
+
+.tlo-rozciaganie {
+    background-size: 100% 100%;
+}
+
+/* Zadanie 4: Selektory CSS (element, id, klasa, koniunkcja, zagnieżdżenia, >) */
+mark {
+    background-color: gold;
+}
+
+#sel-id {
+    color: darkblue;
+    font-weight: bold;
+}
+
+.sel-klasa {
+    background-color: #e8f5e9;
+    padding: 4px;
+}
+
+p.sel-klasa.sel-wazny {
+    border-left: 4px solid green;
+}
+
+.rodzic span {
+    color: crimson;
+}
+
+.rodzic > span {
+    background-color: yellow;
+}
+
+/* Zadanie 9: Dwie pseudoklasy (:focus, :first-child) i dwa pseudoelementy (::first-line, ::before) */
+.input-focus:focus {
+    background-color: #fff9c4;
+    outline: 2px solid orange;
+}
+
+.lista-pseudo li:first-child {
+    font-weight: bold;
+    color: purple;
+}
+
+.tekst-pseudo::first-line {
+    color: green;
+    font-weight: bold;
+}
+
+.tekst-pseudo::before {
+    content: "[INFO] ";
+    color: red;
+    font-weight: bold;
+}
+
+/* Zadanie 5 i Zadanie 7: Box-model (margin, padding, width, height) oraz border-width, border-style, border-color */
+.box-model-demo {
+    width: 350px;
+    height: 60px;
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #e3f2fd;
+    border-width: 4px;
+    border-style: dashed;
+    border-color: #1565c0;
+}
+
+/* Zadanie 5: Pozycjonowanie (static, relative, absolute, fixed, z-index) oraz float */
+.pos-kontener {
+    position: relative;
+    height: 110px;
+    border: 1px solid #333;
+    margin-bottom: 15px;
+    background: #fafafa;
+}
+
+.pos-item {
+    width: 150px;
+    padding: 5px;
+    border: 1px solid #000;
+}
+
+.pos-static {
+    position: static;
+    background: #cfd8dc;
+}
+
+.pos-relative {
+    position: relative;
+    top: 10px;
+    left: 30px;
+    background: #ffe082;
+    z-index: 2;
+}
+
+.pos-absolute {
+    position: absolute;
+    top: 30px;
+    left: 90px;
+    background: #f8bbd0;
+    z-index: 1;
+}
+
+.pos-fixed {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background: #c8e6c9;
+}
+
+.float-kontener {
+    border: 1px solid #333;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.float-left {
+    float: left;
+    width: 90px;
+    padding: 8px;
+    margin-right: 10px;
+    background: #d1c4e9;
+}
+
+.float-right {
+    float: right;
+    width: 90px;
+    padding: 8px;
+    margin-left: 10px;
+    background: #b2dfdb;
+}
+
+/* Zadanie 8: Stylowanie tabel */
+.tabela-1, .tabela-2 {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.tabela-1 {
+    border-collapse: collapse;
+}
+
+.tabela-1 th, .tabela-1 td {
+    border: 1px solid #333;
+    padding: 8px;
+}
+
+.tabela-1 caption, .tabela-2 caption {
+    font-weight: bold;
+    padding: 6px;
+}
+
+.kol-1 { background-color: #e3f2fd; }
+.kol-2 { background-color: #fff9c4; }
+.kol-3 { background-color: #f1f8e9; }
+
+.tabela-2 {
+    border-collapse: separate;
+    border-spacing: 5px;
+    border: 1px solid #666;
+}
+
+.tabela-2 th {
+    background-color: #37474f;
+    color: white;
+    padding: 8px;
+}
+
+.tabela-2 td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.tabela-2 tr:nth-child(even) {
+    background-color: #eceff1;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zadania 5, 7</title>
+  <!-- Zadanie 1: Zewnętrzny arkusz stylów CSS3 -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+<!-- Zadanie 10: Szablon menu rozwijanego opartego na strukturze HTML -->
+<nav>
+  <ul>
+    <li><a href="zadanie1-2-6-10.html">Zadania 1, 2, 6</a>
+      <ul>
+        <li><a href="zadanie1-2-6-10.html#zad1">Zadanie 1: Osadzanie</a></li>
+        <li><a href="zadanie1-2-6-10.html#zad2">Zadanie 2: Wielkość</a></li>
+        <li><a href="zadanie1-2-6-10.html#zad6">Zadanie 6: Formatowanie</a></li>
+      </ul>
+    </li>
+    <li><a href="zadanie3.html">Zadanie 3</a>
+      <ul>
+        <li><a href="zadanie3.html#tlo-pozycja">Pozycja i powtarzanie</a></li>
+        <li><a href="zadanie3.html#tlo-rozmiar">Ograniczanie i rozciąganie</a></li>
+      </ul>
+    </li>
+    <li><a href="zadanie4-9.html">Zadania 4, 9</a>
+      <ul>
+        <li><a href="zadanie4-9.html#zad4">Zadanie 4: Selektory &raquo;</a>
+          <ul>
+            <li><a href="zadanie4-9.html#zad4-proste">Proste</a></li>
+            <li><a href="zadanie4-9.html#zad4-zlozone">Złożone</a></li>
+          </ul>
+        </li>
+        <li><a href="zadanie4-9.html#zad9">Zadanie 9: Pseudo</a></li>
+      </ul>
+    </li>
+    <li><a href="zadanie5-7.html">Zadania 5, 7</a>
+      <ul>
+        <li><a href="zadanie5-7.html#zad5-box">Zadanie 5 i 7: Box i Border</a></li>
+        <li><a href="zadanie5-7.html#zad5-pos">Zadanie 5: Pozycja &raquo;</a>
+          <ul>
+            <li><a href="zadanie5-7.html#zad5-pos">Position</a></li>
+            <li><a href="zadanie5-7.html#zad5-float">Float</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="zadanie8.html">Zadanie 8</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- Zadanie 5 i Zadanie 7 -->
+  <h1 id="zad5-box">Zadanie 5 i 7: Box Model oraz Border</h1>
+  <div class="box-model-demo">
+    Element prezentujący Box Model (margin, padding, width, height) oraz Zadanie 7 (border-width, border-style, border-color).
+  </div>
+
+  <hr>
+
+  <!-- Zadanie 5 -->
+  <h2 id="zad5-pos">Zadanie 5: Pozycjonowanie (static, relative, absolute, fixed, z-index)</h2>
+  <div class="pos-kontener">
+    <div class="pos-item pos-static">position: static</div>
+    <div class="pos-item pos-relative">position: relative (z-index: 2)</div>
+    <div class="pos-item pos-absolute">position: absolute (z-index: 1)</div>
+  </div>
+  <div class="pos-item pos-fixed">position: fixed</div>
+
+  <h2 id="zad5-float">Zadanie 5: Opływanie elementów (float)</h2>
+  <div class="float-kontener">
+    <div class="float-left">float: left</div>
+    <div class="float-right">float: right</div>
+    <p>Tekst opływający elementy z ustawioną właściwością float po lewej oraz po prawej stronie wewnątrz kontenera.</p>
+  </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zadanie 8</title>
+  <!-- Zadanie 1: Zewnętrzny arkusz stylów CSS3 -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+<!-- Zadanie 10: Szablon menu rozwijanego opartego na strukturze HTML -->
+<nav>
+  <ul>
+    <li><a href="zadanie1-2-6-10.html">Zadania 1, 2, 6</a>
+      <ul>
+        <li><a href="zadanie1-2-6-10.html#zad1">Zadanie 1: Osadzanie</a></li>
+        <li><a href="zadanie1-2-6-10.html#zad2">Zadanie 2: Wielkość</a></li>
+        <li><a href="zadanie1-2-6-10.html#zad6">Zadanie 6: Formatowanie</a></li>
+      </ul>
+    </li>
+    <li><a href="zadanie3.html">Zadanie 3</a>
+      <ul>
+        <li><a href="zadanie3.html#tlo-pozycja">Pozycja i powtarzanie</a></li>
+        <li><a href="zadanie3.html#tlo-rozmiar">Ograniczanie i rozciąganie</a></li>
+      </ul>
+    </li>
+    <li><a href="zadanie4-9.html">Zadania 4, 9</a>
+      <ul>
+        <li><a href="zadanie4-9.html#zad4">Zadanie 4: Selektory &raquo;</a>
+          <ul>
+            <li><a href="zadanie4-9.html#zad4-proste">Proste</a></li>
+            <li><a href="zadanie4-9.html#zad4-zlozone">Złożone</a></li>
+          </ul>
+        </li>
+        <li><a href="zadanie4-9.html#zad9">Zadanie 9: Pseudo</a></li>
+      </ul>
+    </li>
+    <li><a href="zadanie5-7.html">Zadania 5, 7</a>
+      <ul>
+        <li><a href="zadanie5-7.html#zad5-box">Zadanie 5 i 7: Box i Border</a></li>
+        <li><a href="zadanie5-7.html#zad5-pos">Zadanie 5: Pozycja &raquo;</a>
+          <ul>
+            <li><a href="zadanie5-7.html#zad5-pos">Position</a></li>
+            <li><a href="zadanie5-7.html#zad5-float">Float</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="zadanie8.html">Zadanie 8</a></li>
+  </ul>
+</nav>
+<main>
+  <!-- Zadanie 8 -->
+  <h1>Zadanie 8: Stylowanie tabel</h1>
+
+  <table class="tabela-1">
+    <caption>Tabela 1: border-collapse oraz kolorowanie kolumn (colgroup)</caption>
+    <colgroup>
+      <col class="kol-1">
+      <col class="kol-2">
+      <col class="kol-3">
+    </colgroup>
+    <tr><th>Przedmiot</th><th>ECTS</th><th>Semestr</th></tr>
+    <tr><td>Aplikacje webowe .NET</td><td>5</td><td>Zimowy</td></tr>
+    <tr><td>Bazy danych</td><td>4</td><td>Zimowy</td></tr>
+  </table>
+
+  <table class="tabela-2">
+    <caption>Tabela 2: border-separate oraz kolorowanie parzystych wierszy</caption>
+    <tr><th>Produkt</th><th>Cena</th><th>Stan</th></tr>
+    <tr><td>Laptop</td><td>4500 zł</td><td>Dostępny</td></tr>
+    <tr><td>Monitor</td><td>1200 zł</td><td>Dostępny</td></tr>
+    <tr><td>Klawiatura</td><td>350 zł</td><td>Brak</td></tr>
+  </table>
+</main>
+
+</body>
+</html>
