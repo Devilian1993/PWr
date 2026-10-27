@@ -1,0 +1,32 @@
+.even {
+    background-color: #d0fcb3;
+}
+
+.odd {
+    background-color: #c8ad55;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+form {
+    margin-bottom: 2em;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: fit-content;
+}
+
+th, td {
+    border: 1px solid black;
+    width: 4em;
+    height: 2em;
+    text-align: center;
+    vertical-align: middle;
+}
