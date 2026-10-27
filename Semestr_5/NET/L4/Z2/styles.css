@@ -1,0 +1,33 @@
+canvas {
+    border: 1px solid black;
+}
+
+#signatures {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+@media print {
+    @page {
+        margin: 0;
+    }
+
+    body {
+        margin: 2cm;
+        padding: 0;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    fieldset {
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+#printBtn, #exportBtn { display: none; }

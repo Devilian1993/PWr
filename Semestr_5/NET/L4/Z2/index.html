@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Umowa Kredytowa</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="scripts/main.js"></script>
+</head>
+<body>
+
+<form action="#" method="POST" id="form">
+  <fieldset>
+    <legend>Dokument Kredytowy</legend>
+
+    <h1>UMOWA POŻYCZKI / KREDYTU</h1>
+
+    <p>Zawarta w dniu dzisiejszym pomiędzy:</p>
+
+    <p>
+      <strong>Wierzycielem:</strong> Bank Główny S.A.<br>
+      <strong>a Pożyczkobiorcą:</strong> Jan Kowalski<br>
+      <strong>Numer PESEL:</strong> 12345678901
+    </p>
+
+    <hr>
+
+    <h2>Warunki Umowy</h2>
+
+    <p>
+      1. Przedmiotem umowy jest udzielenie pożyczki pieniężnej w kwocie: 15 000,00 PLN.
+    </p>
+    <p>
+      2. Pożyczkobiorca oświadcza, że zapoznał się z warunkami i zobowiązuje się do zwrotu pełnej kwoty powiększonej o odsetki kapitałowe.
+    </p>
+
+    <hr>
+    <div id="signatures">
+      <div id="dateDiv">
+        <label for="dateCanvas">Data i miejscowość:</label><br>
+        <canvas id="dateCanvas" width="300" height="150"></canvas>
+      </div>
+
+      <br>
+
+      <div id="signatureDiv">
+        <label for="signatureCanvas">Podpis Pożyczkobiorcy:</label><br>
+        <canvas id="signatureCanvas" width="300" height="150"></canvas>
+      </div>
+    </div>
+    <br><br>
+
+    <div>
+      <button type="submit" id="submit">Zatwierdź umowę</button>
+      <button type="reset" id="reset">Resetuj</button>
+    </div>
+  </fieldset>
+</form>
+
+<br>
+
+<div>
+  <button type="button" id="printBtn" class="no-print">Drukuj umowę</button>
+  <button type="button" id="exportBtn" class="no-print">Eksportuj podpis</button>
+</div>
+
+</body>
+</html>
